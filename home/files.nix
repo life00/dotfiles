@@ -20,7 +20,7 @@
   home.file.".bin/sioyek-open".source = ../dotfiles/bin/sioyek-open;
   home.file.".bin/wgetweb".source = ../dotfiles/bin/wgetweb;
   home.file.".bin/yt-dlp-lofi".source = ../dotfiles/bin/yt-dlp-lofi;
-  home.file.".bin/btrfs-file-delete".source = ../dotfiles/bin/btrfs-file-delete;
+  home.file.".bin/btrfs-file-delete".source = ../dotfiles/bin/btrfs-file-delete.sh;
   home.file.".bin/ufetch".source = ../dotfiles/bin/ufetch;
 
   # ensure .bin is in PATH
