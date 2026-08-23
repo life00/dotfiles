@@ -1,0 +1,28 @@
+xkb_symbols "custom-mech" {
+
+    include "us"
+
+    # left side
+      # remapping to the desired layout
+
+    key <LWIN> { [ Control_L, Control_L ] };
+    key <LALT> { [ Super_L, Super_L ] };
+    key <LCTL> { [ Alt_L, Alt_L ] };
+
+    # right side
+      # remapping to the desired layout
+      # also changing the priority of function layout
+
+    key <UP> { [ slash, question ] };
+    # commented as a temporary workaround to get slash and question mark available in chromium
+    #key <AB10> { [ Up, Up ] };
+
+    key <LEFT> { [ Super_R, Super_R ] };
+    key <RALT> { [ Left, Left ] };
+
+    key <DOWN> { [ Control_R, Control_R ] };
+    key <MENU> { [ Down, Down ] };
+
+    key <RGHT> { [ Alt_R, Alt_R ] };
+    key <RCTL> { [ Right, Right ] };
+};
