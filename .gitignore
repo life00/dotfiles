@@ -1,0 +1,11 @@
+# Custom package sources (gitignored, must be present locally)
+pkgs/awecron/src/
+pkgs/getmusic/src/
+
+# Nix build artifacts
+result
+result-*
+
+# Editor
+*.swp
+*~
