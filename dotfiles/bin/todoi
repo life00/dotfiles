@@ -1,0 +1,19 @@
+#!/bin/dash
+
+# originally from https://junegunn.github.io/fzf/tips/ripgrep-integration/
+# adapted to make a more convenient todo search
+RELOAD="reload:rg '\- \[ \] .*{q}' --glob '*.md' '/home/user/doc/' '/home/user/tmp/' --column --color=always --colors 'match:none' --colors 'match:fg:184,192,224' --smart-case || :"
+OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+          nvim {1} +{2}     # no selection; open the current line in neovim
+        else
+          nvim -c "Trouble qflist toggle" -q {+f}  # quickfix list for the selected items
+        fi'
+fzf --disabled --ansi --multi \
+  --bind "start:$RELOAD" --bind "change:$RELOAD" \
+  --bind "enter:become:$OPENER" \
+  --bind "ctrl-o:execute:$OPENER" \
+  --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+  --delimiter : \
+  --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+  --preview-window '~4,+{2}+4/3,<80(up)' \
+  --query "$*"

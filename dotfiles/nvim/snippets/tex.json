@@ -1,0 +1,12 @@
+{
+  "parenthetical citation": {
+    "prefix": "parencite",
+    "body": ["\\parencite{$1}$0"],
+    "description": "parenthetical citation"
+  },
+  "in-text citation": {
+    "prefix": "textcite",
+    "body": ["\\textcite{$1}$0"],
+    "description": "in-text citation"
+  }
+}

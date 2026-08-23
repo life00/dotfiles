@@ -1,0 +1,89 @@
+#!/bin/zsh
+
+# program preference
+export PAGER="nvim +Man!"
+export EDITOR='nvim'
+
+# global vriables
+export XDG_CONFIG_HOME="$HOME/.cfg/"
+export XDG_CACHE_HOME="$HOME/etc/cache/"
+export XDG_DATA_HOME="$HOME/etc/data/"
+export XDG_SHARE_HOME="$HOME/etc/data/"
+export XDG_STATE_HOME="$HOME/etc/state/"
+export XDG_DOCUMENTS_DIR="$HOME/doc/"
+export XDG_DOWNLOAD_DIR="$HOME/tmp/"
+export XDG_CONFIG_DIR="$HOME/.cfg/"
+export XDG_MUSIC_DIR="$HOME/med/audio/"
+export XDG_PICTURES_DIR="$HOME/med/images/"
+export XDG_VIDEOS_DIR="$HOME/med/videos/"
+export PATH="$HOME/.local/bin:$HOME/.bin:$HOME/etc/bin:$PATH"
+#export XDG_PUBLICSHARE_DIR=""
+#export XDG_TEMPLATES_DIR=""
+
+# history file settings
+export HISTFILE=/var/log/zsh/histfile
+export HISTSIZE=5000
+export SAVEHIST=5000
+
+# fix many GPU related issues
+export MESA_GL_VERSION_OVERRIDE=3.3
+export MESA_GLSL_VERSION_OVERRIDE=330
+
+# starship
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+export STARSHIP_CACHE="$XDG_CACHE_HOME/starship/cache"
+
+# gnome
+export gnome_user_dir="$XDG_CONFIG_HOME/gnome/apps"
+
+# go
+export GOPATH="$XDG_DATA_HOME/go"
+
+# rust
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+
+# R
+export R_HOME_USER="$HOME/.cfg/R/"
+export R_PROFILE_USER="$HOME/.cfg/R/profile.r"
+export R_HISTFILE="$HOME/.cfg/R/history"
+export R_LIBS="$HOME/etc/lib/R/library:$R_LIBS"
+
+# readline
+export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
+
+# jupyter
+export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
+
+# texlive
+# when exported to a local data directory LaTeX compilation becomes extremely slow
+# probably because texlive indexes a lot of other unnecessary files
+# instead the cache dir is set to be inside of /tmp
+# local user TEXMFVAR folder is needed for the muni thesis template fonts
+export TEXMFVAR=/tmp/texlive/texmf-var
+# other environment variables that are currently not in use
+#export TEXMFHOME=
+#export TEXMFCONFIG=
+#export TEXMACS_HOME_PATH=
+
+# zsh vi mode colors
+ZVM_VI_HIGHLIGHT_BACKGROUND=#494d64
+ZVM_VI_HIGHLIGHT_FOREGROUND=text
+ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
+
+# ollama
+export OLLAMA_MODELS="/opt/user/ollama"
+
+# julia
+export JULIA_DEPOT_PATH="$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
+export JULIAUP_DEPOT_PATH="$XDG_DATA_HOME/julia"
+
+# man pager
+export MANPAGER='nvim +Man!'
+
+# fzf settings
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
+--color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
+--color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
+--color=selected-bg:#494D64 \
+--color=border:#363A4F,label:#CAD3F5"

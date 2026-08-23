@@ -1,0 +1,12 @@
+#!/bin/dash
+
+CACHE="/home/user/etc/cache/updater/"
+export DISPLAY=":0"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+
+notify-send -t 10000 "Updater" "Checking for updates..."
+package_count=$(doas dnf -q check-update| wc -l)
+notify-send -t 10000 "Updater" "${package_count} updates found."
+printf "updater: %s updates found.\n" "${package_count}"
+printf "%s" "${package_count}" > "$CACHE/count"
+

@@ -1,0 +1,107 @@
+#!/bin/dash
+
+main() {
+  # runs through all dirs that contain `tmr` file
+  # the order does not matter because it all will be in parallel
+  for t in "$cdir"/*/tmr; do
+    [ -e "$t" ] || continue # verify that file exists
+    # creates subshell to isolate the environment and for parallelism
+    (
+      # error when using unset variables
+      # can't also use -e because awecron should handle errors by itself
+      set -u
+      # gets cronjob directory
+      d="${t%/*}"
+      # gets the cronjob name
+      name="${d##*/}"
+      # compares the timer with the current epoch time
+      tmr=$(stat -c "%Y" "$d/tmr")
+      time=$(awk 'BEGIN{srand(); print srand()}')
+      if [ $((tmr <= time)) = 1 ]; then
+        run
+      fi
+    ) &
+  done
+  wait
+}
+
+# function that actually runs a given cronjob
+run() {
+  # deletes timer file to disable the cronjob if it is broken
+  rm "$d/tmr"
+  # gets the cronjob configuration variable
+  cfg=$(cat "$d/cfg")
+  # runs the binary in the background
+  "$d/run" &
+  rpid="$!"
+  # spawn watchdog process for timeout
+  (
+    sleep "$timeout"
+    # the cronjob is not trusted to properly exit
+    # so if timeout is reached the cronjob will be forced to exit
+    kill -9 "$rpid" >/dev/null 2>/dev/null
+  ) &
+  wpid=$!
+  # wait for run process
+  wait "$rpid"
+  # save error code for later
+  ec="$?"
+  # stop watchdog process
+  # ignore errors because wpid might not exist; there may not be a better way to handle this
+  kill "$wpid" >/dev/null 2>/dev/null
+  # exit code checking
+  if [ "$ec" = "0" ]; then
+    log "cronjob run success"
+    # schedule the timer for next run time
+    touch -d "@$((time + cfg))" "$d/tmr"
+  else
+    log "cronjob run error"
+  fi
+}
+
+# dynamic sleep
+ds() {
+  # gets the soonest cronjob next run time in the $cdir
+  # NOTE: keep in mind that the "next run time" is stored in last modification time
+  for t in "$cdir"/*/tmr; do
+    [ -e "$t" ] || continue # verify that file exists
+    # oldest last modification time == soonest cronjob next run time
+    if [ ! "$old" ] || [ "$t" -ot "$old" ]; then
+      old="$t"
+    fi
+  done
+  # checks if there is any timer file
+  if [ -n "$old" ]; then
+    # gets the next run time
+    next=$(stat -c "%Y" "$old")
+  else
+    # sets to max sleep duration if no timer file found
+    delay="$max"
+    return 0
+  fi
+  # converts next run time to sleep duration and applies limits if necessary
+  time=$(awk 'BEGIN{srand(); print srand()}')
+  delay=$((next - time))
+  if [ $((delay > max)) = 1 ]; then
+    delay="$max"
+  fi
+  if [ $((delay < min)) = 1 ]; then
+    delay="$min"
+  fi
+}
+
+# logging format
+log() {
+  printf "awecron (%s) {%s} [%s]: %s\n" "${USER:-?}" "${name:-?}" "${ec:-?}" "$1"
+}
+
+# checks if various options for storing awecron config directory exist, then sets to that location
+cdir="/home/user/.cfg/awecron"
+
+. "$cdir/cfg"
+
+while true; do
+  main
+  ds && sleep "$delay"
+done
+

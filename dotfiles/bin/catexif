@@ -1,0 +1,3 @@
+#!/bin/zsh
+## catexif
+exiftool ${1} | nvim +Man! -c 'set ft=yaml'

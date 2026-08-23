@@ -1,0 +1,6 @@
+
+Host github github.com
+  HostName github.com
+  User git
+  Preferredauthentications publickey
+  IdentityFile /home/user/etc/sec/ssh/key-r0.sec

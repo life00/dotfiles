@@ -1,0 +1,18 @@
+#!/bin/bash
+
+## download webpage
+# following can be added:
+ 	  #--level=inf \
+	  #--recursive \
+	  #--limit-rate=100K \
+	  #--wait=2 \
+	wget \
+	 --page-requisites \
+	 --user-agent=Mozilla \
+	 --no-parent \
+	 --convert-links \
+	 --adjust-extension \
+	 --no-clobber \
+	 -e robots=off \
+	 $@
+

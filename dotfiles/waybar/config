@@ -1,0 +1,160 @@
+{
+   // hide/show IPC sway option
+    "bar_id": "bar-0",
+    "ipc": true,
+    "height": 27, // Waybar height (to be removed for auto height)
+    "modules-left": ["sway/workspaces","sway/window", "sway/mode"],
+    "modules-center": ["mpd","pulseaudio","disk","memory","temperature","cpu","network","battery"],
+    "modules-right": ["custom/updater","backlight","tray","sway/language","clock"],
+    // margin was 12 for both without hide/show mode
+    "margin-left": 0,
+    "margin-right": 0,
+    "margin-bottom": 0,
+
+   "sway/workspaces": {
+       "disable-scroll": false,
+       "all-outputs": true,
+       "format": "{icon}",
+       "format-icons": {
+           "1": "󱓞",
+           "2": "",
+	   "3": "",
+	   "4": "󰚇",
+	   "high-priority-named": [ "1", "2", "3", "4", "8", "9", "10" ],
+	   //"3": "󰠮",
+	   //"4": "",
+	   //"4": "󰇥",
+           //"4": "󰊠",
+           "urgent": "",
+           "focused": "",
+           "default": ""
+       }
+   },
+   "sway/window": {
+     "format": " {title}",
+     "max-length": 11,
+     "rewrite": {
+      "": "desktop"
+     }
+   },
+  "sway/mode": {
+      "format": "󰕮 {}"
+  },
+  "mpd": {
+    //"format": "{elapsedTime:%M:%S}/{totalTime:%M:%S} {stateIcon}",
+    "format": "{stateIcon}",
+    "format-disconnected": "󰝛",
+    "format-stopped": "󰝛",
+    "on-click": "mpc toggle",
+    "on-click-right": "alacritty --class alacritty-float -e ncmpcpp",
+    "smooth-scrolling-threshold": "0.1",
+    "on-scroll-down": "mpc seek +1%",
+    "on-scroll-up": "mpc seek -1%",
+    "interval": 10,
+    "state-icons": {
+        "paused": "󰝛",
+        "playing": "󰝚"
+    },
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)"
+
+     },
+    "pulseaudio": {
+        "scroll-step": 0.1, 
+	"reverse-scrolling": true,
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": "󰆪 {icon} {format_source}",
+        "format-muted": "󰆪 {format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "󰂑",
+            "headset": "󰂑",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "disk": {
+      "interval": 60,
+      "format": "󰋊 {percentage_used}%",
+      "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=disk"
+    },
+    "memory": {
+    	"interval": 5,
+      "format": " {}%",
+      "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=mem"
+    },
+    "temperature": {
+    	"interval": 10,
+      "critical-threshold": 80,
+      "format": "{icon} {temperatureC}°C",
+      "format-icons": ["", "", ""],
+      "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=temp"
+    },
+    "cpu": {
+    	"interval": 5,
+      "format": "󰍛 {usage}%",
+      "tooltip": false,
+      "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=cpu",
+      "on-click-right": "alacritty --class alacritty-float -e btm -e --default_widget_type=proc"
+      
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+      "format": " {bandwidthUpBytes}  {bandwidthDownBytes}",
+      "format-disconnected": "", //An empty format will hide the module.
+      "tooltip-format": "Connected",
+      "tooltip-format-disconnected": "Disconnected",
+      "interval": 5,
+      "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=net"
+    },
+   "battery": {
+      "bat": "macsmc-battery",
+      "interval": 30,
+      "states": {
+      	"fine": 80,
+	"caution": 60,
+        "warning": 40,
+        "critical": 20
+      },
+      "format": "{icon}  {capacity}%",
+      "format-icons": ["", "", "", "", ""],
+      "format-full": "󰉁",
+      "format-charging": "󰛕 {capacity}%",
+      "tooltip-format-full": "Plugged",
+      "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=battery"
+    },
+    "custom/updater": {
+      "interval": 60,
+      "tooltip": true,
+      "exec": "echo 󰏗 $(cat $XDG_CACHE_HOME/updater/count)",
+      "on-click-right": "$XDG_CONFIG_HOME/awecron/updater/update",
+      "on-click": "alacritty --class alacritty-float -e bash -c 'if doas dnf update; then printf 0 > $XDG_CACHE_HOME/updater/count; read -n1; fi'"
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃠"],
+        "on-scroll-down": "light -A 1",
+        "on-scroll-up": "light -U 1"
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "sway/language": {
+      "format": " {short}",
+      "on-click": "swaymsg input '*' xkb_switch_layout next",
+      "min-length": 4
+    },
+    "clock": {
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "format": " {:%H:%M}",
+      "format-alt": "󰃰 {:%A, %B %d}",
+      "on-click-right": "alacritty --class alacritty-float -e khal interactive"
+    }
+}
+

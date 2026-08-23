@@ -1,0 +1,9 @@
+#!/bin/bash
+
+IPINT=$(ifconfig en0 | awk '$1=="inet"')
+
+IPINT=${IPINT% netmask*}
+
+IPINT=${IPINT##*inet }
+
+printf "%s\n" "$IPINT"

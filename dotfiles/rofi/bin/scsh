@@ -1,0 +1,21 @@
+#!/bin/sh
+
+name=$(date +%Y-%m-%d_%I:%M:%S-$RANDOM)
+outfile=/home/user/tmp/$name.png
+rofi_command=rofi
+screen="󰍹  Capture Desktop"
+selection="󰆞  Capture Area"
+window="󰖲  Capture Window" 
+options="$screen
+$selection
+$window"
+chosen=`echo -e "$options" | $rofi_command -p '   Screenshot ' -dmenu -selected-row 0`
+
+case $chosen in
+	$selection)
+		grim -g "$(slurp)" -t png -l 9 $outfile && dunstify "Saved: $name" ;;
+	$screen)
+		grim -t png  -l 9 $outfile && dunstify "Saved: $name" ;;
+	$window)
+		grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" -t png -l 9 $outfile && dunstify "Saved: $name" ;;
+esac

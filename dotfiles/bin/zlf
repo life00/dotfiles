@@ -1,0 +1,28 @@
+#!/bin/bash
+
+## version 1
+# it basically opens several ranger tabs but has a limitation of providing only one argument to zoxide
+#for i in $@
+#do
+#	if [[ -e "$i" ]]
+#	then
+#		d+=" $i"
+#	else
+#		d+=" $(zoxide query "$i")"
+#	fi
+#
+#done
+
+## version 2
+# simple version that can open only one ranger tab but you may specify multiple arguments to zoxide
+if [[ -e "$@" ]]
+then
+	d="$@"
+elif [[ -z "$@" ]]
+then
+	d="$HOME"
+else
+	d=$(zoxide query ${@})
+fi
+
+lf $d

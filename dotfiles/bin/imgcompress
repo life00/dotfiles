@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for file_path in "$@"
+do
+  magick "$file_path" -resize 90% -interlace Plane -gaussian-blur 0.05 -quality 80% "${file_path%.*}"_.jpeg
+done
+

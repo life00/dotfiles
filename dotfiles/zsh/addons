@@ -1,0 +1,61 @@
+#!/bin/zsh
+
+# addons categorized config file
+
+# this file contains plugin activation strings
+# and some may also have their configuration
+
+## fzf-tab
+# compinit is required for fzf-tab to work
+autoload -Uz compinit
+compinit
+source $HOME/etc/data/zsh/fzf-tab/fzf-tab.plugin.zsh
+# apply the theme
+zstyle ':fzf-tab:*' fzf-flags --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
+--color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
+--color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
+--color=selected-bg:#494D64 \
+--color=border:#363A4F,label:#CAD3F5
+
+## git plugin
+source $HOME/etc/data/zsh/ohmyzsh/plugins/git/git.plugin.zsh
+
+## fast-syntax-highlighting
+source $HOME/etc/data/zsh/fsh/fast-syntax-highlighting.plugin.zsh
+# enable on install
+#fast-theme XDG:catppuccin-macchiato
+
+## zsh-autosuggestions
+source $HOME/etc/data/zsh/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+
+## zoxide
+eval "$(zoxide init zsh)"
+
+## zsh-history-substring-search
+source $HOME/etc/data/zsh/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
+# config
+source $HOME/.cfg/zsh/config/zsh-history-substring-search.conf
+
+## vi mode
+source $HOME/etc/data/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+# no duplicates in history
+setopt histignoredups
+
+# bash like comments
+setopt interactivecomments
+
+## starship prompt theme
+eval "$(starship init zsh)"
+
+## cheat.sh
+function cht {
+	curl cheat.sh/$@
+}
+
+## fix doas shell
+function doas {
+	SHELL=/bin/bash
+	/usr/bin/command doas $@
+	SHELL=/bin/zsh
+}

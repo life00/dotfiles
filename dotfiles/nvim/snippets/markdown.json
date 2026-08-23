@@ -1,0 +1,152 @@
+{
+  "course information": {
+    "prefix": "courseinfo",
+    "body": [
+      "# $1\n",
+      "## Extent and Intensity\n",
+      "$2\n",
+      "## Teachers\n",
+      "$3\n",
+      "## Course Objectives\n",
+      "$4\n",
+      "## Learning Outcomes\n",
+      "$5\n",
+      "## Syllabus\n",
+      "$6\n",
+      "## Literature\n",
+      "$7\n",
+      "## Teaching Methods\n",
+      "$8\n",
+      "## Assessment Methods\n",
+      "$9\n",
+      "## Schedule\n",
+      "$0\n"
+    ],
+    "description": "course information"
+  },
+  "math_inline": {
+    "prefix": "m",
+    "body": ["\\$$1\\$ $0"],
+    "description": "inline TeX math"
+  },
+  "math_block": {
+    "prefix": "M",
+    "body": ["\\$\\$$1\\$\\$ $0"],
+    "description": "TeX math block"
+  },
+  "assignment": {
+    "prefix": "asgn",
+    "body": [
+      "# $1\n",
+      "## Task\n",
+      "**Due date:** $2\n",
+      "$3\n",
+      "## Content\n",
+      "$4\n"
+    ],
+    "description": "assignment template"
+  },
+  "documents path": {
+    "prefix": "docs",
+    "body": ["/home/user/doc/$0"],
+    "description": "documents path"
+  },
+  "class": {
+    "prefix": "class",
+    "body": [
+      "# $1\n",
+      "## Materials\n",
+      "- $2\n",
+      "## Content\n",
+      "...\n",
+      "## Homework\n",
+      "- [ ] $0 \n",
+      "### Questions\n",
+      "- [ ] \n"
+    ],
+    "description": "class template"
+  },
+  "fraction": {
+    "prefix": "frac",
+    "body": ["\\frac{$1}{$2}$0"],
+    "description": "KaTeX fraction"
+  },
+  "square root": {
+    "prefix": "sqrt",
+    "body": ["\\sqrt[$1]{$2}$0"],
+    "description": "KaTeX square root"
+  },
+  "sum": {
+    "prefix": "sum",
+    "body": ["\\displaystyle\\sum_{$1}^{$2}($3)$0"],
+    "description": "KaTeX sum"
+  },
+  "limit": {
+    "prefix": "lim",
+    "body": ["\\displaystyle\\lim_{$1 \\to $2}$0"],
+    "description": "KaTeX limit"
+  },
+  "matrix": {
+    "prefix": "mx",
+    "body": ["\\begin{pmatrix}$1\\\\\\ $2\\end{pmatrix}$0"],
+    "description": "KaTeX matrix"
+  },
+  "cases": {
+    "prefix": "cases",
+    "body": ["\\begin{cases}$1\\\\\\ $2\\end{cases}$0"],
+    "description": "KaTeX cases"
+  },
+  "integral": {
+    "prefix": "int",
+    "body": ["\\displaystyle\\int_{$1}^{$2}$3 dx$0"],
+    "description": "KaTeX integral"
+  },
+  "system of equations": {
+    "prefix": "syseq",
+    "body": ["\\begin{cases} $1 \\\\\\ $2 \\end{cases}$0"],
+    "description": "KaTeX system of equations"
+  },
+  "logarithm": {
+    "prefix": "log",
+    "body": ["\\log_{$1}($2)$0"],
+    "description": "KaTeX log"
+  },
+  "comment": {
+    "prefix": "comment",
+    "body": [
+      "<p style=\"display: flex; font-style: italic; font-weight: bold; justify-content: flex-end\">$1</p>",
+      "$0"
+    ],
+    "description": "HTML comment"
+  },
+  "caption text": {
+    "prefix": "caption",
+    "body": ["<p style=\"text-align: center;\">$1</p>", "$0"],
+    "description": "image figure text"
+  },
+  "in text citation": {
+    "prefix": "textcite",
+    "body": ["\\textcite{$1}$0"],
+    "description": "in text citation"
+  },
+  "parenthetical citation": {
+    "prefix": "parencite",
+    "body": ["\\parencite{$1}$0"],
+    "description": "parenthetical citation"
+  },
+  "text": {
+    "prefix": "text",
+    "body": ["\\text{$1}$0"],
+    "description": "insert normal text in math mode"
+  },
+  "times": {
+    "prefix": "times",
+    "body": ["\\times$0"],
+    "description": "multiplication sign"
+  },
+  "Rmarkdown": {
+    "prefix": "rmd",
+    "body": ["```{r $1}", "$2", "```", "$0"],
+    "description": "Rmarkdown code block"
+  }
+}
