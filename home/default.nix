@@ -24,11 +24,6 @@
     stateHome = "${config.home.homeDirectory}/etc/state";
   };
 
-  # ponytail: symlink .config -> .cfg, .cache, .local, .ssh, etc.
-  home.file = {
-    ".config".source = config.xdg.configHome;
-  };
-
   # let home-manager manage itself
   programs.home-manager.enable = true;
 }

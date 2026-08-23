@@ -1,5 +1,5 @@
 { pkgs, lib, config, inputs, ... }: {
-  # lf file manager (config via dotfiles)
+# lf file manager (config via dotfiles)
   home.file.".cfg/lf/lfrc".source = ../dotfiles/lf/lfrc;
   home.file.".cfg/lf/lfrc.cmd".source = ../dotfiles/lf/lfrc.cmd;
   home.file.".cfg/lf/colors".source = ../dotfiles/lf/colors;
@@ -7,22 +7,7 @@
   # preview script needs exiftool, bat, pandoc, jq, lsar, xlsx2csv, etc.
   programs.lf = { enable = true; };
 
-  # custom bin scripts (dev/bin)
-  home.file.".bin/fetch".source = ../dotfiles/bin/fetch;
-  home.file.".bin/zlf".source = ../dotfiles/bin/zlf;
-  home.file.".bin/todoi".source = ../dotfiles/bin/todoi;
-  home.file.".bin/pdf2nocopy".source = ../dotfiles/bin/pdf2nocopy;
-  home.file.".bin/catexif".source = ../dotfiles/bin/catexif;
-  home.file.".bin/imgcompress".source = ../dotfiles/bin/imgcompress;
-  home.file.".bin/ipext".source = ../dotfiles/bin/ipext;
-  home.file.".bin/ipint".source = ../dotfiles/bin/ipint;
-  home.file.".bin/rmexif".source = ../dotfiles/bin/rmexif;
-  home.file.".bin/sioyek-open".source = ../dotfiles/bin/sioyek-open;
-  home.file.".bin/wgetweb".source = ../dotfiles/bin/wgetweb;
-  home.file.".bin/yt-dlp-lofi".source = ../dotfiles/bin/yt-dlp-lofi;
-  home.file.".bin/btrfs-file-delete".source = ../dotfiles/bin/btrfs-file-delete.sh;
-  home.file.".bin/ufetch".source = ../dotfiles/bin/ufetch;
-
+  # .bin symlinks managed by systemd tmpfiles (point to ~/dev/bin/ and ~/.cfg/rofi/bin/)
   # ensure .bin is in PATH
   home.sessionVariables.PATH = "${config.home.homeDirectory}/.bin:${config.home.sessionVariables.PATH}";
 
@@ -51,5 +36,5 @@
 
   # custom xkb layout (installed system-wide via locale.nix)
   # kept here for reference
-  home.file:.cfg/xkb/custom-mech".source = ../modules/xkb/custom-mech;
+  home.file.".cfg/xkb/custom-mech".source = ../modules/xkb/custom-mech;
 }
