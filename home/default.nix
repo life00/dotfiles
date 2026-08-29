@@ -3,7 +3,7 @@
     ./shell.nix
     ./git.nix
     ./terminal.nix
-    # ./editor.nix
+    ./editor.nix
     ./desktop.nix
     # ./media.nix
     # ./files.nix
