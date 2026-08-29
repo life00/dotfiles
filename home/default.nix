@@ -1,13 +1,14 @@
 { inputs, pkgs, lib, config, ... }: {
   imports = [
+    inputs.catppuccin.homeModules.catppuccin
     ./shell.nix
     ./git.nix
-./terminal.nix
+    ./terminal.nix
     ./editor.nix
     ./desktop.nix
     ./media.nix
     ./files.nix
-    # ./theme.nix
+    ./theme.nix
     ./packages.nix
   ];
 
