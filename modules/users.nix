@@ -32,10 +32,13 @@
   # ponytail: commented below (restore for full setup) — top-level home dirs,
   # .bin links, etc/, snsh/ and opt/user structure, history.log.
 
+  # ponytail: minimal-install — root-ownership of /home/user disabled for now
+  # (it prevented home-manager from creating ~/.cfg, ~/etc, ~/.ssh; the owner
+  # is manually set to the user on the target). Restore the Fedora-style
+  # root-owned top-level model (dev/doc/med/tmp/etc as root) when the home-setup
+  # / tmpfiles hierarchy is fully wired and those dirs are pre-created by root.
   # ensure home dir + symlink structure exists
   system.activationScripts.homeSetup = lib.stringAfter [ "users" ] ''
-    mkdir -p /home/user
-    chown root:root /home/user
-    chmod 0755 /home/user
+    :
   '';
 }

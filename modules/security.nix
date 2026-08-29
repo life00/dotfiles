@@ -13,6 +13,13 @@
         args = [ "store" "gc" ];
         noPass = true;
       }
+      # passwordless `nixos-rebuild` so the release/config workflow can run
+      # rebuilds without a password prompt
+      {
+        users = [ "user" ];
+        cmd = "nixos-rebuild";
+        noPass = true;
+      }
     ];
   };
   security.sudo.enable = false;
