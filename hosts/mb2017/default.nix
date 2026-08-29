@@ -16,7 +16,7 @@
     ../../home/default.nix
   ];
 
-  networking.hostName = "localhost";
+  networking.hostName = "nixos";
 
   home-manager = {
     useUserPackages = true;
@@ -25,5 +25,5 @@
     users.user = import ../../home;
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 }
