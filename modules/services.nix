@@ -13,6 +13,11 @@ in
       Type = "simple";
       Restart = "always";
     };
+    # awecron looks up config in $XDG_CONFIG_HOME/awecron (os.UserConfigDir)
+    # then /etc/awecron. The daemon runs as root and must land on the
+    # home-manager-symlinked ~/.cfg/awecron (dotfiles/awecron), so pin
+    # XDG_CONFIG_HOME to the user's XDG_CONFIG_HOME (~/.cfg via home/default.nix).
+    environment.XDG_CONFIG_HOME = "/home/user/.cfg";
   };
 
   # music daemon (user service)

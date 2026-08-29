@@ -8,7 +8,8 @@
     ../../modules/security.nix
     ../../modules/users.nix
     ../../modules/locale.nix
-    # ../../modules/services.nix # awecron (fakeHash pkg) + libvirtd
+    # ../../modules/services.nix # was: awecron (fakeHash pkg) + libvirtd
+    ../../modules/services.nix
     ../../modules/packages.nix
     # ../../modules/fonts.nix
     ../../modules/fonts.nix

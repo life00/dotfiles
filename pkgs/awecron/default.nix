@@ -1,25 +1,21 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{ lib, buildGoModule }:
 
-# ponytail: src/ is gitignored — copy source from original dev tree before building
-# cp -r /path/to/awecron-src pkgs/awecron/src
-let
-  src = ../.gitignored/awecron-src; # placeholder path
-in
-# ponytail: fallback to fetchFromGitHub if local src absent
+# ponytail: source comes from the LOCAL dev tree — `~/dev/src/awecron` (a
+# clone of life00/awecron, branch `master`, with `go mod vendor` run inside).
+# It must exist on the machine that builds this flake. It is NOT tracked in
+# git (flakes cannot see gitignored/untracked paths, so an in-repo ./src
+# fails to evaluate). fetchFromGitHub has no offline fallback.
 buildGoModule {
   pname = "awecron";
-  version = "unstable";
+  version = "0-unstable-2024-08-02";
 
-  src = fetchFromGitHub {
-    owner = "life00";
-    repo = "awecron";
-    rev = "main";
-    hash = lib.fakeHash; # ponytail: replace with actual hash after first build
-  };
+  src = /home/user/dev/src/awecron;
+
+  # go-toml/v2 is pre-vendored inside src/vendor (offline-friendly); passing
+  # null makes buildGoModule use the on-disk vendor dir instead of hashing.
+  vendorHash = null;
 
   subPackages = [ "." ];
-
-  vendorHash = lib.fakeHash; # ponytail: replace with actual vendorHash after first build
 
   meta = with lib; {
     description = "Custom cron daemon with dynamic sleep";
