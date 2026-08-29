@@ -14,14 +14,19 @@
     # };
   };
 
-  # networking.firewall = {
-  #   enable = true;
-  #   allowPing = false;
-  #   allowedTCPPorts = [ ];
-  #   allowedUDPPorts = [ ];
-  # };
+  networking.firewall = {
+    enable = true;
+    allowPing = false;
+    allowedTCPPorts = [ ];
+    allowedUDPPorts = [ ];
+    # libvirtd's virbr0 NAT needs traffic permitted or guest networking breaks.
+    trustedInterfaces = [ "virbr0" ];
+  };
 
-  # # MAC randomization service (placeholder interface name)
+  # # MAC randomization service. ponytail: NOT ENABLED — INTERFACE is a
+  # # placeholder (wlp1s0f0) and the inline script is broken (a bare `false`
+  # # makes the `until` loop spin forever, and rt uses insecure openssl rand
+  # # instead of address randomize). Fix before restoring:
   # systemd.services.macchanger = {
   #   description = "Randomize MAC address on wifi interface";
   #   wantedBy = [ "multi-user.target" ];
@@ -40,30 +45,30 @@
   #   };
   # };
 
-  # networking.hosts = lib.pipe inputs.stevenblack-hosts.outPath [
-  #   builtins.readFile
-  #   (lib.splitString "\n")
-  #   (lib.filter (line: lib.hasPrefix "0.0.0.0 " line))
-  #   (map (line: lib.substring 8 (lib.stringLength line - 8) line))
-  #   (map (host: { "${host}" = [ "0.0.0.0" ]; }))
-  #   lib.mkMerge
-  # ];
+  networking.hosts = lib.pipe (inputs.stevenblack-hosts.outPath + "/hosts") [
+    builtins.readFile
+    (lib.splitString "\n")
+    (lib.filter (line: lib.hasPrefix "0.0.0.0 " line))
+    (map (line: lib.substring 8 (lib.stringLength line - 8) line))
+    (map (host: { "${host}" = [ "0.0.0.0" ]; }))
+    lib.mkMerge
+  ];
 
-  # networking.extraHosts = ''
-  #   # Brave Browser: prevent telemetry
-  #   0.0.0.0 p3a.brave.com
-  #   0.0.0.0 rewards.brave.com
-  #   0.0.0.0 api.rewards.brave.com
-  #   0.0.0.0 grant.rewards.brave.com
-  #   0.0.0.0 variations.brave.com
-  #   0.0.0.0 laptop-updates.brave.com
-  #   0.0.0.0 static1.brave.com
-  # '';
+  networking.extraHosts = ''
+    # Brave Browser: prevent telemetry
+    0.0.0.0 p3a.brave.com
+    0.0.0.0 rewards.brave.com
+    0.0.0.0 api.rewards.brave.com
+    0.0.0.0 grant.rewards.brave.com
+    0.0.0.0 variations.brave.com
+    0.0.0.0 laptop-updates.brave.com
+    0.0.0.0 static1.brave.com
+  '';
 
-  # services.chrony = {
-  #   enable = true;
-  #   enableNTS = true;
-  # };
+  services.chrony = {
+    enable = true;
+    enableNTS = true;
+  };
 
-  # services.resolved.enable = true;
+  services.resolved.enable = true;
 }
