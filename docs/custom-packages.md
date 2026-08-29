@@ -22,15 +22,23 @@ Batch audio downloader built on yt-dlp (`github.com/lrstanley/go-ytdlp`). Usage:
 
 Both use `buildGoModule` with `subPackages = ["."]`.
 
-- `src` currently `fetchFromGitHub` with `hash = lib.fakeHash` — **must be replaced** with the real `lib.fixedOutputHash` from the first build error (or `hash = ""` die message).
-- `vendorHash = lib.fakeHash` likewise replaced by the `gotest`/`go-mod-vendor` impure error's real hash.
+- `awecron`: src comes from the local dev tree `/home/user/dev/src/awecron`
+  (clone of `life00/awecron`, branch `master`, with `go mod vendor` run
+  inside). `vendorHash = null` makes `buildGoModule` use the on-disk `vendor/`
+  dir. Because this is an absolute (non-repo) path, **every nixos-rebuild must
+  pass `--impure`** — pure mode rejects it.
+- `getmusic`: upstream (`life00/getmusic`) is unreachable (404/private) and no
+  module references it, so it stays a `lib.fakeHash` stub that is never built.
+  Restore src + hashes (or fetch) when the original repo becomes available.
 
-The user's stated intent: source gets copied into `pkgs/*/src/` (gitignored) so the repo can be moved to an offline external system and built from local source. The derivations are written so that if `./src` exists it is preferred over fetch — adjust `src` accordingly when adding local copies:
-
-```nix
-src = pkgs.lib.cleanSource ./src;   # local copy
-```
+> Why not the gitignored `pkgs/*/src/` copy documented before? Flakes cannot
+> ingest gitignored/untracked in-tree paths (`nix flake check` / `nixos-rebuild
+> --flake` fail with "not tracked by Git") and pure evaluation forbids absolute
+> paths. The working offline approach is therefore: keep the checked-out source
+> outside the repo and rebuild with `--impure` (see the awecron README comment).
 
 ## README note
 
-README documents the copy command (`cp -r /path/to/{awecron,getmusic}-src pkgs/*/src`). Without local source or a fixed hash, the flake will fail to build until hashes are filled in.
+README documents the copy command (`cp -r /path/to/{awecron,getmusic}-src pkgs/*/src`). That old
+`pkgs/*/src` approach no longer works with flakes (see Build mechanics); awecron source instead
+lives at `/home/user/dev/src/awecron`.

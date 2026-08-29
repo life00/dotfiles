@@ -28,5 +28,5 @@
 ## Notes
 
 - MPD state must persist: HM creates `~/.cfg/mpd/` (db, state, pid) — directory exists on first build, daemon auto-creates files.
-- awecron requires `~/.cfg/awecron/` to be root-readable; HM symlinks it as user files — unit sets `User=root` so root reads through the same path; cronjob `run` files are chmod +x in dotfiles.
+- awecron requires `~/.cfg/awecron/` to be root-readable; HM symlinks it as user files — unit sets `User=root` and `XDG_CONFIG_HOME=/home/user/.cfg` so root resolves config through the same path; cronjob `run` files are chmod +x in dotfiles.
 - virt-manager needs `user` in `libvirt` group (done) plus the guest tools inside VMs.
