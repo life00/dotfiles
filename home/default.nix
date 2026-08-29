@@ -2,7 +2,7 @@
   imports = [
     # ponytail: minimal-install — restore for full setup
     # ./shell.nix
-    # ./git.nix
+    ./git.nix
     ./terminal.nix
     # ./editor.nix
     ./desktop.nix

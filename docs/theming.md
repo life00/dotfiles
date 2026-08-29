@@ -4,7 +4,7 @@ All themes are **Catppuccin Macchiato** (lavender accent). Two layers:
 
 ## 1. catppuccin/nix flake (dynamic)
 
-Applied via `catppuccin.nixosModules.catppuccin` (hosts/localhost/default.nix) and HM module in `home/theme.nix`:
+Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and HM module in `home/theme.nix`:
 
 | Program | HM option |
 |---------|-----------|

@@ -26,7 +26,10 @@
   boot.initrd.luks.devices = {
     "cryptroot" = {
       device = "/dev/disk/by-partlabel/disk-root";
-      allowHardwareCrypto = true;
+      # ponytail: minimal-install — `allowHardwareCrypto` is not a valid
+      # `boot.initrd.luks.devices` option in this nixpkgs; it was an Apple
+      # Silicon (Asahi) optimization, irrelevant on x86_64. Commented, not removed.
+      # allowHardwareCrypto = true;
     };
   };
 

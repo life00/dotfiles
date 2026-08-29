@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 {
   users.users.user = {
-    isNormalUser = false;
+    isNormalUser = true;
     uid = 1000;
     shell = pkgs.zsh;
     home = "/home/user";
@@ -13,6 +13,11 @@
   };
 
   users.groups.user.gid = 1000;
+
+  # Ensure the zsh user shell gets the nix PATH dirs (fixes the
+  # "programs.zsh.enable is not true" assertion). The restored home/shell.nix
+  # (home-manager) also configures programs.zsh — both work fine together.
+  programs.zsh.enable = true;
 
   # root password locked
   users.users.root.hashedPassword = "!";

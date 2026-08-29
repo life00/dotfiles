@@ -22,14 +22,14 @@
   };
 
   outputs = { self, nixpkgs, home-manager, disko, catppuccin, stevenblack-hosts, ... }@inputs: {
-    nixosConfigurations.localhost = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.mb2017 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
         disko.nixosModules.disko
         home-manager.nixosModules.home-manager
         catppuccin.nixosModules.catppuccin
-        ./hosts/localhost
+        ./hosts/mb2017
       ];
     };
   };

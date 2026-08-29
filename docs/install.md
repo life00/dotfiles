@@ -26,17 +26,17 @@ This creates GPT (ESP 512M @ /boot/efi, ext4 boot 1G @ /boot, LUKS2 root p3) and
 
 ```sh
 nixos-generate-config --no-filesystems --root /mnt
-nix --extra-experimental-features 'nix-command flakes' flake show .#nixosConfigurations.localhost
+nix --extra-experimental-features 'nix-command flakes' flake show .#nixosConfigurations.mb2017
 ```
 
-Merge detected kernel modules from the generated `hardware-configuration.nix` into `hosts/localhost/hardware.nix`.
+Merge detected kernel modules from the generated `hardware-configuration.nix` into `hosts/mb2017/hardware.nix`.
 
 ## 3. Install
 
 ```sh
-nixos-install --flake /path/to/repo#localhost
+nixos-install --flake /path/to/repo#mb2017
 # with custom disk device:
-nixos-install --flake /path/to/repo#localhost --root /mnt
+nixos-install --flake /path/to/repo#mb2017 --root /mnt
 ```
 
 Sets root password prompt (root will be locked immediately after; user password set via `passwd user` in system).

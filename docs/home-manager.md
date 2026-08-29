@@ -1,6 +1,6 @@
 # Home Manager Strategy
 
-Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `useUserPackages = true`, `useGlobalPkgs = true`), so `nixos-rebuild switch` rebuilds the whole system including the user profile. `home-manager` is applied to user `user` via `hosts/localhost/default.nix`.
+Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `useUserPackages = true`, `useGlobalPkgs = true`), so `nixos-rebuild switch` rebuilds the whole system including the user profile. `home-manager` is applied to user `user` via `hosts/mb2017/default.nix`.
 
 ## Nix-native (HM `programs.*`)
 

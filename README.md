@@ -8,7 +8,7 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 .
 ├── flake.nix                    # flake entry: nixpkgs, home-manager, disko, catppuccin, stevenblack-hosts
 ├── hosts/
-│   └── localhost/               # host entry (hostname: localhost)
+│   └── mb2017/               # host entry (hostname: nixos)
 │       ├── default.nix          # imports all modules + home-manager
 │       └── hardware.nix          # kernel modules, platform (placeholder — regenerate on target)
 ├── modules/                     # system-level NixOS modules
@@ -70,13 +70,13 @@ nix run github:nix-community/disko -- --mode destroy,format,mount ./modules/disk
 
 ```sh
 nixos-generate-config --no-filesystems --root /mnt
-# Merge any detected kernel modules into hosts/localhost/hardware.nix
+# Merge any detected kernel modules into hosts/mb2017/hardware.nix
 ```
 
 ### 4. Install
 
 ```sh
-nixos-install --flake .#localhost
+nixos-install --flake .#mb2017
 ```
 
 ### 5. Post-install

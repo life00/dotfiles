@@ -2,21 +2,27 @@
   # ponytail: minimal-install — sway only.
   # Commented below (restore for full setup): swayidle, swaylock, waybar,
   # rofi, dunst, screenshots, clipboard, xdg-desktop-portal-wlr.
-  programs.sway = {
-    enable = true;
-    # minimal session: terminal bound to alacritty.
-    # ponytail: replaces dotfiles/sway/config which is NOT wired in via home.file.
-    extraConfig = ''
-      set $mod Mod4
-      set $term alacritty
-      font JetBrainsMono NFM 11px
-      bindsym $mod+Return exec $term
-      bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit sway' 'swaymsg exit'
-      bindsym $mod+d exec $term -e opencode
-      gaps inner 0
-      default_border pixel 1
-    '';
-  };
+  # ponytail: minimal-install — HM `programs.sway` module was removed in this
+  # home-manager version (option does not exist). Sway is instead enabled at
+  # the NixOS SYSTEM level via `programs.sway.enable` (modules/packages.nix),
+  # which installs sway + `foot` so a terminal is reachable via `$mod+Return`.
+  # NOTE: this nixpkgs' `programs.sway` has NO `extraConfig` option; sway's
+  # runtime config lives in /etc/sway/config or ~/.config/sway/config.
+  # programs.sway = {
+  #   enable = true;
+  #   # minimal session: terminal bound to alacritty.
+  #   # ponytail: replaces dotfiles/sway/config which is NOT wired in via home.file.
+  #   extraConfig = ''
+  #     set $mod Mod4
+  #     set $term alacritty
+  #     font JetBrainsMono NFM 11px
+  #     bindsym $mod+Return exec $term
+  #     bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit sway' 'swaymsg exit'
+  #     bindsym $mod+d exec $term -e opencode
+  #     gaps inner 0
+  #     default_border pixel 1
+  #   '';
+  # };
 
   # # swayidle + swaylock
   # programs.swayidle = { enable = true; };

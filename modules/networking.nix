@@ -5,7 +5,9 @@
   # randomization service, stevenblack/extra hosts, chrony, resolved.
   networking.networkmanager = {
     enable = true;
-    wifi.powerscan = false;
+    # ponytail: minimal-install — option name corrected; `powerscan` doesn't exist.
+    # wifi.powerscan = false;  # old/incorrect name
+    # wifi.powersave = false;
     # # ponytail: MAC randomization — placeholder interface name, replace with target
     # connectionConfig = {
     #   "wifi.cloned-mac-address" = "random";

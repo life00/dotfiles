@@ -1,16 +1,16 @@
 # AGENTS.md
 
-NixOS flake (single host `localhost`, x86_64) replicating a Fedora Asahi workstation. System modules + home-manager (as NixOS module) + raw dotfiles. `docs/` is the authoritative architecture reference (indexed in `docs/README.md`) — read the per-topic page before editing.
+NixOS flake (single host `mb2017`, x86_64) replicating a Fedora Asahi workstation. System modules + home-manager (as NixOS module) + raw dotfiles. `docs/` is the authoritative architecture reference (indexed in `docs/README.md`) — read the per-topic page before editing.
 
 ## Verification
 
 - Nix 2.31 is installed here but **cannot evaluate anything**: `/nix/store` is not writable, so every command (`nix flake check`, `--parse`, even `nix-instantiate --parse`) dies with `creating directory '/nix/store/.links': Permission denied`. There is no daemon. Hand-check Nix syntax carefully; real verification happens on the target NixOS machine.
-- On a Nix machine: `nix flake check` or `nixos-rebuild build --flake .#localhost` (flake at repo root; host is `localhost`).
+- On a Nix machine: `nix flake check` or `nixos-rebuild build --flake .#mb2017` (flake at repo root; host is `mb2017`).
 
 ## Placeholders that break builds/installs until replaced
 
 - `modules/disko.nix`: disk device is `/dev/nvme0n1` placeholder — must be edited per target machine.
-- `hosts/localhost/hardware.nix`: kernel modules are guesses; regenerate on target via `nixos-generate-config` and merge.
+- `hosts/mb2017/hardware.nix`: kernel modules are guesses; regenerate on target via `nixos-generate-config` and merge.
 - `pkgs/awecron/default.nix` and `pkgs/getmusic/default.nix`: `hash`/`vendorHash` are `lib.fakeHash` — every build fails until real hashes are filled in. Alternatively (repo is meant to be copied to an offline machine): drop source into gitignored `pkgs/*/src/` and switch `src` to that local path. Do not remove the `ponytail:` comments explaining this.
 
 ## Structure conventions

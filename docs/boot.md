@@ -28,4 +28,4 @@ Carried over from `/etc/default/grub` in the Fedora setup.
 
 ## Hardware modules
 
-`hosts/localhost/hardware.nix` is a placeholder (`nvme`, `xhci_pci`, `ahci`, `usbhid`, `sd_mod`, `kvm-intel`). Regenerate on the target with `nixos-generate-config` and merge.
+`hosts/mb2017/hardware.nix` is a placeholder (`nvme`, `xhci_pci`, `ahci`, `usbhid`, `sd_mod`, `kvm-intel`). Regenerate on the target with `nixos-generate-config` and merge.

@@ -1,4 +1,7 @@
 { pkgs, lib, config, ... }: {
+  # delta binary used by interactive.diffFilter
+  programs.delta.enable = true;
+
   programs.git = {
     enable = true;
     userName = "life00";

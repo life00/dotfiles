@@ -10,8 +10,8 @@
 ## Layout
 
 ```
-hosts/localhost/default.nix  # host entry: imports all modules, home-manager
-hosts/localhost/hardware.nix # kernel modules (placeholder on target)
+hosts/mb2017/default.nix  # host entry: imports all modules, home-manager
+hosts/mb2017/hardware.nix # kernel modules (placeholder on target)
 
 modules/          # NixOS options: boot, disko, filesystems, networking,
                   # security, users, locale, services, packages, fonts, greetd

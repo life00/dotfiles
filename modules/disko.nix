@@ -81,6 +81,6 @@
     fsType = "none";
     device = "none";
     options = [ "bind" ];
-    mountpoint = lib.mkForce "/snsh/automatic/home";
+    mountPoint = lib.mkForce "/snsh/automatic/home";
   };
 }
