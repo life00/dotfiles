@@ -142,6 +142,7 @@
     brightnessctl
     networkmanager
     opensnitch
+    opensnitch-ui
     rofi
     alacritty
     waybar

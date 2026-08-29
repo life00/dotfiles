@@ -30,21 +30,25 @@
     openFirewall = false;
   };
 
-  # # USB device authorization
-  # services.usbguard = {
-  #   enable = true;
-  #   package = pkgs.usbguard;
-  #   rules = ''
-  #     allow
-  #   '';
-  # };
+  # USB device authorization
+  services.usbguard = {
+    enable = true;
+    package = pkgs.usbguard;
+    rules = ''
+      allow
+    '';
+  };
 
-  # # application-level firewall
-  # services.opensnitch = {
-  #   enable = true;
-  #   package = pkgs.opensnitch;
-  # };
+  # application-level firewall (monitor mode: upstream default-config.json
+  # ships DefaultAction=allow + InterceptUnknown=false, so nothing is blocked
+  # until per-app rules are approved from opensnitch-ui)
+  services.opensnitch = {
+    enable = true;
+    package = pkgs.opensnitch;
+  };
 
-  # # kernel hardening
-  # security.protectKernelImage = true;
+  # kernel hardening. ponytail: this nixpkgs rev implements it as
+  # `nohibernate` + `kernel.kexec_load_disabled` (see nixos/modules/security/
+  # misc.nix) — milder than "refuse unsigned modules" that older docs claimed.
+  security.protectKernelImage = true;
 }
