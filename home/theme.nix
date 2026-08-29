@@ -11,7 +11,9 @@
     cursors = { enable = true; };
     fzf = { enable = true; };
     nvim = { enable = true; };
-    alacritty = { enable = true; };
+    # ponytail: alacritty is now a raw dotfile (dotfiles/alacritty/alacritty.toml,
+    # self-contained palette) symlinked via home/terminal.nix — catppuccin's
+    # alacritty option is dropped since programs.alacritty is no longer enabled.
     bat = { enable = true; };
     delta = { enable = true; };
     zsh-syntax-highlighting = { enable = true; };

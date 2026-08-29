@@ -1,10 +1,12 @@
 { pkgs, lib, config, inputs, ... }: {
-  # ponytail: minimal-install — opencode only.
-  # Restore the full package lists from git history when the full
-  # setup is re-enabled (they were removed to skip awecron/getmusic,
-  # whose fakeHash would break the build).
+  # ponytail: minimal-install — opencode, plus the two apps whose config is a
+  # raw dotfile and therefore NOT managed by a home-manager module anymore:
+  # alacritty (dotfiles/alacritty, symlinked via home/terminal.nix) and lf
+  # (dotfiles/lf, symlinked via home/files.nix).
   home.packages = with pkgs; [
     opencode
+    alacritty
+    lf
   ];
 
   # placeholders (commented out - enable when ready)

@@ -1,14 +1,13 @@
 { pkgs, lib, config, inputs, ... }: {
-# lf file manager (config via dotfiles). HM's programs.lf generates
-  # ~/.cfg/lf/lfrc itself, so the raw dotfiles lfrc is inlined via extraConfig
-  # (home.file would conflict with the generated file).
+  # lf file manager — the whole config is a raw dotfile. ponytail: HM's
+  # `programs.lf` writes ~/.cfg/lf/lfrc itself (no option to sync a file),
+  # so it is NOT enabled here; the `lf` package comes from home/packages.nix
+  # and lfrc is symlinked verbatim from dotfiles/. The zlf cd-on-quit wrapper
+  # is restored in home/shell.nix.
+  home.file.".cfg/lf/lfrc".source = ../dotfiles/lf/lfrc;
   home.file.".cfg/lf/lfrc.cmd".source = ../dotfiles/lf/lfrc.cmd;
   home.file.".cfg/lf/colors".source = ../dotfiles/lf/colors;
   home.file.".cfg/lf/preview.sh".source = ../dotfiles/lf/preview.sh;
-  programs.lf = {
-    enable = true;
-    extraConfig = builtins.readFile ../dotfiles/lf/lfrc;
-  };
 
   # nvim — full LazyVim dotfiles tracked verbatim (see docs/dotfiles.md);
   # force=true since nvim may create ~/.cfg/nvim itself before first activation

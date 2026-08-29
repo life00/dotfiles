@@ -64,6 +64,16 @@
       cht() {
         curl cheat.sh/"$@"
       }
+
+      # lf: cd to last visited dir on quit (was provided by HM programs.lf,
+      # which is disabled — lf config is a raw dotfile, see home/files.nix)
+      zlf() {
+        local last="$XDG_STATE_HOME/lf/lastdir"
+        command lf -last-dir-path "$last" "$@"
+        if [[ -s "$last" ]]; then
+          cd "$(cat "$last")"
+        fi
+      }
     '';
 
     zsh-abbr = {
