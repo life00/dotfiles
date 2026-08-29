@@ -1,15 +1,24 @@
 { pkgs, lib, config, inputs, ... }: {
-# lf file manager (config via dotfiles)
-  home.file.".cfg/lf/lfrc".source = ../dotfiles/lf/lfrc;
+# lf file manager (config via dotfiles). HM's programs.lf generates
+  # ~/.cfg/lf/lfrc itself, so the raw dotfiles lfrc is inlined via extraConfig
+  # (home.file would conflict with the generated file).
   home.file.".cfg/lf/lfrc.cmd".source = ../dotfiles/lf/lfrc.cmd;
   home.file.".cfg/lf/colors".source = ../dotfiles/lf/colors;
   home.file.".cfg/lf/preview.sh".source = ../dotfiles/lf/preview.sh;
-  # preview script needs exiftool, bat, pandoc, jq, lsar, xlsx2csv, etc.
-  programs.lf = { enable = true; };
+  programs.lf = {
+    enable = true;
+    extraConfig = builtins.readFile ../dotfiles/lf/lfrc;
+  };
 
-  # .bin symlinks managed by systemd tmpfiles (point to ~/dev/bin/ and ~/.cfg/rofi/bin/)
-  # ensure .bin is in PATH
-  home.sessionVariables.PATH = "${config.home.homeDirectory}/.bin:${config.home.sessionVariables.PATH}";
+  # nvim — full LazyVim dotfiles tracked verbatim (see docs/dotfiles.md);
+  # force=true since nvim may create ~/.cfg/nvim itself before first activation
+  home.file.".cfg/nvim" = {
+    source = ../dotfiles/nvim;
+    force = true;
+  };
+
+  # .bin links point to ~/dev/bin + ~/.cfg/rofi/bin (managed by systemd tmpfiles
+  # in modules/users.nix). ~/.bin is already on PATH via home/shell.nix.
 
   # qalculate
   home.file.".cfg/qalculate/qalc.cfg".source = ../dotfiles/qalculate/qalc.cfg;

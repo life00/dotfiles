@@ -2,11 +2,10 @@
   imports = [
     ./shell.nix
     ./git.nix
-    ./terminal.nix
+./terminal.nix
     ./editor.nix
     ./desktop.nix
-    # ./media.nix
-    # ./files.nix
+    ./files.nix
     # ./theme.nix
     ./packages.nix
   ];
