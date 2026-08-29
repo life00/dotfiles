@@ -1,8 +1,22 @@
 { pkgs, lib, config, inputs, ... }: {
-  # sway window manager (config via dotfiles)
+  # ponytail: minimal-install — sway session essentials only.
+  # Commented below (restore for full setup): rofi, dunst, screenshots,
+  # clipboard, xdg-desktop-portal-wlr.
   programs.sway = {
     enable = true;
-    # config is in dotfiles/sway/config — symlinked via home.file below
+    # minimal session: terminal bound to alacritty, waybar bar.
+    # ponytail: replaces dotfiles/sway/config which is NOT wired in via home.file.
+    extraConfig = ''
+      set $mod Mod4
+      set $term alacritty
+      font JetBrainsMono NFM 11px
+      bindsym $mod+Return exec $term
+      bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit sway' 'swaymsg exit'
+      bindsym $mod+d exec $term -e opencode
+      bar { swaybar_command waybar }
+      gaps inner 0
+      default_border pixel 1
+    '';
   };
 
   # swayidle + swaylock
@@ -27,26 +41,24 @@
   # waybar (config via dotfiles)
   programs.waybar = { enable = true; };
 
-  # rofi (config via dotfiles)
-  programs.rofi = { enable = true; };
+  # # rofi (config via dotfiles)
+  # programs.rofi = { enable = true; };
 
-  # dunst notifications (config via dotfiles)
-  programs.dunst = {
-    enable = true;
-    settings = { };
-  };
+  # # dunst notifications
+  # programs.dunst = {
+  #   enable = true;
+  #   settings = { };
+  # };
 
-  # grim + slurp for screenshots
-  programs.grim = { enable = true; };
-  programs.slurp = { enable = true; };
+  # # grim + slurp for screenshots
+  # programs.grim = { enable = true; };
+  # programs.slurp = { enable = true; };
 
-  # xdg desktop portal for wayland
-  systemd.user.services.xdg-desktop-portal-wlr = {
-    enable = true;
-  };
+  # # xdg desktop portal for wayland
+  # systemd.user.services.xdg-desktop-portal-wlr = {
+  #   enable = true;
+  # };
 
-  # clipboard
-  programs.wl-clipboard = { enable = true; };
-
-  # ponytail: dotfiles symlinked in files.nix
+  # # clipboard
+  # programs.wl-clipboard = { enable = true; };
 }

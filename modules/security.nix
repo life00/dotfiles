@@ -1,6 +1,8 @@
 { lib, pkgs, ... }:
 {
-  # doas instead of sudo
+  # ponytail: minimal-install — doas only (root locked, login via user).
+  # Commented below (restore for full setup): sshd disabled is default,
+  # usbguard, opensnitch, kernel image protection.
   security.doas = {
     enable = true;
     wheelNeedsPassword = true;
@@ -21,23 +23,21 @@
     openFirewall = false;
   };
 
-  # USB device authorization
-  services.usbguard = {
-    enable = true;
-    package = pkgs.usbguard;
-    rules = ''
-      # ponytail: generated on first run — replace with target device rules
-      # Run: sudo usbguard generate-policy > /etc/usbguard/rules.conf
-      allow
-    '';
-  };
+  # # USB device authorization
+  # services.usbguard = {
+  #   enable = true;
+  #   package = pkgs.usbguard;
+  #   rules = ''
+  #     allow
+  #   '';
+  # };
 
-  # application-level firewall
-  services.opensnitch = {
-    enable = true;
-    package = pkgs.opensnitch;
-  };
+  # # application-level firewall
+  # services.opensnitch = {
+  #   enable = true;
+  #   package = pkgs.opensnitch;
+  # };
 
-  # kernel hardening
-  security.protectKernelImage = true;
+  # # kernel hardening
+  # security.protectKernelImage = true;
 }

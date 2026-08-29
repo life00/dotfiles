@@ -1,13 +1,14 @@
 { inputs, pkgs, lib, config, ... }: {
   imports = [
     ./shell.nix
-    ./git.nix
+    # ponytail: minimal-install — restore for full setup
+    # ./git.nix
     ./terminal.nix
-    ./editor.nix
+    # ./editor.nix
     ./desktop.nix
-    ./media.nix
-    ./files.nix
-    ./theme.nix
+    # ./media.nix
+    # ./files.nix
+    # ./theme.nix
     ./packages.nix
   ];
 
