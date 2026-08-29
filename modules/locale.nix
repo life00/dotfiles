@@ -4,10 +4,10 @@
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    # ponytail: minimal-install — build fails: `ru_RU.UTF-8`/`uk_UA.UTF-8`
-    # are reported as unsupported by this glibc (2.42-84). Restore (re-checking
-    # the supported locale names) when the full setup is rebuilt.
-    # extraLocales = [ "uk_UA.UTF-8" "ru_RU.UTF-8" ];
+    # ponytail: format must be `xx_XX.UTF-8/UTF-8` (matches glibc's
+    # localedata/SUPPORTED exactly); plain `xx_XX.UTF-8` fails the
+    # build-time check in glibc's locales derivation.
+    extraLocales = [ "uk_UA.UTF-8/UTF-8" "ru_RU.UTF-8/UTF-8" ];
   };
 
   console = {
