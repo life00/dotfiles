@@ -1,7 +1,6 @@
 { inputs, pkgs, lib, config, ... }: {
   imports = [
-    # ponytail: minimal-install — restore for full setup
-    # ./shell.nix
+    ./shell.nix
     ./git.nix
     ./terminal.nix
     # ./editor.nix

@@ -27,6 +27,7 @@
   systemd.tmpfiles.rules = [
     "L /home/user/.config - - - - /home/user/.cfg"
     "f /var/log/zsh/histfile 0666 user user -"
+    "f /var/log/history.log 0666 root root -"
   ];
 
   # ponytail: commented below (restore for full setup) — top-level home dirs,
