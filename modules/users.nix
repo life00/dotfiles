@@ -23,9 +23,12 @@
   users.users.root.hashedPassword = "!";
 
   # minimal-install tmpfiles: the .config -> .cfg symlink and zsh histfile
-  # are required by home-manager (sway/alacritty/zsh configs live in ~/.cfg)
+  # are required by home-manager (sway/alacritty/zsh configs live in ~/.cfg).
+  # L+ forces the symlink: at install the initial /home/user/.config may exist
+  # as a real dir, which plain "L" would silently leave in place (and then the
+  # systemd user manager never sees HM's ~/.cfg/systemd/user units).
   systemd.tmpfiles.rules = [
-    "L /home/user/.config - - - - /home/user/.cfg"
+    "L+ /home/user/.config - - - - /home/user/.cfg"
     "f /var/log/zsh/histfile 0666 user user -"
     "f /var/log/history.log 0666 root root -"
   ];

@@ -5,6 +5,7 @@
 ./terminal.nix
     ./editor.nix
     ./desktop.nix
+    ./media.nix
     ./files.nix
     # ./theme.nix
     ./packages.nix
