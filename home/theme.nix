@@ -18,9 +18,11 @@
     delta = { enable = true; };
     zsh-syntax-highlighting = { enable = true; };
     starship = { enable = true; };
-    rofi = { enable = true; };
-    waybar = { enable = true; };
-    dunst = { enable = true; };
+    # ponytail: rofi/waybar/dunst/swaylock are NOT themed via catppuccin — their
+    # configs are raw dotfiles carrying the palette themselves
+    # (dotfiles/rofi, dotfiles/waybar, dotfiles/dunst, dotfiles/swaylock).
+    # catppuccin.rofi/waybar/dunst would also collide with home/desktop.nix
+    # dotfile symlinks (both write the same config files).
   };
 
   # ponytail: the GTK theme/icon/cursor/font dconf DB is applied SYSTEM-wide

@@ -315,8 +315,11 @@ exec usbguard-notifier
 # nm-applet
 exec nm-applet --indicator
 
-# mpd
-exec mpd
+# dunst notifications
+exec dunst
+
+# mpd runs as a systemd USER service (home/media.nix), not a sway exec —
+# starting it here would double-launch. Volume default kept.
 exec mpc volume 50
 
 # opensnitch-ui

@@ -1,69 +1,49 @@
 { pkgs, lib, config, inputs, ... }: {
-  # ponytail: minimal-install — sway only.
-  # Commented below (restore for full setup): swayidle, swaylock, waybar,
-  # rofi, dunst, screenshots, clipboard, xdg-desktop-portal-wlr.
-  # ponytail: minimal-install — HM `programs.sway` module was removed in this
-  # home-manager version (option does not exist). Sway is instead enabled at
-  # the NixOS SYSTEM level via `programs.sway.enable` (modules/packages.nix),
-  # which installs sway + `foot` so a terminal is reachable via `$mod+Return`.
-  # NOTE: this nixpkgs' `programs.sway` has NO `extraConfig` option; sway's
-  # runtime config lives in /etc/sway/config or ~/.config/sway/config.
-  # programs.sway = {
-  #   enable = true;
-  #   # minimal session: terminal bound to alacritty.
-  #   # ponytail: replaces dotfiles/sway/config which is NOT wired in via home.file.
-  #   extraConfig = ''
-  #     set $mod Mod4
-  #     set $term alacritty
-  #     font JetBrainsMono NFM 11px
-  #     bindsym $mod+Return exec $term
-  #     bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit sway' 'swaymsg exit'
-  #     bindsym $mod+d exec $term -e opencode
-  #     gaps inner 0
-  #     default_border pixel 1
-  #   '';
-  # };
+  # ponytail: home-manager dropped programs.sway / programs.swayidle /
+  # programs.grim / programs.slurp / programs.wl-clipboard / programs.dunst in
+  # this revision (only swaylock/rofi/waybar HM modules remain, unused here).
+  # Everything is dotfile-driven instead (see repo convention): raw configs in
+  # dotfiles/ are symlinked below, sway's own dotfile launches the daemons
+  # (swayidle, dunst, nm-applet) and `bar { swaybar_command waybar }` starts
+  # waybar.
 
-  # # swayidle + swaylock
-  # programs.swayidle = { enable = true; };
-  # programs.swaylock = {
-  #   enable = true;
-  #   font = "JetBrainsMono Nerd Font";
-  #   background_color = "1A1826";
-  #   indicator_idle = "2f343f";
-  #   indicator = "0d1116";
-  #   ring = "c6a0f6";
-  #   line = "181926";
-  #   inside = "181926";
-  #   text = "cad3f5";
-  #   key_hl = "f5bde6";
-  #   bshl = "ed8796";
-  #   separator = "1e2030";
-  #   inside_wrong = "ed8796";
-  #   inside_verifying = "f5a97f";
-  # };
+  # packages whose config is NOT a raw dotfile (or that just install a binary)
+  home.packages = with pkgs; [
+    swayidle # launched by dotfiles/sway/config
+    swaylock # used by swayidle/bindgesture; config from dotfiles/
+    waybar # started via sway's `bar { swaybar_command waybar }`
+    dunst # launched by dotfiles/sway/config; config from dotfiles/
+    grim
+    slurp
+    wl-clipboard
+    networkmanagerapplet # `exec nm-applet --indicator` in dotfiles/sway/config
+    xdg-desktop-portal-wlr
+  ];
 
-  # # waybar
-  # programs.waybar = { enable = true; };
+  # desktop dotfiles (sway, waybar, rofi, dunst, swaylock) — referenced, not
+  # inlined. sway launches itself at login via greetd; config is here.
+  home.file = {
+    ".cfg/sway/config".source = ../dotfiles/sway/config;
+    ".cfg/sway/wallpapers".source = ../dotfiles/sway/wallpapers;
+    ".cfg/waybar/config".source = ../dotfiles/waybar/config;
+    ".cfg/waybar/style.css".source = ../dotfiles/waybar/style.css;
+    ".cfg/rofi/config".source = ../dotfiles/rofi/config;
+    ".cfg/rofi/config.rasi".source = ../dotfiles/rofi/config.rasi;
+    ".cfg/rofi/catppuccin-macchiato.rasi".source = ../dotfiles/rofi/catppuccin-macchiato.rasi;
+    ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
+    ".cfg/dunst/dunstrc".source = ../dotfiles/dunst/dunstrc;
+    ".cfg/swaylock/config".source = ../dotfiles/swaylock/config;
+  };
 
-  # # rofi (config via dotfiles)
-  # programs.rofi = { enable = true; };
-
-  # # dunst notifications
-  # programs.dunst = {
-  #   enable = true;
-  #   settings = { };
-  # };
-
-  # # grim + slurp for screenshots
-  # programs.grim = { enable = true; };
-  # programs.slurp = { enable = true; };
-
-  # # xdg desktop portal for wayland
-  # systemd.user.services.xdg-desktop-portal-wlr = {
-  #   enable = true;
-  # };
-
-  # # clipboard
-  # programs.wl-clipboard = { enable = true; };
+  # XDG desktop portal (wlroots) for screen sharing / portal requests on sway.
+  # D-Bus and xdg-desktop-portal normally activate the wlr backend, but we pin
+  # the unit so it is available even before the wlr backend D-Bus name exists.
+  systemd.user.services.xdg-desktop-portal-wlr = {
+    Unit.Description = "XDG desktop portal for wlroots (sway)";
+    Service = {
+      ExecStart = "${pkgs.xdg-desktop-portal-wlr}/bin/xdg-desktop-portal-wlr";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
 }
