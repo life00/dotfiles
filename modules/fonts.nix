@@ -1,7 +1,15 @@
 { pkgs, ... }:
 {
+  # Fonts go in fonts.packages; icon/cursor THEMES must be in
+  # environment.systemPackages so GTK finds them via the icon search path
+  # (fonts.packages only populates fontconfig font dirs).
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    (nerd-fonts.jetbrains-mono)
+    papirus-icon-theme
+    catppuccin-cursors.macchiatoDark
+  ];
+
+  environment.systemPackages = with pkgs; [
     papirus-icon-theme
     catppuccin-cursors.macchiatoDark
   ];

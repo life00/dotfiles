@@ -11,6 +11,7 @@
     # ../../modules/services.nix # awecron (fakeHash pkg) + libvirtd
     ../../modules/packages.nix
     # ../../modules/fonts.nix
+    ../../modules/fonts.nix
     ../../modules/greetd.nix
     # ponytail: minimal-install — home/default.nix is wired in below via
     # `home-manager.users.user`; importing it here at the system level
