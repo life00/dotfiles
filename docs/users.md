@@ -23,7 +23,15 @@ Implemented in `modules/users.nix`.
 
 ## Home-folder ownership model
 
-Top-level directories under `/home/user` (`dev/`, `doc/`, `med/`, `tmp/`, `etc/`) and the zsh/bash history logdirs are owned by `root`, matching Fedora/Asahi. Implemented via `systemd.tmpfiles.rules` (applied on every boot, after home-manager has created user files).
+> **Not currently applied.** The Fedora/Asahi root-owned top-level-home model
+> (`dev/`, `doc/`, `med/`, `tmp/`, `etc/` owned by `root`) is incompatible
+> with day-to-day use here: the user writes directly into `~/dev`, `~/doc`,
+> `~/med`, `~/tmp`, and home-manager creates `~/.cfg` + `~/etc/{data,cache,
+> state}` as a non-root user. The home is fully user-owned for now
+> (see `modules/users.nix`). The historical tmpfiles list is preserved in git
+> (`git show 86ba466:modules/users.nix`).
+
+What the model would look like if it ever returns:
 
 ```
 d /home/user/dev    0755 root root -
@@ -39,4 +47,5 @@ d /snsh/static           0755 root root -
 d /opt/user              0755 user user -
 ```
 
-Note: home-manager-managed dotfiles under `~/.cfg` remain user-owned; only the top-level hierarchy is chowned.
+Note: home-manager-managed dotfiles under `~/.cfg` remain user-owned even in
+that model; only the top-level hierarchy would be chowned.

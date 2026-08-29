@@ -18,7 +18,7 @@ NixOS flake (single host `mb2017`, x86_64) replicating a Fedora Asahi workstatio
 
 - `modules/` = system-level NixOS modules; `home/` = home-manager modules; `pkgs/` = custom Go derivations; `dotfiles/` = raw configs that are the **authoritative editable copy**; `docs/` = per-topic docs (disk, boot, networking, security, theming, install, exclusions…).
 - Raw dotfiles are symlinked into `~/.cfg/<name>` via `home.file` in `home/*.nix`. Paths are `~/.cfg/...` because `xdg.configHome` is overridden to `~/.cfg` (nonstandard XDG layout — see `home/default.nix`; `.config -> .cfg` symlink in `modules/users.nix`). Treat `dotfiles/` as source of truth — local edits are preserved since `home.file` symlinks are store-immutable.
-- `~/.bin/*` links are created by `systemd.tmpfiles.rules` in `modules/users.nix` (not home-manager). **Gotcha:** they point to `~/dev/bin/*` and `~/.cfg/rofi/bin/*` — `dotfiles/bin/` is a reference copy and is NOT wired into the build. Docs (`docs/home-manager.md`, `docs/dotfiles.md`) claim it is; code wins.
+- `~/.bin/*` links: `scsh`, `powermenu`, `killer` are created by `systemd.tmpfiles.rules` in `modules/users.nix` → `~/.cfg/rofi/bin/*` (used by sway key bindings in `dotfiles/sway/config`). The other historical `~/.bin` links pointed to `~/dev/bin/*` (workflow scripts not in the repo) and are NOT wired. `dotfiles/bin/` is a reference copy and is NOT wired into the build. Docs (`docs/home-manager.md`, `docs/dotfiles.md`) may claim more; code wins.
 - Placeholders are deliberate: commented-out HM blocks (chromium in `home/packages.nix`, obs/gimp/virt-manager in `home/media.nix`, syncthing/ollama disabled services in `modules/services.nix`). Keep this pattern — do not delete the stubs.
 
 ## Repo conventions
