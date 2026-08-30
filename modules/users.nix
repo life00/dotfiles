@@ -28,22 +28,19 @@
   # L+ forces the symlink: at install the initial /home/user/.config may exist
   # as a real dir, which plain "L" would silently leave in place (and then the
   # systemd user manager never sees HM's ~/.cfg/systemd/user units).
-  #
-# ~/.bin links for the sway key bindings (f4/f10/f11 in dotfiles/sway/config).
-  # Created at activation via homeSetup (see below) — systemd-tmpfiles refuses
-  # `L` under /home/user ("unsafe path transition — /home/user owned by user").
-  # The other historical ~/.bin links pointed into ~/dev/bin/* (workflow scripts
-  # not in this repo) — left out until ~/dev/bin exists on target.
+  # ~/.bin lives in /home/user but is root-owned (mkdir in homeSetup below);
+  # systemd-tmpfiles refuses `L` under /home/user ("unsafe path transition —
+  # /home/user owned by user"), so the links are created at activation via
+  # homeSetup instead. Covers both the sway key-binding scripts (f4/f10/f11
+  # in dotfiles/sway/config → ~/.cfg/rofi/bin/*) and dotfiles/bin.
   systemd.tmpfiles.rules = [
     "L+ /home/user/.config - - - - /home/user/.cfg"
     "f /var/log/zsh/histfile 0666 user user -"
     "f /var/log/history.log 0666 root root -"
   ];
 
-  # systemd-tmpfiles refuses to place the ~/.bin links above (user-owned
-  # /home/user == "unsafe path transition"), so `ln -sfn` them at activation.
-  # The historical ~/.bin links into ~/dev/bin are replaced by the repo-tracked
-  # dotfiles/bin scripts (symlinked to ~/.cfg/bin via home/files.nix).
+  # Build-time store reference (${./../dotfiles/bin}) so the loop works even
+  # before home-manager has created the ~/.cfg/bin symlink.
   system.activationScripts.homeSetup = lib.stringAfter [ "users" ] ''
     mkdir -p /home/user/.bin
     ln -sfn /home/user/.cfg/rofi/bin/killer    /home/user/.bin/killer

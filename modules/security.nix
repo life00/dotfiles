@@ -1,8 +1,8 @@
 { lib, pkgs, ... }:
 {
-  # ponytail: minimal-install — doas only (root locked, login via user).
-  # Commented below (restore for full setup): sshd disabled is default,
-  # usbguard, opensnitch, kernel image protection.
+  # ponytail: doas only (root locked, login via user). sshd disabled is
+  # default; usbguard, opensnitch and kernel image protection are enabled
+  # below.
   security.doas = {
     enable = true;
     wheelNeedsPassword = true;

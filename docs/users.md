@@ -10,12 +10,12 @@ Implemented in `modules/users.nix`.
 | UID/GID | 1000 |
 | Shell | zsh |
 | Home | `/home/user` (not auto-created — disko mounts home subvolume) |
-| Groups | `wheel`, `video`, `audio`, `libvirt`, `networkmanager` |
+| Groups | `wheel`, `video`, `audio`, `libvirtd`, `qemu-libvirtd`, `networkmanager` |
 
 ## Groups
 
 - `users.groups.user.gid = 1000`
-- `users.groups.libvirt = { }` — for virt-manager access.
+- `libvirtd` (gid 67) + `qemu-libvirtd` (gid 301) — created by `virtualisation.libvirtd`; `user` is added for virt-manager/virsh access (the group is `libvirtd` in this nixpkgs — older docs called it `libvirt`).
 
 ## Root account
 

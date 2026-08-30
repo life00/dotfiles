@@ -47,13 +47,13 @@ Reboot; greetd (tuigreet) asks for credentials; log in as `user` (shell zsh, swa
 
 Then:
 
-- [ ] Set user password (`passwd`) if not set during install.
+- [ ] Set user password (`passwd`) if not set during install (bootstrap `initialPassword = "password"` is set in modules/users.nix).
 - [ ] Copy SSH private keys → `~/etc/sec/ssh/` (`key-r0.sec`, etc.).
 - [ ] Import WiFi connections: `nmcli connection import type wifi file <file>` (or re-enter networks).
 - [ ] Sync SSH known_hosts; verify git signing (`git config --list`, test `ssh -T git@github.com`).
 - [ ] USBGuard: `sudo usbguard generate-policy > /etc/usbguard/rules.conf && systemctl restart usbguard`.
 - [ ] Opensnitch: allow rules will be re-requested by GUI on first forbidden egress.
-- [ ] Syncthing: `sudo systemctl enable --now syncthing@user` (service defined but disabled) → configure devices/folders in Web UI (8384).
+- [ ] Syncthing: already enabled (`services.syncthing`); configure devices/folders in the Web UI (8384) — they persist across rebuilds (overrideDevices/Folders off).
 - [ ] Ollama: `sudo systemctl enable --now ollama` → `ollama pull <models>` (list in README).
 - [ ] MPD: check `~/.cfg/mpd` writable; `mpc volume 50`.
 - [ ] Chromium: install extensions, import bookmarks/Vimium (manual).

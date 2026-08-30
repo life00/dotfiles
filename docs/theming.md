@@ -8,18 +8,16 @@ Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and 
 
 | Program | HM option |
 |---------|-----------|
-| GTK | `catppuccin.gtk.enable` (`theme = "standard"`) |
+| GTK icons | `catppuccin.gtk.icon.enable` (Papirus folder accents; the GTK *theme* itself comes from the `catppuccin-gtk` nixpkgs package, see below) |
 | Cursors | `catppuccin.cursors.enable` |
 | fzf | `catppuccin.fzf.enable` (via FZF_DEFAULT_OPTS in shell.nix) |
 | nvim | `catppuccin.nvim.enable` |
-| alacritty | `catppuccin.alacritty.enable` |
+| alacritty | raw dotfile (self-contained palette), not the flake |
 | bat | `catppuccin.bat.enable` |
 | delta | `catppuccin.delta.enable` |
-| zsh fsh | `catppuccin.zsh.enable` (`plugin = "fast-syntax-highlighting"`) |
+| zsh fsh | `catppuccin.zsh-syntax-highlighting.enable` |
 | starship | `catppuccin.starship.enable` |
-| rofi | `catppuccin.rofi.enable` |
-| waybar | `catppuccin.waybar.enable` |
-| dunst | `catppuccin.dunst.enable` |
+| rofi/waybar/dunst/swaylock | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
 
 Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fetched from the flake at build time, no vendored theme files in repo.
 
@@ -35,14 +33,16 @@ Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fe
 
 ## GTK / dconf
 
-`modules/fonts.nix` + `home/theme.nix` set system/user dconf:
+`modules/fonts.nix` installs the `catppuccin-gtk` package (overridden to `variant = "macchiato"`, `accent = "lavender"`, `size = "standard"`) and sets system/user dconf:
 
 ```
-gtk-theme    = catppuccin-macchiato-lavender-standard+default
+gtk-theme    = catppuccin-macchiato-lavender-standard
 icon-theme   = Papirus-Dark
-cursor-theme = Catppuccin-Macchiato-Dark-Cursors
+cursor-theme = catppuccin-macchiato-dark-cursors
 font-name    = JetBrainsMono Nerd Font 11
 color-scheme = prefer-dark
 ```
+
+Note: nixpkgs' `fix-inconsistent-theme-name` patch drops the `+default` suffix the upstream installer uses, so the dconf name matches the installed `share/themes/catppuccin-macchiato-lavender-standard` dir exactly.
 
 Fonts: JetBrainsMono Nerd Font (mono+sans default) from nerd-fonts (override only JetBrains). Wallpapers in `dotfiles/sway/wallpapers/` are the original PNGs (Asahi catppuccin, dark-cat, dreams, gargantua, gentoo, pacman, tetris, tux, waves).

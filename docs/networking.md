@@ -4,7 +4,7 @@ Implemented in `modules/networking.nix`.
 
 ## NetworkManager
 
-`networking.networkmanager.enable = true`. WiFi backend `iwlwifi`/`brcmfmac` depending on target NIC. `wifi.powerscan = false` prevents active scanning overrides.
+`networking.networkmanager.enable = true`. WiFi backend `brcmfmac` on this host (`wlp2s0`). `wifi.powersave = false` (see MAC randomization below).
 
 ## Firewall
 
@@ -12,7 +12,7 @@ Implemented in `modules/networking.nix`.
 
 ## MAC randomization
 
-`systemd.services.macchanger` runs at `multi-user.target`. Script: random MAC from `openssl rand -hex 6`, strip second char (local-admin bit), retry loop on `ip link set` failure. Interface is **placeholder `wlp1s0f0`** — change to the target NIC (`ip a`).
+Handled natively by NetworkManager (no custom systemd unit): `networking.networkmanager.connectionConfig."wifi.cloned-mac-address" = "random"` (an `lib.mkForce` over nixpkgs' `preserve` default) plus `"wifi.scan-rand-mac-address" = "yes"`, and `wifi.powersave = false` (disables active-scan power saving; NM value 2). Randomizes the MAC on every wifi connection (interface on this host: `wlp2s0`, brcmfmac).
 
 ## Hosts
 

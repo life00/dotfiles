@@ -16,7 +16,7 @@
 | `khal/` | `config` | Calendar CLI. |
 | `nvim/` | full LazyVim dotfiles (`init.lua`, `lua/config`, `lua/plugins/` — ai, build, completion, format, git, jupyter, keys, latex, lsp, markdown, snacks, terminal, treesitter, ui, uml, utils; `snippets/`, `spell/` ru, `styles/`, `queries/`, `ftplugin/`) | External project tracked verbatim; neovim binary from HM. |
 | `ssh/` | `config`, `allowed_signers` | **No private keys** (kept out of repo). `config` points to `~/etc/sec/ssh/key-r0.sec`. |
-| `bin/` | 15 scripts | Port of `~/dev/bin` + `~/.bin`: fetch, zlf, todoi, pdf2nocopy, catexif, imgcompress, ipext, ipint, rmexif, sioyek-open, wgetweb, yt-dlp-lofi, btrfs-file-delete.sh, chromium-markdown-preview.sh, ufetch. Symlinked to `~/.bin/` (already in PATH). |
+| `bin/` | 15 scripts | Port of `~/dev/bin` + `~/.bin`: fetch, zlf, todoi, pdf2nocopy, catexif, imgcompress, ipext, ipint, rmexif, sioyek-open, wgetweb, yt-dlp-lofi, btrfs-file-delete.sh, chromium-markdown-preview.sh, ufetch. Symlinked to `~/.cfg/bin` (home/files.nix) and each script `ln -sfn`'d into `~/.bin` (already in PATH) by the `homeSetup` activation script (modules/users.nix). Shebangs use `/usr/bin/env` (no `/bin/bash|dash|zsh` on NixOS). |
 | `awecron/` | `cfg`, `tphome10min/`, `tphome1hour/`, `updater/` | Cronjob dirs for the awecron daemon. `tmr` files (timers) intentionally not committed — created on runtime. Root snapshot jobs (`tproot*`) removed. |
 | `bottom/` | `bottom.toml` | Theme/panels. |
 | `qalculate/` | `qalc.cfg` | Preferences only (history not committed). |

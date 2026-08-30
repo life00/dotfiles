@@ -4,13 +4,13 @@ NixOS flake (single host `mb2017`, x86_64) replicating a Fedora Asahi workstatio
 
 ## Verification
 
-- Nix 2.31 is installed here but **cannot evaluate anything**: `/nix/store` is not writable, so every command (`nix flake check`, `--parse`, even `nix-instantiate --parse`) dies with `creating directory '/nix/store/.links': Permission denied`. There is no daemon. Hand-check Nix syntax carefully; real verification happens on the target NixOS machine.
-- On a Nix machine: `nixos-rebuild switch --impure --flake .#mb2017` (flake at repo root; host is `mb2017`). `--impure` is mandatory because `pkgs/awecron` sources from the absolute path `/home/user/dev/src/awecron`; `nix flake check` will fail in pure mode for the same reason.
+- This repo evaluates on the real target (`doas nixos-rebuild switch --impure --flake .#mb2017` as root; Nix 2.34.8, `/nix/store` writable). `--impure` is mandatory because `pkgs/awecron` sources from the absolute path `/home/user/dev/src/awecron`; `nix flake check` will fail in pure mode for the same reason. Both NixOS activation scripts (e.g. `homeSetup` in `modules/users.nix`) and home-manager run on switch — verify `~/.bin` and `~/.cfg/*` afterwards.
 
 ## Placeholders that break builds/installs until replaced
 
 - `modules/disko.nix`: disk device is `/dev/nvme0n1` placeholder — must be edited per target machine.
-- `hosts/mb2017/hardware.nix`: kernel modules are guesses; regenerate on target via `nixos-generate-config` and merge.
+- `hosts/mb2017/hardware.nix`: synced from `nixos-generate-config` on the real host — regen + merge if hardware changes. Not a placeholder anymore.
+- `modules/users.nix`: `initialPassword = "password"` is the bootstrap password for fresh installs — update via `passwd` post-install, keep the option.
 - `pkgs/awecron/default.nix`: `src` points at the LOCAL dev tree `/home/user/dev/src/awecron` (life00/awecron, vendored). This absolute non-repo path forces **every rebuild/check to pass `--impure`** (pure mode rejects it). Do not reset to the old `fetchFromGitHub`/`pkgs/*/src` dance — flakes reject in-repo gitignored paths too (see `docs/custom-packages.md`).
 - `pkgs/getmusic/default.nix`: upstream `life00/getmusic` is unreachable (private) and no module references it — `hash`/`vendorHash` stay `lib.fakeHash` but the package is never built. Keep the `ponytail:` comments.
 
@@ -18,8 +18,8 @@ NixOS flake (single host `mb2017`, x86_64) replicating a Fedora Asahi workstatio
 
 - `modules/` = system-level NixOS modules; `home/` = home-manager modules; `pkgs/` = custom Go derivations; `dotfiles/` = raw configs that are the **authoritative editable copy**; `docs/` = per-topic docs (disk, boot, networking, security, theming, install, exclusions…).
 - Raw dotfiles are symlinked into `~/.cfg/<name>` via `home.file` in `home/*.nix`. Paths are `~/.cfg/...` because `xdg.configHome` is overridden to `~/.cfg` (nonstandard XDG layout — see `home/default.nix`; `.config -> .cfg` symlink in `modules/users.nix`). Treat `dotfiles/` as source of truth — local edits are preserved since `home.file` symlinks are store-immutable.
-- `~/.bin/*` links: `scsh`, `powermenu`, `killer` are created by `systemd.tmpfiles.rules` in `modules/users.nix` → `~/.cfg/rofi/bin/*` (used by sway key bindings in `dotfiles/sway/config`). The other historical `~/.bin` links pointed to `~/dev/bin/*` (workflow scripts not in the repo) and are NOT wired. `dotfiles/bin/` is a reference copy and is NOT wired into the build. Docs (`docs/home-manager.md`, `docs/dotfiles.md`) may claim more; code wins.
-- Placeholders are deliberate: commented-out HM blocks (chromium in `home/packages.nix`, obs/gimp/virt-manager in `home/media.nix`, syncthing/ollama disabled services in `modules/services.nix`). Keep this pattern — do not delete the stubs.
+- `~/.bin/*` links are created by the `homeSetup` activation script in `modules/users.nix`: `scsh`/`powermenu`/`killer` → `~/.cfg/rofi/bin/*` (sway key bindings in `dotfiles/sway/config`), plus every script in `dotfiles/bin/` (built into the store path directly; also symlinked as `~/.cfg/bin` via `home/files.nix`). Not `systemd.tmpfiles` (refuses `L` under `/home/user`, which is user-owned). `~/.bin` itself is root-owned from `mkdir`.
+- Placeholders are deliberate: commented-out HM blocks (chromium in `home/packages.nix`, obs-studio enabled but gimp/virt-manager dropped in `home/media.nix` — no such options in this HM rev) and the disabled `ollama` service in `modules/services.nix`. Keep this pattern — do not delete the stubs.
 
 ## Repo conventions
 

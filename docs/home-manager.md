@@ -43,6 +43,4 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 - Raw dotfiles when the config carries custom scripts (rofi/scsh/killer, lf preview, awecron run scripts) or would be a 1:1 copy with no HM benefit (sway/waybar/ncmpcpp/cava).
 - HM handles *where* files land (XDG = `~/.cfg`) and *which packages exist*; local edits outside HM are preserved because `home.file` symlinks to the store (immutable) — treat dotfiles dir as the source of truth.
 
-## Placeholders
-
-Commented HM blocks mark future intent: chromium, syncthing, opensnitch (home/packages.nix), obs-studio, gimp, virt-manager (home/media.nix). Enable when ready.
+| obs-studio | `home/media.nix` (per-user config only; this HM rev has no gimp/virt-manager modules) |
