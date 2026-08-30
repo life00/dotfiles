@@ -32,7 +32,7 @@ Things from the Fedora setup deliberately not ported, or ported differently.
 | sudo removed, only doas | doas via `security.doas`, sudo disabled (same) |
 | root locked | root locked (`hashedPassword="!"`) |
 | zsh history to root-owned `/var/log/zsh/histfile` | same path, via HM + tmpfiles (0666) |
-| bash PROMPT_COMMAND logging to `/var/log/history.log` | same, but zsh precmd (HM) |
+| bash PROMPT_COMMAND logging to `/var/log/history.log` | both user zsh `precmd` + root bash `PROMPT_COMMAND`, at system level in `modules/users.nix` |
 | swapfile on `swap` subvol, 8 GiB | same, disko `swapDevices` |
 | btrfs root at `/`; no nix subvol | **no /nix subvolume** (kept on root) — per decision |
 | GRUB cryptodisk + serial rescue | GRUB cryptodisk; no rescue (generations) |

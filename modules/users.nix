@@ -39,6 +39,31 @@
     "f /var/log/history.log 0666 root root -"
   ];
 
+  # System-wide command logging to /var/log/history.log (mode 0666 from the
+  # tmpfiles rule above), kept in one place. Fedora logged root commands via
+  # PROMPT_COMMAND in /root/.bashrc; root still runs bash here (the doas
+  # wrapper forces SHELL=/bin/bash), so it gets the same hook at system level.
+  # The user zsh `precmd` hook (formerly HM initExtraFirst in home/shell.nix)
+  # moved here too, as programs.zsh.interactiveShellInit.
+  programs.zsh.interactiveShellInit = ''
+    precmd() {
+      retrn=$?
+      historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$retrn] $(history -1 | sed 's/^[ ]*[0-9]\+[ ]*//')"
+      echo "$historylog" >> /var/log/history.log
+    }
+  '';
+
+  programs.bash = {
+    enable = true;
+    # root-only: /etc/bashrc is shared by every interactive bash, but the user
+    # shell is zsh — log only root sessions (doas sets SHELL=/bin/bash).
+    interactiveShellInit = ''
+      if [[ $UID -eq 0 ]]; then
+        PROMPT_COMMAND='historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$?] $(fc -ln -1)"; echo "$historylog" >> /var/log/history.log'
+      fi
+    '';
+  };
+
   # Build-time store reference (${./../dotfiles/bin}) so the loop works even
   # before home-manager has created the ~/.cfg/bin symlink.
   system.activationScripts.homeSetup = lib.stringAfter [ "users" ] ''

@@ -231,7 +231,12 @@
     package = lib.mkForce null;
     settings = {
       font = "JetBrainsMono Nerd Font";
+      font-size = 28;
       image = "${../wallpapers}/dark-cat.png";
+      scaling = "fill";
+      ignore-empty-password = true;
+      indicator-y-position = 740;
+      indicator-caps-lock = true;
     };
   };
 

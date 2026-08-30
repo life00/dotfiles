@@ -40,10 +40,6 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";
-      "....." = "cd../../../..";
-      "......." = "cd ../../../..";
-      "~" = "cd ~";
-      "/" = "cd /";
       ls = "eza --icons always";
       tree = "eza --icons always -T";
       delta = "delta --pager less";
@@ -59,23 +55,14 @@
       e = "exit";
       mpi = "mpv --pause";
       cd = "z";
-      cdi = "zi";
       calc = "qalc";
       ef = "exiftool";
-      btop = "bottom";
       todo = "rg '\\- \\[ \\] ' --sortr 'modified' --glob '*.md' '/home/user/doc/'";
-      td = "todo";
     };
 
+    # zsh-vi-mode highlight colors (set before the plugin loads in order 900).
+    # System-wide command logging lives in modules/users.nix.
     initExtraFirst = ''
-      # system-wide command logging to /var/log/history.log
-      precmd() {
-        retrn=$?
-        historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$retrn] $(history -1 | sed 's/^[ ]*[0-9]\+[ ]*//')"
-        echo "$historylog" >> /var/log/history.log
-      }
-
-      # zsh-vi-mode highlight colors (set before the plugin loads in order 900)
       ZVM_VI_HIGHLIGHT_BACKGROUND=#494d64
       ZVM_VI_HIGHLIGHT_FOREGROUND=text
       ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
@@ -115,10 +102,6 @@
       export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#494d64,bg=#c6a0f6"
       export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#494d64,bg=#ed8796"
     '';
-
-    zsh-abbr = {
-      enable = false;
-    };
   };
 
   # zsh plugins via HM
@@ -328,10 +311,5 @@
 
     # fzf colors (Catppuccin Macchiato)
     FZF_DEFAULT_OPTS = " --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 --color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 --color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 --color=selected-bg:#494D64 --color=border:#363A4F,label:#CAD3F5";
-  };
-
-  # bash history logging for root
-  programs.bash = {
-    enable = false;
   };
 }

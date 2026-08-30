@@ -10,7 +10,7 @@ Fedora used `/etc/zshenv` → `export ZDOTDIR=$HOME/.cfg/zsh`. NixOS keeps zsh c
 
 - `history.path = /var/log/zsh/histfile` — the *system-wide* history shared by all zsh sessions (mode 0666 via tmpfiles, so user can write; dir root-owned).
 - `history.size/save = 5000`.
-- Bash root prompt additionally appends every command to `/var/log/history.log` (Fedora's `/root/.bashrc` `PROMPT_COMMAND` equivalent → HM `programs.bash` on root; here via `initExtraFirst` for zsh `precmd` hook).
+- System-wide command logging to `/var/log/history.log` (mode 0666 via tmpfiles), all configured in `modules/users.nix`. Fedora logged root commands via `/root/.bashrc` `PROMPT_COMMAND`; root still runs bash here (the doas wrapper sets `SHELL=/bin/bash`), so `programs.bash.interactiveShellInit` sets `PROMPT_COMMAND` for root (UID 0 only). The user zsh `precmd` hook does the same via `programs.zsh.interactiveShellInit` — the equivalent of the old HM `initExtraFirst` hook (moved to keep all logging in one module).
 
 ## Aliases (from dotfiles/zsh/aliases)
 
