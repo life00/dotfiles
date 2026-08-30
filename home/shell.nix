@@ -151,16 +151,17 @@
       src = pkgs.zsh-fast-syntax-highlighting;
       file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
     }
+    # ponytail: `programs.oh-my-zsh` was removed from home-manager in this
+    # revision (only `programs.oh-my-posh` remains), but `pkgs.oh-my-zsh` still
+    # ships the plugin tree. Source its `git.plugin.zsh` directly (same file the
+    # old `dotfiles/zsh/addons` did) instead of the dropped HM option, keeping
+    # the full alias set (gst/gd/gaa/gcmsg/gcm/... ) + helpers (`git_main_branch`).
+    {
+      name = "git";
+      src = pkgs.oh-my-zsh;
+      file = "share/oh-my-zsh/plugins/git/git.plugin.zsh";
+    }
   ];
-
-  # ponytail: oh-my-zsh `programs.oh-my-zsh` was removed from home-manager in
-  # this revision (only `programs.oh-my-posh` remains). The git aliases it
-  # provided are covered by shellAliases above, so the block is dropped.
-  # # oh-my-zsh git plugin
-  # programs.oh-my-zsh = {
-  #   enable = true;
-  #   plugins = [ "git" ];
-  # };
 
   # zoxide
   programs.zoxide = {

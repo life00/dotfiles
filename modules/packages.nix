@@ -137,11 +137,12 @@
     # system tools
     btrfs-progs
     cryptsetup
-    curl # cht() in home/shell.nix, dotfiles/bin scripts
+    curl
+    lsof
     duperemove
-    exiftool # `ef` alias + catexif/rmexif/ipext/ipint in dotfiles/bin
+    exiftool
     firewalld
-    brightnessctl # sway F5/F6/Fn brightness bindings
+    brightnessctl
     networkmanager
     opensnitch
     opensnitch-ui
