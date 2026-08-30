@@ -7,9 +7,10 @@
     home = "/home/user";
     createHome = false; # managed by tmpfiles/disko
     group = "user";
-    extraGroups = [ "wheel" "video" "audio" "networkmanager" ];
-    # ponytail: minimal-install — change on first login (`passwd`), then remove
-    initialPassword = "changeme";
+    extraGroups = [ "wheel" "video" "audio" "networkmanager" "libvirtd" "qemu-libvirtd" ];
+    # fresh installs need a bootstrap password; change on first login (`passwd`).
+    # Kept intentionally — removing would break new installs.
+    initialPassword = "password";
   };
 
   users.groups.user.gid = 1000;
