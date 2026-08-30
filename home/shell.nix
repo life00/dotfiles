@@ -20,8 +20,8 @@
       "......." = "cd ../../../..";
       "~" = "cd ~";
       "/" = "cd /";
-      ls = "eza --icons";
-      tree = "eza --icons -T";
+      ls = "eza --icons always";
+      tree = "eza --icons always -T";
       delta = "delta --pager less";
       diff = "delta";
       lf = "zlf";
