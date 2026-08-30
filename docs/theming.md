@@ -17,6 +17,7 @@ Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and 
 | delta | `catppuccin.delta.enable` |
 | zsh fsh | `catppuccin.zsh-syntax-highlighting.enable` |
 | starship | `catppuccin.starship.enable` |
+| bottom | `catppuccin.bottom.enable` (theme only; non-theme options in `home/files.nix`) |
 | rofi/waybar/dunst/swaylock | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
 
 Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fetched from the flake at build time, no vendored theme files in repo.
@@ -27,7 +28,6 @@ Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fe
 - Swaylock colors (`home/desktop.nix`).
 - Git delta (in `home/git.nix` — catppuccin palette via `map-styles`, `blame-palette`, etc.).
 - mpv (`home/media.nix`): `background="#181926"`, `sub-color="#cad3f5"`.
-- Bottom/Fhigh (`dotfiles/bottom/bottom.toml`).
 - rofi `colors.rasi` palette + `font.rasi` JetBrainsMono NF.
 - cava shaders (bar_spectrum, northern_lights, pass_through).
 

@@ -22,11 +22,37 @@
   # homeSetup), because systemd-tmpfiles refuses L under /home/user.
   home.file.".cfg/bin".source = ../dotfiles/bin;
 
+  # bottom (btm) — Nix-native via `programs.bottom`. `package = null` since
+  # the bottom binary is installed system-wide (modules/packages.nix). HM writes
+  # $XDG_CONFIG_HOME/bottom/bottom.toml → ~/.cfg/bottom/bottom.toml (the old raw
+  # dotfile path, dotfiles/bottom removed — this is now the source of truth).
+  # Colors come from `catppuccin.bottom` (home/theme.nix); only non-theme
+  # options are set here.
+  programs.bottom = {
+    enable = true;
+    package = null;
+    settings = {
+      flags = {
+        hide_table_gap = false;
+        battery = true;
+        show_table_scroll_position = true;
+      };
+      processes = {
+        default_tree = true;
+        process_command = true;
+      };
+      network_graph.interface_filter = {
+        is_list_ignored = true;
+        list = [ "lo" ];
+        regex = true;
+        case_sensitive = false;
+        whole_word = false;
+      };
+    };
+  };
+
   # qalculate
   home.file.".cfg/qalculate/qalc.cfg".source = ../dotfiles/qalculate/qalc.cfg;
-
-  # bottom (btm)
-  home.file.".cfg/bottom/bottom.toml".source = ../dotfiles/bottom/bottom.toml;
 
   # sioyek
   home.file.".cfg/sioyek/prefs_user.config".source = ../dotfiles/sioyek/prefs_user.config;

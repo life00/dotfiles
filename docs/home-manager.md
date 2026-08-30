@@ -17,6 +17,7 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 | swaylock, swayidle, grim, slurp, wl-clipboard, waybar, dunst (packages) | `home/desktop.nix` |
 | mpd (user service) | `home/media.nix` |
 | mpv | `home/media.nix` |
+| bottom (theme via catppuccin flake, flags/filters) | `home/files.nix` (`package = null`; binary from system modules/packages.nix) |
 
 ## Raw dotfiles (`home.file."~/.cfg/…".source`)
 
@@ -35,7 +36,6 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 | ~/.bin scripts | `dotfiles/bin/` |
 | awecron configs | `dotfiles/awecron/` |
 | qalculate | `dotfiles/qalculate/` |
-| bottom | `dotfiles/bottom/` |
 
 ## Rationale
 

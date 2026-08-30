@@ -31,7 +31,7 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 │   ├── editor.nix              # neovim (dotfiles), bat
 │   ├── desktop.nix             # sway (native config), waybar, rofi, dunst, swayidle
 │   ├── media.nix               # mpd, ncmpcpp, mpv, cava, obs/gimp placeholders
-│   ├── files.nix               # lf, dev/bin scripts, qalculate, bottom, sioyek
+│   ├── files.nix               # lf, bottom (btm), dev/bin scripts, qalculate, sioyek
 │   ├── theme.nix               # Catppuccin (GTK, cursors, fsh), dconf
 │   └── packages.nix            # user packages + chromium/syncthing/opensnitch placeholders
 ├── pkgs/                         # custom derivations

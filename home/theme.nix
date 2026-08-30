@@ -19,6 +19,9 @@
     delta = { enable = true; };
     zsh-syntax-highlighting = { enable = true; };
     starship = { enable = true; };
+    # bottom theme from the flake (macchiato); non-theme options live in
+    # home/bottom.nix (`programs.bottom.settings`).
+    bottom = { enable = true; };
     # ponytail: rofi/waybar/dunst/swaylock are NOT themed via catppuccin — their
     # configs are raw dotfiles carrying the palette themselves
     # (dotfiles/rofi, dotfiles/waybar, dotfiles/dunst, dotfiles/swaylock).
