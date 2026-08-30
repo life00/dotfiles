@@ -55,13 +55,9 @@
   # shaders directory
   home.file.".cfg/cava/shaders".source = ../dotfiles/cava/shaders;
 
-  # placeholders (commented out - enable when ready)
-  # obs-studio
-  # programs.obs-studio = { enable = true; };
-
-  # gimp
-  # programs.gimp = { enable = true; };
-
-  # virt-manager
-  # programs.virt-manager = { enable = true; };
+  # obs-studio via HM (per-user config; binary installed system-wide in
+  # modules/packages.nix). ponytail: this HM revision has no programs.gimp or
+  # programs.virt-manager modules — those binaries come from system packages
+  # only, so their old placeholder blocks were dropped.
+  programs.obs-studio = { enable = true; };
 }
