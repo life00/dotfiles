@@ -25,13 +25,20 @@ in
     enable = false; # ponytail: enabled per-user via home-manager
   };
 
-  # syncthing (disabled by default — enable + configure when ready)
+  # pipewire sound server (defaults: wireplumber + pipewire-pulse).
+  services.pipewire = {
+    enable = true;
+  };
+
   services.syncthing = {
-    enable = lib.mkForce false;
-    # openDefaultPorts = true;
-    # user = "user";
-    # dataDir = "/home/user";
-    # configDir = "/home/user/.cfg/syncthing";
+    enable = true;
+    user = "user";
+    dataDir = "/home/user";
+    configDir = "/home/user/.cfg/syncthing";
+    overrideDevices = false; # keep devices/folders added via Web UI (declarative list unused)
+    overrideFolders = false;
+    openDefaultPorts = true; # tcp 22000 + udp 21027 for NAT traversal
+    guiAddress = "127.0.0.1:8384";
   };
 
   # ollama (disabled by default — enable + pull models when ready)
