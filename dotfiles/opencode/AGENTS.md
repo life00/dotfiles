@@ -1,0 +1,1 @@
+For notebook work (.ipynb / .qmd), load the `jupyter` skill.

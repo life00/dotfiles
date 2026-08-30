@@ -9,3 +9,7 @@ result-*
 # Editor
 *.swp
 *~
+
+# Do not track credentials
+*credentials*
+*token*

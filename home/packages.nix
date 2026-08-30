@@ -1,10 +1,10 @@
 { pkgs, lib, config, inputs, ... }: {
-  # ponytail: minimal-install — opencode, plus the app whose config is a
-  # raw dotfile and therefore NOT managed by a home-manager module anymore:
-  # lf (dotfiles/lf, symlinked via home/files.nix). alacritty is Nix-native
-  # now (home/terminal.nix `programs.alacritty` installs it).
+  # ponytail: minimal-install — the app whose config is a raw dotfile and
+  # therefore NOT managed by a home-manager module anymore: lf (dotfiles/lf,
+  # symlinked via home/files.nix). alacritty is Nix-native now
+  # (home/terminal.nix `programs.alacritty` installs it). opencode is
+  # installed by home/editor.nix `programs.opencode`.
   home.packages = with pkgs; [
-    opencode
     lf
   ];
 
