@@ -253,11 +253,11 @@ bindsym f3 exec mpc next && notify-send "playing next song in queue"
 bindsym f4 exec /home/user/.bin/scsh
 
 # Monitor Brightness
-bindsym f5 exec light -U 1 && notify-send "display brightness decreased"
-bindsym f6 exec light -A 1 && notify-send "display brightness increased"
+bindsym f5 exec brightnessctl set 1%- && notify-send "display brightness decreased"
+bindsym f6 exec brightnessctl set 1%+ && notify-send "display brightness increased"
 # Keyboard Brightness
-bindsym f5+Shift exec light -s sysfs/leds/kbd_backlight -U 1 && notify-send "keyboard brightness decreased"
-bindsym f6+Shift exec light -s sysfs/leds/kbd_backlight -A 1 && notify-send "keyboard brightness increased"
+bindsym f5+Shift exec brightnessctl -d kbd_backlight set 1%- && notify-send "keyboard brightness decreased"
+bindsym f6+Shift exec brightnessctl -d kbd_backlight set 1%+ && notify-send "keyboard brightness increased"
 
 # Volume control
 bindsym f7 exec pactl set-sink-volume 0 -1% && notify-send "volume decreased"
