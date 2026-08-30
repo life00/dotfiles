@@ -122,12 +122,35 @@
   };
 
   # zsh plugins via HM
+  # ponytail: nixpkgs zsh plugin packages nest the init file under `share/...`,
+  # not at the package root, so the default `file = "${name}.plugin.zsh"` never
+  # matches and nothing gets sourced. Each entry must pin the real relative path.
   programs.zsh.plugins = [
-    { name = "fzf-tab"; src = pkgs.zsh-fzf-tab; }
-    { name = "zsh-autosuggestions"; src = pkgs.zsh-autosuggestions; }
-    { name = "zsh-vi-mode"; src = pkgs.zsh-vi-mode; }
-    { name = "zsh-history-substring-search"; src = pkgs.zsh-history-substring-search; }
-    { name = "fast-syntax-highlighting"; src = pkgs.zsh-fast-syntax-highlighting; }
+    {
+      name = "fzf-tab";
+      src = pkgs.zsh-fzf-tab;
+      file = "share/fzf-tab/fzf-tab.plugin.zsh";
+    }
+    {
+      name = "zsh-autosuggestions";
+      src = pkgs.zsh-autosuggestions;
+      file = "share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh";
+    }
+    {
+      name = "zsh-vi-mode";
+      src = pkgs.zsh-vi-mode;
+      file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+    }
+    {
+      name = "zsh-history-substring-search";
+      src = pkgs.zsh-history-substring-search;
+      file = "share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh";
+    }
+    {
+      name = "fast-syntax-highlighting";
+      src = pkgs.zsh-fast-syntax-highlighting;
+      file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
+    }
   ];
 
   # ponytail: oh-my-zsh `programs.oh-my-zsh` was removed from home-manager in
