@@ -5,13 +5,14 @@
   # randomization service, stevenblack/extra hosts, chrony, resolved.
   networking.networkmanager = {
     enable = true;
-    # ponytail: minimal-install — option name corrected; `powerscan` doesn't exist.
-    # wifi.powerscan = false;  # old/incorrect name
-    # wifi.powersave = false;
-    # # ponytail: MAC randomization — placeholder interface name, replace with target
-    # connectionConfig = {
-    #   "wifi.cloned-mac-address" = "random";
-    # };
+    # disable active-scan power saving overrides (wlp2s0 on this host)
+    wifi.powersave = false;
+    # randomize the wifi MAC on every connection (native NM, no systemd
+    # macchanger hack needed). Randomization is per-connection below.
+    connectionConfig = {
+      "wifi.cloned-mac-address" = lib.mkForce "random"; # nixpkgs default is "preserve"
+      "wifi.scan-rand-mac-address" = "yes";
+    };
   };
 
   networking.firewall = {
@@ -23,27 +24,10 @@
     trustedInterfaces = [ "virbr0" ];
   };
 
-  # # MAC randomization service. ponytail: NOT ENABLED — INTERFACE is a
-  # # placeholder (wlp1s0f0) and the inline script is broken (a bare `false`
-  # # makes the `until` loop spin forever, and rt uses insecure openssl rand
-  # # instead of address randomize). Fix before restoring:
-  # systemd.services.macchanger = {
-  #   description = "Randomize MAC address on wifi interface";
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "NetworkManager.service" ];
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     User = "root";
-  #     ExecStart = pkgs.writeShellScript "macchanger" ''
-  #       INTERFACE=wlp1s0f0 # placeholder
-  #       false
-  #       until [ $? = 0 ]; do
-  #         ${pkgs.iproute2}/bin/ip link set "$INTERFACE" address \
-  #           $(${pkgs.openssl}/bin/openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/./0/2; s/.$//')
-  #       done
-  #     '';
-  #   };
-  # };
+  # # MAC randomization is handled natively by NetworkManager
+  # # `connectionConfig."wifi.cloned-mac-address" = "random"` above — the
+  # # old systemd.service.macchanger (placeholder iface wlp1s0f0 + a broken
+  # # `until` loop with a bare `false`) was removed in favour of it.
 
   networking.hosts = lib.pipe (inputs.stevenblack-hosts.outPath + "/hosts") [
     builtins.readFile
