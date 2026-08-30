@@ -18,14 +18,15 @@ Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and 
 | zsh fsh | `catppuccin.zsh-syntax-highlighting.enable` |
 | starship | `catppuccin.starship.enable` |
 | bottom | `catppuccin.bottom.enable` (theme only; non-theme options in `home/files.nix`) |
-| rofi/waybar/dunst/swaylock | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
+| swaylock | `catppuccin.swaylock.enable` (official macchiato .conf → `programs.swaylock.settings` in home/desktop.nix; font only hardcoded) |
+| rofi/waybar/dunst | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
 
 Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fetched from the flake at build time, no vendored theme files in repo.
 
 ## 2. Hardcoded inline (configs not covered by the flake)
 
 - Sway borders/background (`home/desktop.nix` — native sway config `config.colors`): `#b7bdf8 #1A1826 #C9CBFF #7dc4e4 …`. The catppuccin flake auto-injects its `catppuccin/macchiato` var-include into the generated config; the `$color` vars are unused (hardcoded hex kept for parity with the old dotfile).
-- Swaylock colors (`home/desktop.nix`).
+- Swaylock colors: from the catppuccin port (`catppuccin.swaylock.enable` in home/theme.nix; official macchiato .conf rendered into `programs.swaylock.settings`). Only the font (`JetBrainsMono Nerd Font`) is hardcoded in `home/desktop.nix`.
 - Git delta (in `home/git.nix` — catppuccin palette via `map-styles`, `blame-palette`, etc.).
 - mpv (`home/media.nix`): `background="#181926"`, `sub-color="#cad3f5"`.
 - rofi `colors.rasi` palette + `font.rasi` JetBrainsMono NF.

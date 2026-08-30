@@ -14,7 +14,8 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 | bat (theme only) | `home/editor.nix` |
 | neovim (installs binary) | `home/editor.nix` |
 | sway (config) | `home/desktop.nix` |
-| swaylock, swayidle, grim, slurp, wl-clipboard, waybar, dunst (packages) | `home/desktop.nix` |
+| swaylock (config; palette via catppuccin flake, font in `home/desktop.nix`) | `home/desktop.nix` + `home/theme.nix` |
+| swayidle, grim, slurp, wl-clipboard, waybar, dunst (packages) | `home/desktop.nix` |
 | mpd (user service) | `home/media.nix` |
 | mpv | `home/media.nix` |
 | bottom (theme via catppuccin flake, flags/filters) | `home/files.nix` (`package = null`; binary from system modules/packages.nix) |

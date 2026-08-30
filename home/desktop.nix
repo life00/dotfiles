@@ -4,12 +4,12 @@
   # The sway BINARY stays system-wide (`programs.sway.enable` in
   # modules/packages.nix) — greetd's `--cmd sway` doesn't change — so the HM
   # `package` is forced null and HM only owns the generated config
-  # (~/.cfg/sway/config). waybar/rofi/dunst/swaylock stay raw dotfiles.
+  # (~/.cfg/sway/config). waybar/rofi/dunst stay raw dotfiles (swaylock is
+  # Nix-native via programs.swaylock below).
 
   # packages whose config is NOT a raw dotfile (or that just install a binary)
   # slewidle comes from services.swayidle below; swayidle removed from this list.
   home.packages = with pkgs; [
-    swaylock # used by swayidle/bindgesture; config from dotfiles/
     waybar # started via sway's `bar { swaybar_command waybar }`
     dunst # launched by sway startup; config from dotfiles/
     grim
@@ -19,9 +19,10 @@
     xdg-desktop-portal-wlr
   ];
 
-  # desktop dotfiles (waybar, rofi, dunst, swaylock) — referenced, not inlined.
-  # sway config is generated natively below; sway wallpapers moved to /wallpapers
-  # (referenced as an absolute store path, so no XDG env dependency).
+  # desktop dotfiles (waybar, rofi, dunst) — referenced, not inlined.
+  # sway + swaylock configs are generated natively below; sway wallpapers moved
+  # to /wallpapers (referenced as an absolute store path, so no XDG env
+  # dependency).
   home.file = {
     ".cfg/waybar/config".source = ../dotfiles/waybar/config;
     ".cfg/waybar/style.css".source = ../dotfiles/waybar/style.css;
@@ -30,7 +31,6 @@
     ".cfg/rofi/catppuccin-macchiato.rasi".source = ../dotfiles/rofi/catppuccin-macchiato.rasi;
     ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
     ".cfg/dunst/dunstrc".source = ../dotfiles/dunst/dunstrc;
-    ".cfg/swaylock/config".source = ../dotfiles/swaylock/config;
   };
 
   # Sway — fully native config. Colors are Catppuccin Macchiato; the wallpaper
@@ -216,6 +216,23 @@
       bindgesture swipe:down exec swaylock -f
       bindgesture swipe:up exec ${config.wayland.windowManager.sway.config.menu}
     '';
+  };
+
+  # swaylock — Nix-native via `programs.swaylock`, rendered to
+  # ~/.cfg/swaylock/config from xdg.configFile. The palette comes from the
+  # catppuccin port (catppuccin.swaylock in home/theme.nix); the font and the
+  # lock-screen wallpaper are hardcoded here (merged into the generated
+  # settings). The wallpaper is the absolute store path to dark-cat.png (same
+  # trick as the sway `output.bg` — no XDG env dependency under greetd). The
+  # binary comes from the system `programs.sway` module (modules/packages.nix),
+  # so the HM package is null.
+  programs.swaylock = {
+    enable = true;
+    package = lib.mkForce null;
+    settings = {
+      font = "JetBrainsMono Nerd Font";
+      image = "${../wallpapers}/dark-cat.png";
+    };
   };
 
   # swayidle as a systemd user service (was `exec swayidle -w …` in the dotfile).

@@ -10,7 +10,7 @@ greetd (tuigreet) --sway--> sway --waybar/rofi/etc.
 
 ## Sway
 
-`home/desktop.nix` — fully Nix-native via `wayland.windowManager.sway` (this HM rev dropped `programs.sway`; sway moved under `wayland.windowManager`). The sway binary stays system-wide (`programs.sway.enable` in `modules/packages.nix`, launched by greetd); HM `package` is `mkForce null` so HM only generates `~/.cfg/sway/config` (XDG config home) and driver envy. `systemd.enable` with `dbusImplementation = "broker"` matches the host's `services.dbus.implementation`.
+`home/desktop.nix` — fully Nix-native via `wayland.windowManager.sway` (this HM rev dropped `programs.sway`; sway moved under `wayland.windowManager`). The sway binary stays system-wide (`programs.sway.enable` in `modules/packages.nix`, launched by greetd); HM `package` is `mkForce null` so HM only generates `~/.cfg/sway/config` (XDG config home) and driver envy. `systemd.enable` with `dbusImplementation = "broker"` matches the host's `services.dbus.implementation`. `programs.swaylock` is likewise Nix-native (font + `package = null`; the palette comes from `catppuccin.swaylock`); the swaylock binary stays system-wide from `modules/packages.nix`.
 
 - Mod4 (super) as mod, vim home-row keys, resize mode, scratchpad (`$mod+Shift+m` / `$mod+m`), gestures (`bindgesture swipe:*` in `extraConfig` for workspaces/lock/menu).
 - Output: `wallpapers/tux.png` (repo-root top-level dir, referenced as an **absolute store path** — old `$XDG_CONFIG_HOME/sway/wallpapers/…` broke because greetd's sway session has no `XDG_CONFIG_HOME`) + `eDP-1` 2560x1600 placeholder.
@@ -32,7 +32,7 @@ greetd (tuigreet) --sway--> sway --waybar/rofi/etc.
 ## Screenshots / locking
 
 - `grim` + `slurp` (region/window).
-- `swaylock -f` on idle (130s) / before-sleep via the `services.swayidle` user service (dpms off at 120s); `bindgesture swipe:down` also locks.
+- `swaylock -f` on idle (130s) / before-sleep via the `services.swayidle` user service (dpms off at 120s); `bindgesture swipe:down` also locks. Swaylock palette comes from the catppuccin port (`catppuccin.swaylock.enable`); `programs.swaylock.settings` in `home/desktop.nix` only adds the font.
 - `seat seat0 hide_cursor 10000`.
 
 ## Keyboard
