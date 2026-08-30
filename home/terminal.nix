@@ -1,6 +1,6 @@
 { pkgs, lib, config, inputs, ... }: {
   # Alacritty — fully Nix-native via `programs.alacritty`; no raw dotfile.
-  # Font is JetBrainsMono Nerd Font; colors come from `catppuccin.alacritty`
+  # Font is JetBrainsMono NFM; colors come from `catppuccin.alacritty`
   # (home/theme.nix) which injects `settings.general.import` pointing at the
   # catppuccin-macchiato.toml in the store. Cursor + Return bindings kept
   # for parity with the old dotfiles/alacritty config.
@@ -10,10 +10,10 @@
     enable = true;
     settings = {
       font = {
-        normal = { family = "JetBrainsMono Nerd Font"; style = "Regular"; };
-        bold = { family = "JetBrainsMono Nerd Font"; style = "Bold"; };
-        italic = { family = "JetBrainsMono Nerd Font"; style = "Italic"; };
-        bold_italic = { family = "JetBrainsMono Nerd Font"; style = "Bold Italic"; };
+        normal = { family = "JetBrainsMono NFM"; style = "Regular"; };
+        bold = { family = "JetBrainsMono NFM"; style = "Bold"; };
+        italic = { family = "JetBrainsMono NFM"; style = "Italic"; };
+        bold_italic = { family = "JetBrainsMono NFM"; style = "Bold Italic"; };
         size = 11;
       };
       cursor = {
