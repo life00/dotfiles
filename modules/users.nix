@@ -42,20 +42,18 @@
 
   # systemd-tmpfiles refuses to place the ~/.bin links above (user-owned
   # /home/user == "unsafe path transition"), so `ln -sfn` them at activation.
-  # ponytail: commented below (restore for full setup) — top-level home dirs,
-  # dot-<->etc symlinks, /opt/user structure, history.log.
-
-  # ponytail: the Fedora-style root-owned top-level home model
-  # (dev/doc/med/tmp/etc owned by root) is intentionally NOT applied: it breaks
-  # day-to-day writes (XDG_DOWNLOAD_DIR=~/tmp, todo scans of ~/doc, home-manager
-  # creating ~/etc/{data,cache,state} and ~/.cfg as a non-root user). Minimal
-  # install runs with a fully user-owned home instead. Revisit only if the user
-  # data model changes (e.g. all home subdirs pre-created user-owned + top-level
-  # dirs become read-only mount points).
+  # The historical ~/.bin links into ~/dev/bin are replaced by the repo-tracked
+  # dotfiles/bin scripts (symlinked to ~/.cfg/bin via home/files.nix).
   system.activationScripts.homeSetup = lib.stringAfter [ "users" ] ''
     mkdir -p /home/user/.bin
     ln -sfn /home/user/.cfg/rofi/bin/killer    /home/user/.bin/killer
     ln -sfn /home/user/.cfg/rofi/bin/powermenu /home/user/.bin/powermenu
     ln -sfn /home/user/.cfg/rofi/bin/scsh      /home/user/.bin/scsh
+    # dotfiles/bin workflow scripts — built-in store reference so activation
+    # does not depend on the ~/.cfg/bin home-manager symlink (created later).
+    for f in ${./../dotfiles/bin}/*; do
+      [ -e "$f" ] || continue
+      ln -sfn "$f" "/home/user/.bin/$(basename "$f")"
+    done
   '';
 }

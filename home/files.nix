@@ -18,6 +18,9 @@
 
   # .bin links point to ~/dev/bin + ~/.cfg/rofi/bin (managed by systemd tmpfiles
   # in modules/users.nix). ~/.bin is already on PATH via home/shell.nix.
+  # ~/.bin -> ~/.cfg/bin symlinks are created at activation (modules/users.nix
+  # homeSetup), because systemd-tmpfiles refuses L under /home/user.
+  home.file.".cfg/bin".source = ../dotfiles/bin;
 
   # qalculate
   home.file.".cfg/qalculate/qalc.cfg".source = ../dotfiles/qalculate/qalc.cfg;

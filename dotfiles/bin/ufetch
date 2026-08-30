@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 #
 # ufetch-fedora - tiny system info for fedora
 

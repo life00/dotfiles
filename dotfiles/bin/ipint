@@ -1,9 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-IPINT=$(ifconfig en0 | awk '$1=="inet"')
+IPINT=$(ip -4 -o addr show scope global | awk '$1 != "lo" {print $4; exit}')
 
-IPINT=${IPINT% netmask*}
-
-IPINT=${IPINT##*inet }
-
-printf "%s\n" "$IPINT"
+printf "%s\n" "${IPINT%/*}"

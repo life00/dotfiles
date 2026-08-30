@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #STORAGE=/snsh/static/home/*/
 STORAGE=/snsh/automatic/home/1d/*/snapshot/

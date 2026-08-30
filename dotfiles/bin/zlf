@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## version 1
 # it basically opens several ranger tabs but has a limitation of providing only one argument to zoxide

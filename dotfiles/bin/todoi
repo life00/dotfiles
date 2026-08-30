@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env dash
 
 # originally from https://junegunn.github.io/fzf/tips/ripgrep-integration/
 # adapted to make a more convenient todo search

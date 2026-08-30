@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # This is a combination of [nitch](https://github.com/unxsh/nitch) and [maxfetch](https://github.com/jobcmax/maxfetch)
 XDG_CURRENT_DESKTOP=sway
 unicode="" # edit this to whatever you like

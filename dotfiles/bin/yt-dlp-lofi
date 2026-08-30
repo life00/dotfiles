@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 list_path="/home/user/.cfg/mpd/future.txt"
 lofi_dir="/home/user/tmp/lofi/"

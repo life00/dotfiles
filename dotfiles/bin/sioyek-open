@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # this workaround exists because of https://github.com/ahrm/sioyek/issues/1065
 if [ -e "${1}" ]; then

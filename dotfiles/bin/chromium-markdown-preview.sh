@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 chromium-browser --ozone-platform=wayland --profile-directory=Profile\ 2 ${@}
 
