@@ -53,20 +53,13 @@
     '';
 
     initExtra = ''
-      # doas wrapper function
-      doas() {
-        SHELL=/bin/bash
-        /usr/bin/command doas "$@"
-        SHELL=/bin/zsh
-      }
-
       # cheat.sh
       cht() {
         curl cheat.sh/"$@"
       }
 
       # lf: cd to last visited dir on quit (was provided by HM programs.lf,
-      # which is disabled — lf config is a raw dotfile, see home/files.nix)
+      # which is disabled - lf config is a raw dotfile, see home/files.nix)
       zlf() {
         local last="$XDG_STATE_HOME/lf/lastdir"
         command lf -last-dir-path "$last" "$@"
