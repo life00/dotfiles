@@ -6,19 +6,7 @@
   ...
 }:
 {
-  # packages whose config is NOT a raw dotfile (or that just install a binary)
-  # slewidle comes from services.swayidle below; swayidle removed from this list.
-  home.packages = with pkgs; [
-    waybar # started via sway's `bar { swaybar_command waybar }`
-    dunst # launched by sway startup; config from dotfiles/
-    grim
-    slurp
-    wl-clipboard
-    networkmanagerapplet # `exec nm-applet --indicator` in sway startup
-    xdg-desktop-portal-wlr
-  ];
-
-  # desktop dotfiles (waybar, rofi, dunst) — referenced, not inlined.
+  # Desktop dotfiles (waybar, rofi, dunst) — referenced, not inlined.
   # sway + swaylock configs are generated natively below; sway wallpapers moved
   # to /wallpapers (referenced as an absolute store path, so no XDG env
   # dependency).

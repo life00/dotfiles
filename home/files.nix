@@ -26,7 +26,8 @@
   home.file.".cfg/bin".source = ../dotfiles/bin;
 
   # bottom (btm) — Nix-native via `programs.bottom`. `package = null` since
-  # the bottom binary is installed system-wide (modules/packages.nix). HM writes
+  # the bottom binary is installed from home/packages.nix (the sole explicit
+  # user manifest). HM writes
   # $XDG_CONFIG_HOME/bottom/bottom.toml → ~/.cfg/bottom/bottom.toml (the old raw
   # dotfile path, dotfiles/bottom removed — this is now the source of truth).
   # Colors come from `catppuccin.bottom` (home/theme.nix); only non-theme
