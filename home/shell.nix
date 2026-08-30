@@ -1,4 +1,11 @@
-{ pkgs, lib, config, inputs, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
+{
   programs.zsh = {
     enable = true;
     # ponytail: `enableLsColors` was removed from home-manager's programs.zsh;
@@ -194,8 +201,14 @@
         format = " [](fg:#181926 bg:none)[$symbol]($style bg:#181926)[](fg:#181926 bg:#1e2030)[ $percentage]($style bg:#1e2030)[](fg:#1e2030 bg:none)";
         disabled = false;
         display = [
-          { threshold = 10; style = "fg:#ed8796"; }
-          { threshold = 20; style = "fg:#f5a97f"; }
+          {
+            threshold = 10;
+            style = "fg:#ed8796";
+          }
+          {
+            threshold = 20;
+            style = "fg:#f5a97f";
+          }
         ];
       };
 
@@ -258,19 +271,6 @@
     PAGER = "nvim +Man!";
     EDITOR = "nvim";
     MANPAGER = "nvim +Man!";
-
-# ponytail: XDG_CONFIG/CACHE/DATA/STATE_HOME are set by the home-manager
-    # `xdg` module (home/default.nix overrides them to ~/.cfg, ~/etc/cache,
-    # ~/etc/data, ~/etc/state). They were re-defined here with trailing slashes
-    # before, which conflicted. Now set here only the user dirs + PATH.
-    XDG_DOCUMENTS_DIR = "${config.home.homeDirectory}/doc/";
-    XDG_DOWNLOAD_DIR = "${config.home.homeDirectory}/tmp/";
-    XDG_MUSIC_DIR = "${config.home.homeDirectory}/med/audio/";
-    XDG_PICTURES_DIR = "${config.home.homeDirectory}/med/images/";
-    XDG_VIDEOS_DIR = "${config.home.homeDirectory}/med/videos/";
-    XDG_SHARE_HOME = "${config.home.homeDirectory}/etc/data/";
-
-    PATH = "${config.home.homeDirectory}/.local/bin:${config.home.homeDirectory}/.bin:${config.home.homeDirectory}/etc/bin:$PATH";
 
     # GPU fixes
     MESA_GL_VERSION_OVERRIDE = "3.3";

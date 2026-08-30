@@ -139,6 +139,7 @@
     cryptsetup
     curl
     lsof
+    unzip
     duperemove
     exiftool
     firewalld

@@ -1,4 +1,9 @@
-{ inputs, pkgs, lib, config, ... }: {
+{
+  inputs,
+  config,
+  ...
+}:
+{
   imports = [
     inputs.catppuccin.homeModules.catppuccin
     ./shell.nix
@@ -16,15 +21,30 @@
   home.homeDirectory = "/home/user";
   home.stateVersion = "26.05";
 
-  # XDG dirs (matches zshenv)
   xdg = {
     enable = true;
     configHome = "${config.home.homeDirectory}/.cfg";
     cacheHome = "${config.home.homeDirectory}/etc/cache";
     dataHome = "${config.home.homeDirectory}/etc/data";
     stateHome = "${config.home.homeDirectory}/etc/state";
+
+    userDirs = {
+      enable = true;
+      download = "${config.home.homeDirectory}/tmp";
+      desktop = "${config.home.homeDirectory}/tmp";
+      documents = "${config.home.homeDirectory}/doc";
+      music = "${config.home.homeDirectory}/med/audio";
+      pictures = "${config.home.homeDirectory}/med";
+      videos = "${config.home.homeDirectory}/med/videos";
+    };
+
   };
 
-  # let home-manager manage itself
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.local/bin"
+    "${config.home.homeDirectory}/.bin"
+    "${config.home.homeDirectory}/etc/bin"
+  ];
+
   programs.home-manager.enable = true;
 }
