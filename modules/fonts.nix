@@ -12,6 +12,14 @@
   environment.systemPackages = with pkgs; [
     papirus-icon-theme
     catppuccin-cursors.macchiatoDark
+    # provides share/themes/catppuccin-macchiato-lavender-standard+default
+    # (the exact gtk-theme name set below in dconf); defaults build frappe/blue,
+    # so override to macchiato/lavender
+    (catppuccin-gtk.override {
+      variant = "macchiato";
+      accents = [ "lavender" ];
+      size = "standard";
+    })
   ];
 
   fonts.fontconfig = {
@@ -29,7 +37,7 @@
       {
         settings = {
           "org/gnome/desktop/interface" = {
-            gtk-theme = "catppuccin-macchiato-lavender-standard+default";
+            gtk-theme = "catppuccin-macchiato-lavender-standard";
             icon-theme = "Papirus-Dark";
             cursor-theme = "catppuccin-macchiato-dark-cursors";
             font-name = "JetBrainsMono Nerd Font 11";
