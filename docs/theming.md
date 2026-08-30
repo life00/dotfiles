@@ -12,7 +12,7 @@ Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and 
 | Cursors | `catppuccin.cursors.enable` |
 | fzf | `catppuccin.fzf.enable` (via FZF_DEFAULT_OPTS in shell.nix) |
 | nvim | `catppuccin.nvim.enable` |
-| alacritty | raw dotfile (self-contained palette), not the flake |
+| alacritty | `catppuccin.alacritty.enable` (colors via `settings.general.import`; font/cursor live in home/terminal.nix) |
 | bat | `catppuccin.bat.enable` |
 | delta | `catppuccin.delta.enable` |
 | zsh fsh | `catppuccin.zsh-syntax-highlighting.enable` |
