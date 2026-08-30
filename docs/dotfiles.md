@@ -1,11 +1,10 @@
 # Dotfiles Inventory
 
-`dotfiles/` holds configs that stay closer to their upstream format than HM abstractions. Each is symlinked into `~/.cfg/<name>` by home-manager (`home.file`); treat this directory as the authoritative edited copy.
+`dotfiles/` holds configs that stay closer to their upstream format than HM abstractions. Each is symlinked into `~/.cfg/<name>` by home-manager (`home.file`); treat this directory as the authoritative edited copy. The sway config is Nix-native (`home/desktop.nix`) since this HM rev's `programs.sway` was dropped in favor of `wayland.windowManager.sway`; sway wallpapers live at the top-level `wallpapers/` (not a dotfile).
 
 | Directory | Contents | Notes |
 |-----------|----------|-------|
 | `zsh/` | zshenv, zshrc, startup, aliases, addons, config/ | Kept as reference; effective config lives in `home/shell.nix` (HM). Not symlinked. |
-| `sway/` | `config`, `wallpapers/*.png` (10) | Full sway config incl. Catppuccin colors, Fn bindings, per-input xkb. Wallpapers copied to repo. |
 | `waybar/` | `config`, `style.css` | Ported from Fedora, Catppuccin Macchiato. |
 | `rofi/` | `config.rasi`, `config/` (colors, font, askpass, confirm, powermenu), `bin/` (killer, powermenu, scsh) | Scripts used by sway F10/F11/F4. |
 | `dunst/` | `dunstrc` | Minimal notification setup. |

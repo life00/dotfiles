@@ -13,7 +13,8 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 | alacritty | `home/terminal.nix` |
 | bat (theme only) | `home/editor.nix` |
 | neovim (installs binary) | `home/editor.nix` |
-| sway, swaylock, swayidle, grim, slurp, wl-clipboard, dungeon, waybar, rofi | `home/desktop.nix` |
+| sway (config) | `home/desktop.nix` |
+| swaylock, swayidle, grim, slurp, wl-clipboard, waybar, dunst (packages) | `home/desktop.nix` |
 | mpd (user service) | `home/media.nix` |
 | mpv | `home/media.nix` |
 
@@ -21,7 +22,6 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 
 | Config | Source dir |
 |--------|------------|
-| sway config | `dotfiles/sway/` |
 | waybar config+style | `dotfiles/waybar/` |
 | rofi + scripts | `dotfiles/rofi/` |
 | dunst | `dotfiles/dunst/` |
@@ -40,7 +40,7 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 ## Rationale
 
 - Nix-native when the config is a) simple, b) value-checked by HM (e.g. alacritty strict settings types), c) maintained by HM (zsh plugin sources).
-- Raw dotfiles when the config carries custom scripts (rofi/scsh/killer, lf preview, awecron run scripts) or would be a 1:1 copy with no HM benefit (sway/waybar/ncmpcpp/cava).
+- Raw dotfiles when the config carries custom scripts (rofi/scsh/killer, waybar style scripts, lf preview, awecron run scripts) or would be a 1:1 copy with no HM benefit (waybar/ncmpcpp/cava).
 - HM handles *where* files land (XDG = `~/.cfg`) and *which packages exist*; local edits outside HM are preserved because `home.file` symlinks to the store (immutable) — treat dotfiles dir as the source of truth.
 
 | obs-studio | `home/media.nix` (per-user config only; this HM rev has no gimp/virt-manager modules) |

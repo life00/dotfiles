@@ -23,7 +23,7 @@ Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fe
 
 ## 2. Hardcoded inline (configs not covered by the flake)
 
-- Sway borders/background (`dotfiles/sway/config`): `#b7bdf8 #1A1826 #C9CBFF #7dc4e4 …`.
+- Sway borders/background (`home/desktop.nix` — native sway config `config.colors`): `#b7bdf8 #1A1826 #C9CBFF #7dc4e4 …`. The catppuccin flake auto-injects its `catppuccin/macchiato` var-include into the generated config; the `$color` vars are unused (hardcoded hex kept for parity with the old dotfile).
 - Swaylock colors (`home/desktop.nix`).
 - Git delta (in `home/git.nix` — catppuccin palette via `map-styles`, `blame-palette`, etc.).
 - mpv (`home/media.nix`): `background="#181926"`, `sub-color="#cad3f5"`.
@@ -45,4 +45,4 @@ color-scheme = prefer-dark
 
 Note: nixpkgs' `fix-inconsistent-theme-name` patch drops the `+default` suffix the upstream installer uses, so the dconf name matches the installed `share/themes/catppuccin-macchiato-lavender-standard` dir exactly.
 
-Fonts: JetBrainsMono Nerd Font (mono+sans default) from nerd-fonts (override only JetBrains). Wallpapers in `dotfiles/sway/wallpapers/` are the original PNGs (Asahi catppuccin, dark-cat, dreams, gargantua, gentoo, pacman, tetris, tux, waves).
+Fonts: JetBrainsMono Nerd Font (mono+sans default) from nerd-fonts (override only JetBrains). Wallpapers in the top-level `wallpapers/` (used via absolute store path in the native sway config) are the original PNGs (Asahi catppuccin, dark-cat, dreams, gargantua, gentoo, pacman, tetris, tux, waves).

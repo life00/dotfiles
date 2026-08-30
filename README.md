@@ -29,7 +29,7 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 │   ├── git.nix                 # git config, ssh, allowed_signers
 │   ├── terminal.nix            # alacritty
 │   ├── editor.nix              # neovim (dotfiles), bat
-│   ├── desktop.nix             # sway, waybar, rofi, dunst, screenshots
+│   ├── desktop.nix             # sway (native config), waybar, rofi, dunst, swayidle
 │   ├── media.nix               # mpd, ncmpcpp, mpv, cava, obs/gimp placeholders
 │   ├── files.nix               # lf, dev/bin scripts, qalculate, bottom, sioyek
 │   ├── theme.nix               # Catppuccin (GTK, cursors, fsh), dconf
@@ -37,9 +37,9 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 ├── pkgs/                         # custom derivations
 │   ├── awecron/                # custom cron daemon (Go) — src/ is gitignored
 │   └── getmusic/               # custom utility (Go) — src/ is gitignored
+├── wallpapers/                   # sway wallpapers (tux.png, etc.) — absolute store path in config
 └── dotfiles/                    # raw config files
     ├── zsh/                    # startup, aliases, addons, config/
-    ├── sway/                   # config + wallpapers/
     ├── waybar/                 # config + style.css
     ├── rofi/                   # config.rasi + config/ + bin/
     ├── dunst/                   # dunstrc
