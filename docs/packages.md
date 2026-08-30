@@ -15,6 +15,8 @@ System packages in `modules/packages.nix`, user packages in `home/packages.nix`.
 | AI | ollama, aichat |
 | System | btrfs-progs, cryptsetup, duperemove, firewalld, brightnessctl (sway F5/F6 bindings), opensnitch, rofi, sway+WM stack, bottom, libnotify |
 
+`programs.nix-ld.enable` is set in `modules/packages.nix` — runs unpatched dynamic binaries (AppImages, vendor ELFs) via `NIX_LD`/`NIX_LD_LIBRARY_PATH`; default libraries; extend with `programs.nix-ld.libraries`.
+
 ## Custom derivations
 
 `pkgs/awecron/`, `pkgs/getmusic/` — Go programs built via `buildGoModule`. Sources are **gitignored** (`pkgs/*/src/`); derivations default to `fetchFromGitHub` with `fakeHash` placeholders (must be filled with real `vendorHash` + source `hash` after first build). See `custom-packages.md`.

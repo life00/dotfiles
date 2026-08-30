@@ -167,4 +167,12 @@
   # `extraPackages` defaults to [ brightnessctl foot grim pulseaudio
   # swayidle swaylock wmenu ] — `foot` gives sway a working terminal.
   programs.sway.enable = true;
+
+  # Run unpatched, dynamically-linked ELF binaries (AppImages, vendor
+  # binaries). `programs.nix-ld` not `programs.ld` in pinned rev 9fbb54b.
+  # Session vars NIX_LD / NIX_LD_LIBRARY_PATH + loader at
+  # /run/current-system/sw/share/nix-ld/lib/ld.so. Default `libraries` covers
+  # zlib, zstd, glibc/gcc-libs (stdenv.cc.cc), curl, openssl, xz, systemd...
+  # Extend via programs.nix-ld.libraries if a specific binary needs more.
+  programs.nix-ld.enable = true;
 }
