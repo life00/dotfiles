@@ -1,6 +1,5 @@
-# ponytail: placeholder hardware config — nixos-generate-config will overwrite this
-# Run `nixos-generate-config` on the target machine to populate hardware-configuration.nix
-# with detected kernel modules, then merge relevant entries here.
+# Kernel modules synced from `nixos-generate-config` output on this host
+# (see /etc/nixos/hardware-configuration.nix). Regenerate + merge on new hardware.
 
 { config, lib, pkgs, modulesPath, ... }:
 
@@ -10,10 +9,11 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
