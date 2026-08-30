@@ -1,12 +1,8 @@
-{ pkgs, lib, config, inputs, ... }: {
-  # med/audio/music must exist for mpd (dirs not yet part of the root-owned
-  # home model in modules/users.nix — placeholder creates the tree user-owned)
-  home.file."med/audio/music/.keep".text = "";
-
-  # mpd via home-manager. `services.mpd.settings` no longer exists in this HM;
-  # use the module's typed options + extraConfig for the directives it doesn't
-  # cover (pid_file name and state_file are HM's dataDir/state — same dir, so
-  # the file names differ cosmetically from the old config).
+{
+  config,
+  ...
+}:
+{
   services.mpd = {
     enable = true;
     musicDirectory = "${config.home.homeDirectory}/med/audio/music/";
@@ -54,10 +50,5 @@
   home.file.".cfg/cava/config".source = ../dotfiles/cava/config;
   # shaders directory
   home.file.".cfg/cava/shaders".source = ../dotfiles/cava/shaders;
-
-  # obs-studio via HM (per-user config; binary installed system-wide in
-  # modules/packages.nix). ponytail: this HM revision has no programs.gimp or
-  # programs.virt-manager modules — those binaries come from system packages
-  # only, so their old placeholder blocks were dropped.
-  programs.obs-studio = { enable = true; };
 }
+

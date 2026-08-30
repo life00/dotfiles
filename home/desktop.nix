@@ -1,12 +1,11 @@
-{ pkgs, lib, config, inputs, ... }: {
-  # ponytail: sway is now Nix-native via `wayland.windowManager.sway` (this HM
-  # rev dropped `programs.sway`; the sway module moved under wayland/).
-  # The sway BINARY stays system-wide (`programs.sway.enable` in
-  # modules/packages.nix) — greetd's `--cmd sway` doesn't change — so the HM
-  # `package` is forced null and HM only owns the generated config
-  # (~/.cfg/sway/config). waybar/rofi/dunst stay raw dotfiles (swaylock is
-  # Nix-native via programs.swaylock below).
-
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
+{
   # packages whose config is NOT a raw dotfile (or that just install a binary)
   # slewidle comes from services.swayidle below; swayidle removed from this list.
   home.packages = with pkgs; [
@@ -68,10 +67,30 @@
         border = 1;
         hideEdgeBorders = "smart";
         commands = [
-          { command = "fullscreen toggle"; criteria = { app_id = "mpv"; }; }
-          { command = "move scratchpad"; criteria = { app_id = "alacritty-float"; }; }
-          { command = "scratchpad show"; criteria = { app_id = "alacritty-float"; }; }
-          { command = "focus_on_window_activation none"; criteria = { app_id = "brave-browser"; }; }
+          {
+            command = "fullscreen toggle";
+            criteria = {
+              app_id = "mpv";
+            };
+          }
+          {
+            command = "move scratchpad";
+            criteria = {
+              app_id = "alacritty-float";
+            };
+          }
+          {
+            command = "scratchpad show";
+            criteria = {
+              app_id = "alacritty-float";
+            };
+          }
+          {
+            command = "focus_on_window_activation none";
+            criteria = {
+              app_id = "brave-browser";
+            };
+          }
         ];
       };
 
@@ -87,10 +106,34 @@
 
       colors = {
         background = "#1A1826";
-        focused = { border = "#b7bdf8"; background = "#1A1826"; text = "#C9CBFF"; indicator = "#7dc4e4"; childBorder = "#b7bdf8"; };
-        focusedInactive = { border = "#575268"; background = "#1A1826"; text = "#C9CBFF"; indicator = "#575268"; childBorder = "#575268"; };
-        unfocused = { border = "#1E1E2E"; background = "#1A1826"; text = "#C9CBFF"; indicator = "#1E1E2E"; childBorder = "#1A1826"; };
-        urgent = { border = "#F28FAD"; background = "#1A1826"; text = "#C9CBFF"; indicator = "#F28FAD"; childBorder = "#F28FAD"; };
+        focused = {
+          border = "#b7bdf8";
+          background = "#1A1826";
+          text = "#C9CBFF";
+          indicator = "#7dc4e4";
+          childBorder = "#b7bdf8";
+        };
+        focusedInactive = {
+          border = "#575268";
+          background = "#1A1826";
+          text = "#C9CBFF";
+          indicator = "#575268";
+          childBorder = "#575268";
+        };
+        unfocused = {
+          border = "#1E1E2E";
+          background = "#1A1826";
+          text = "#C9CBFF";
+          indicator = "#1E1E2E";
+          childBorder = "#1A1826";
+        };
+        urgent = {
+          border = "#F28FAD";
+          background = "#1A1826";
+          text = "#C9CBFF";
+          indicator = "#F28FAD";
+          childBorder = "#F28FAD";
+        };
       };
 
       gaps = {
@@ -103,8 +146,13 @@
       };
 
       output = {
-        "*" = { bg = "${../wallpapers}/tux.png fill"; };
-        "eDP-1" = { resolution = "2560x1600"; position = "0,0"; };
+        "*" = {
+          bg = "${../wallpapers}/tux.png fill";
+        };
+        "eDP-1" = {
+          resolution = "2560x1600";
+          position = "0,0";
+        };
       };
 
       input = {
@@ -122,7 +170,9 @@
         };
       };
 
-      seat.seat0 = { hide_cursor = "10000"; };
+      seat.seat0 = {
+        hide_cursor = "10000";
+      };
 
       # Defaults from the HM module are merged per-key: overrides, additions
       # and nulls (removals). Wrapped in mkOptionDefault so the module's
@@ -170,8 +220,10 @@
         "f4" = "exec /home/user/.bin/scsh";
         "f5" = "exec brightnessctl set 1%- && notify-send \"display brightness decreased\"";
         "f6" = "exec brightnessctl set 1%+ && notify-send \"display brightness increased\"";
-        "f5+Shift" = "exec brightnessctl -d kbd_backlight set 1%- && notify-send \"keyboard brightness decreased\"";
-        "f6+Shift" = "exec brightnessctl -d kbd_backlight set 1%+ && notify-send \"keyboard brightness increased\"";
+        "f5+Shift" =
+          "exec brightnessctl -d kbd_backlight set 1%- && notify-send \"keyboard brightness decreased\"";
+        "f6+Shift" =
+          "exec brightnessctl -d kbd_backlight set 1%+ && notify-send \"keyboard brightness increased\"";
         "f7" = "exec pactl set-sink-volume 0 -1% && notify-send \"volume decreased\"";
         "f8" = "exec pactl set-sink-volume 0 +1% && notify-send \"volume increased\"";
         "f7+Shift" = "exec pactl set-sink-mute 0 1 && notify-send \"audio output muted\"";
@@ -272,3 +324,4 @@
     Install.WantedBy = [ "default.target" ];
   };
 }
+

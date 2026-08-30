@@ -1,8 +1,5 @@
 { pkgs, ... }:
 {
-  # ponytail: restored full package lists (was stripped to zsh+opencode for the
-  # minimal install). Sway is provided by the `programs.sway` module below
-  # (installs sway + foot), so it is NOT listed explicitly.
   environment.systemPackages = with pkgs; [
     # CLI utilities
     age
@@ -150,6 +147,7 @@
     rofi
     alacritty
     waybar
+    sway
     swaylock
     swayidle
     grim
@@ -157,24 +155,7 @@
     wl-clipboard
     dunst
     libnotify
-
-    # bottom (system monitor)
-    bottom
   ];
 
-  # Sway at the NixOS system level (verified in locked nixpkgs rev
-  # 9fbb54...: `programs.sway` module exists with `enable`/`package`/
-  # `wrapperFeatures`/`extraPackages`; `extraConfig` is NOT an option here,
-  # so the sway config lives in /etc/sway/config or ~/.config/sway/config).
-  # `extraPackages` defaults to [ brightnessctl foot grim pulseaudio
-  # swayidle swaylock wmenu ] — `foot` gives sway a working terminal.
-  programs.sway.enable = true;
-
-  # Run unpatched, dynamically-linked ELF binaries (AppImages, vendor
-  # binaries). `programs.nix-ld` not `programs.ld` in pinned rev 9fbb54b.
-  # Session vars NIX_LD / NIX_LD_LIBRARY_PATH + loader at
-  # /run/current-system/sw/share/nix-ld/lib/ld.so. Default `libraries` covers
-  # zlib, zstd, glibc/gcc-libs (stdenv.cc.cc), curl, openssl, xz, systemd...
-  # Extend via programs.nix-ld.libraries if a specific binary needs more.
   programs.nix-ld.enable = true;
 }

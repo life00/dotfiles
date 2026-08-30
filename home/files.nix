@@ -1,4 +1,7 @@
-{ pkgs, lib, config, inputs, ... }: {
+{
+  ...
+}:
+{
   # lf file manager — the whole config is a raw dotfile. ponytail: HM's
   # `programs.lf` writes ~/.cfg/lf/lfrc itself (no option to sync a file),
   # so it is NOT enabled here; the `lf` package comes from home/packages.nix
