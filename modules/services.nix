@@ -1,8 +1,6 @@
 {
   pkgs,
   lib,
-  config,
-  inputs,
   ...
 }:
 let
@@ -60,7 +58,6 @@ in
     models = "/opt/user/ollama";
     user = "user";
     group = "user";
-    acceleration = false;
   };
 
   # virtualization
@@ -72,5 +69,20 @@ in
     };
   };
 
-  # chrony is in networking.nix
+  # fix qemu hypervisor issue
+  systemd.tmpfiles.rules = [
+    "L+ /usr/bin/qemu-system-x86_64 - - - - ${pkgs.qemu_kvm}/bin/qemu-system-x86_64"
+  ];
+
+  # login manager
+  services.greetd = {
+    enable = true;
+    useTextGreeter = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd sway";
+        user = "greeter";
+      };
+    };
+  };
 }

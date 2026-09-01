@@ -1,25 +1,11 @@
 { pkgs, ... }:
 {
-  # Fonts go in fonts.packages; icon/cursor THEMES must be in
-  # environment.systemPackages so GTK finds them via the icon search path
-  # (fonts.packages only populates fontconfig font dirs).
+  # fonts
+
   fonts.packages = with pkgs; [
     (nerd-fonts.jetbrains-mono)
     papirus-icon-theme
     catppuccin-cursors.macchiatoDark
-  ];
-
-  environment.systemPackages = with pkgs; [
-    papirus-icon-theme
-    catppuccin-cursors.macchiatoDark
-    # provides share/themes/catppuccin-macchiato-lavender-standard+default
-    # (the exact gtk-theme name set below in dconf); defaults build frappe/blue,
-    # so override to macchiato/lavender
-    (catppuccin-gtk.override {
-      variant = "macchiato";
-      accents = [ "lavender" ];
-      size = "standard";
-    })
   ];
 
   fonts.fontconfig = {
@@ -30,7 +16,18 @@
     };
   };
 
-  # GTK theme defaults via dconf (system-wide)
+  # icon theme
+
+  environment.systemPackages = with pkgs; [
+    papirus-icon-theme
+    catppuccin-cursors.macchiatoDark
+    (catppuccin-gtk.override {
+      variant = "macchiato";
+      accents = [ "lavender" ];
+      size = "standard";
+    })
+  ];
+
   programs.dconf = {
     enable = true;
     profiles.user.databases = [

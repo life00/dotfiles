@@ -4,7 +4,8 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1"; # ponytail: placeholder — replace with target disk
+        # this is a placeholder for the target device drive
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
@@ -16,7 +17,10 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot/efi";
-                mountOptions = [ "umask=0077" "shortname=winnt" ];
+                mountOptions = [
+                  "umask=0077"
+                  "shortname=winnt"
+                ];
               };
             };
             boot = {
@@ -37,30 +41,59 @@
                 name = "cryptroot";
                 settings = {
                   allowDiscards = true;
-                  # ponytail: hardware crypto (Apple Silicon optimization) — harmless on x86, remove if it causes issues
                 };
                 content = {
                   type = "btrfs";
                   subvolumes = {
                     "root" = {
                       mountpoint = "/";
-                      mountOptions = [ "noatime" "compress=zstd:2" "ssd" "discard=async" "space_cache=v2" ];
+                      mountOptions = [
+                        "noatime"
+                        "compress=zstd:2"
+                        "ssd"
+                        "discard=async"
+                        "space_cache=v2"
+                      ];
                     };
                     "home" = {
                       mountpoint = "/home";
-                      mountOptions = [ "noatime" "compress=zstd:2" "ssd" "discard=async" "space_cache=v2" ];
+                      mountOptions = [
+                        "noatime"
+                        "compress=zstd:2"
+                        "ssd"
+                        "discard=async"
+                        "space_cache=v2"
+                      ];
                     };
                     "swap" = {
                       mountpoint = "/var/swap";
-                      mountOptions = [ "noatime" "compress=zstd:2" "ssd" "discard=async" "space_cache=v2" ];
+                      mountOptions = [
+                        "noatime"
+                        "compress=zstd:2"
+                        "ssd"
+                        "discard=async"
+                        "space_cache=v2"
+                      ];
                     };
                     "snapshots" = {
                       mountpoint = "/snsh";
-                      mountOptions = [ "noatime" "compress=zstd:2" "ssd" "discard=async" "space_cache=v2" ];
+                      mountOptions = [
+                        "noatime"
+                        "compress=zstd:2"
+                        "ssd"
+                        "discard=async"
+                        "space_cache=v2"
+                      ];
                     };
                     "opt" = {
                       mountpoint = "/opt/user";
-                      mountOptions = [ "noatime" "compress=zstd:2" "ssd" "discard=async" "space_cache=v2" ];
+                      mountOptions = [
+                        "noatime"
+                        "compress=zstd:2"
+                        "ssd"
+                        "discard=async"
+                        "space_cache=v2"
+                      ];
                     };
                   };
                 };
@@ -72,9 +105,12 @@
     };
   };
 
-  # swapfile on swap subvolume
+  # 8 GB swapfile on swap subvolume
   swapDevices = [
-    { device = "/var/swap/swapfile"; size = 8 * 1024; } # 8G
+    {
+      device = "/var/swap/swapfile";
+      size = 8 * 1024;
+    }
   ];
 
   fileSystems."/snsh/automatic/home" = {

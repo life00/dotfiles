@@ -1,20 +1,20 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
-  # ponytail: doas only (root locked, login via user). sshd disabled is
-  # default; usbguard, opensnitch and kernel image protection are enabled
-  # below.
+  # doas instead of sudo
   security.doas = {
     enable = true;
     wheelNeedsPassword = true;
+    # passwordless nix commands (temporary)
     extraRules = [
       {
         users = [ "user" ];
         cmd = "nix";
-        args = [ "store" "gc" ];
+        args = [
+          "store"
+          "gc"
+        ];
         noPass = true;
       }
-      # passwordless `nixos-rebuild` so the release/config workflow can run
-      # rebuilds without a password prompt
       {
         users = [ "user" ];
         cmd = "nixos-rebuild";
@@ -24,7 +24,7 @@
   };
   security.sudo.enable = false;
 
-  # disable sshd (as in Fedora setup)
+  # disable sshd
   services.openssh = {
     enable = false;
     openFirewall = false;
@@ -39,16 +39,16 @@
     '';
   };
 
-  # application-level firewall (monitor mode: upstream default-config.json
-  # ships DefaultAction=allow + InterceptUnknown=false, so nothing is blocked
-  # until per-app rules are approved from opensnitch-ui)
+  # application-level firewall
   services.opensnitch = {
     enable = true;
     package = pkgs.opensnitch;
+    settings = {
+      DefaultAction = "deny";
+      InterceptUnknown = true;
+    };
   };
 
-  # kernel hardening. ponytail: this nixpkgs rev implements it as
-  # `nohibernate` + `kernel.kexec_load_disabled` (see nixos/modules/security/
-  # misc.nix) — milder than "refuse unsigned modules" that older docs claimed.
+  # kernel hardening
   security.protectKernelImage = true;
 }

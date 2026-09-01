@@ -1,23 +1,22 @@
 { pkgs, ... }:
 {
-  # System-scope packages only: daemons/infra the system services own, and the
-  # root-admin tooling tied to systemd/hardware. Everything user-facing lives in
-  # home/packages.nix (the complete explicit manifest).
+  # system-scope packages only
   environment.systemPackages = with pkgs; [
-    # daemons (also pulled by their service modules — explicit inventory)
+    # daemons
     pipewire
     syncthing
     networkmanager
     opensnitch
     usbguard
-    ollama # disabled service; kept for when it's enabled
+    ollama
     firewalld
 
-    # hardware / storage / root admin
+    # admin utils
     btrfs-progs
     cryptsetup
     duperemove
     lsof
+    neovim
     libargon2
     file
     curl
@@ -26,14 +25,19 @@
     zsh
     dash
 
-    # WM stack (greetd launches sway; swaylock/swayidle pinned here per
-    # home/desktop.nix — HM sets their packages to null)
+    # WM
     sway
     swaylock
     swayidle
+    greetd
+    tuigreet
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # nix settings
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   programs.nix-ld.enable = true;
 }

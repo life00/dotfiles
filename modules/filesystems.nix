@@ -1,9 +1,15 @@
-{ lib, pkgs, ... }:
+{ ... }:
 {
   # btrfs scrubbing and maintenance
   services.btrfs.autoScrub = {
     enable = true;
-    fileSystems = [ "/" "/home" "/var/swap" "/snsh" "/opt/user" ];
+    fileSystems = [
+      "/"
+      "/home"
+      "/var/swap"
+      "/snsh"
+      "/opt/user"
+    ];
   };
 
   services.fstrim = {
