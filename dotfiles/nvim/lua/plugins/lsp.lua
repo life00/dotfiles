@@ -6,7 +6,6 @@ return {
     "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
-        "r-languageserver",
         "prettier",
         "bibtex-tidy",
         "bash-language-server",
@@ -14,9 +13,10 @@ return {
         "shellcheck",
         "goimports",
         "gofumpt",
-        "julia-lsp",
         "texlab",
         "tex-fmt",
+        -- doesn't compile in nixos and I don't use it anyways
+        -- "r-languageserver",
       },
     },
   },
