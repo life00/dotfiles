@@ -18,6 +18,9 @@
     "nvme"
     "usb_storage"
     "sd_mod"
+    "applespi"
+    "intel_lpss_pci"
+    "spi_pxa2xx_platform"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
