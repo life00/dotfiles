@@ -139,6 +139,7 @@
     rofi
     usbguard-notifier
     opensnitch-ui
+    khal
     bottom # config via programs.bottom (home/files.nix)
     lf # config is a raw dotfile (dotfiles/lf)
     networkmanagerapplet # `exec nm-applet` in sway startup
