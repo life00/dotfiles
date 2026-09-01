@@ -8,7 +8,7 @@ Custom cron daemon with **dynamic sleep** — polls cronjob dirs (`$cfgdir/*/` e
 
 - Location: `pkgs/awecron/default.nix`
 - Entrypoint: service in `modules/services.nix` (`systemd.services.awecron`, root, `Restart=always`)
-- Config dir: `~/.cfg/awecron/` (symlinked from `dotfiles/awecron/`) — root daemon reads `/etc/awecron` first, then `$HOME/.config/awecron`; here the systemd unit sets `HOME=/root` + `XDG_CONFIG_HOME` so it finds `~/.cfg/awecron`.
+- Config dir: `/etc/awecron/` — symlinks from `dotfiles/awecron/` via an activation script in `modules/services.nix` (Go binary reads `$XDG_CONFIG_HOME/awecron`, falling back to `/etc/awecron` since the root service sets no XDG dir).
 - Global config in `dotfiles/awecron/cfg` (max/min/timeout: 9999/5/200).
 - Jobs: `tphome10min` (10 min), `tphome1hour` (60 min) — btrfs snapshots; `updater` — dnf/`nix` update check + notify (writes `$XDG_CACHE_HOME/updater/count`).
 

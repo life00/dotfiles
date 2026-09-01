@@ -65,15 +65,6 @@
   # khal
   home.file.".cfg/khal/config".source = ../dotfiles/khal/config;
 
-  # awecron config directory
-  home.file.".cfg/awecron/cfg".source = ../dotfiles/awecron/cfg;
-  home.file.".cfg/awecron/tphome10min/cfg".source = ../dotfiles/awecron/tphome10min/cfg;
-  home.file.".cfg/awecron/tphome10min/run".source = ../dotfiles/awecron/tphome10min/run;
-  home.file.".cfg/awecron/tphome1hour/cfg".source = ../dotfiles/awecron/tphome1hour/cfg;
-  home.file.".cfg/awecron/tphome1hour/run".source = ../dotfiles/awecron/tphome1hour/run;
-  home.file.".cfg/awecron/updater/cfg".source = ../dotfiles/awecron/updater/cfg;
-  home.file.".cfg/awecron/updater/run".source = ../dotfiles/awecron/updater/run;
-  home.file.".cfg/awecron/updater/update".source = ../dotfiles/awecron/updater/update;
 
   # custom xkb layout (installed system-wide via locale.nix)
   # kept here for reference

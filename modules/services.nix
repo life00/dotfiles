@@ -1,53 +1,66 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 let
   awecron = pkgs.callPackage ../pkgs/awecron { };
 in
 {
-  # custom cron daemon
+  # awecron cron daemon
   systemd.services.awecron = {
     description = "Awecron cron daemon";
     wantedBy = [ "multi-user.target" ];
+    # scripts require bash
+    path = with pkgs; [ bash ];
     serviceConfig = {
       ExecStart = "${awecron}/bin/awecron";
       User = "root";
       Type = "simple";
       Restart = "always";
     };
-    # awecron looks up config in $XDG_CONFIG_HOME/awecron (os.UserConfigDir)
-    # then /etc/awecron. The daemon runs as root and must land on the
-    # home-manager-symlinked ~/.cfg/awecron (dotfiles/awecron), so pin
-    # XDG_CONFIG_HOME to the user's XDG_CONFIG_HOME (~/.cfg via home/default.nix).
-    environment.XDG_CONFIG_HOME = "/home/user/.cfg";
   };
 
-  # music daemon (user service)
-  services.mpd = {
-    enable = false; # ponytail: enabled per-user via home-manager
-  };
+  # symlink awecron config to /etc/awecron/
+  system.activationScripts.awecron = lib.stringAfter [ "users" ] ''
+    cfgsrc="${./../dotfiles/awecron}"
+    mkdir -p /etc/awecron
+    ln -sfn "$cfgsrc/cfg" /etc/awecron/cfg
+    for d in "$cfgsrc"/*/; do
+      name=$(basename "$d")
+      [ -d "$d" ] || continue
+      mkdir -p "/etc/awecron/$name"
+      ln -sfn "$d/cfg" "/etc/awecron/$name/cfg"
+      ln -sfn "$d/run" "/etc/awecron/$name/run"
+    done
+  '';
 
-  # pipewire sound server (defaults: wireplumber + pipewire-pulse).
   services.pipewire = {
     enable = true;
   };
 
+  # disabled by default
   services.syncthing = {
-    enable = true;
+    enable = false;
     user = "user";
     dataDir = "/home/user";
     configDir = "/home/user/.cfg/syncthing";
-    overrideDevices = false; # keep devices/folders added via Web UI (declarative list unused)
+    # devices/folders added via UI
+    overrideDevices = false;
     overrideFolders = false;
-    openDefaultPorts = true; # tcp 22000 + udp 21027 for NAT traversal
+    openDefaultPorts = true;
     guiAddress = "127.0.0.1:8384";
   };
 
-  # ollama (disabled by default — enable + pull models when ready)
+  # disabled by default
   services.ollama = {
     enable = lib.mkForce false;
-    # acceleration = false;
-    # models = "/opt/user/ollama";
-    # user = "user";
-    # group = "user";
+    models = "/opt/user/ollama";
+    user = "user";
+    group = "user";
+    acceleration = false;
   };
 
   # virtualization

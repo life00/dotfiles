@@ -57,7 +57,7 @@ Then:
 - [ ] Ollama: `sudo systemctl enable --now ollama` → `ollama pull <models>` (list in README).
 - [ ] MPD: check `~/.cfg/mpd` writable; `mpc volume 50`.
 - [ ] Chromium: install extensions, import bookmarks/Vimium (manual).
-- [ ] Awecron: verify jobs run (`systemctl status awecron`, `ls ~/.cfg/awecron/*/tmr`).
+- [ ] Awecron: verify jobs run (`systemctl status awecron`, `ls /etc/awecron/*/tmr`).
 - [ ] Custom packages: fill `vendorHash`/`hash` in pkgs/* or drop local `src/` (see custom-packages.md).
 - [ ] Set up libreoffice/VirtManager defaults (dconf), GIMP theme if needed.
 

@@ -3,7 +3,7 @@
 CACHE="/home/user/etc/cache/updater/"
 
 run() {
-  /bin/su "user" -P -s /bin/sh -c '"${1}"' run "/home/user/.cfg/awecron/updater/$1" 
+  /bin/su "user" -P -s /bin/sh -c '"${1}"' run "/etc/awecron/updater/$1" 
 }
 
 if ping -c 1 google.com > /dev/null

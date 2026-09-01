@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # where snapshots are being stored
 STORAGE=/snsh/automatic/home/1d/
@@ -11,51 +11,51 @@ DISPLAY="%Y_%m_%d-%H_%M_%S"
 
 # optional logging
 proclog() {
-if [[ "$1" == "delete+create" ]]; then
-	printf "tiny photographer: deleted '$old'\n"
-	printf "tiny photographer: created '$STORAGE$time'\n"
+  if [[ "$1" == "delete+create" ]]; then
+    printf "tiny photographer: deleted '$old'\n"
+    printf "tiny photographer: created '$STORAGE$time'\n"
 
-elif [[ "$1" == "create" ]]; then
-	printf "tiny photographer: created '$STORAGE$time'\n"
+  elif [[ "$1" == "create" ]]; then
+    printf "tiny photographer: created '$STORAGE$time'\n"
 
-elif [[ "$1" == "stopped" ]]; then
-	printf "tiny photographer: stopped\n"
-fi
+  elif [[ "$1" == "stopped" ]]; then
+    printf "tiny photographer: stopped\n"
+  fi
 }
 
 main() {
-	# gets the amount of snapshots
-	# something may break if in $STORAGE would be non snapshots
-	count=$(ls "$STORAGE" | wc -l)
-	
-	# this is specifically for names
-	time=$(date +"$DISPLAY")
+  # gets the amount of snapshots
+  # something may break if in $STORAGE would be non snapshots
+  count=$(ls "$STORAGE" | wc -l)
 
-	if (( count >= INTERVAL )); then
-		# finds the oldest snapshot and deletes it
-		for f in "$STORAGE"/*/; do if [[ ! "$old" || "$f" -ot "$old" ]]; then old="$f"; fi; done		
-		btrfs su de "$old"/snapshot > /dev/null
-		rmdir "$old"
+  # this is specifically for names
+  time=$(date +"$DISPLAY")
 
-		# creates a new snapshot and logs actions
-		mkdir "$STORAGE"/"$time" # additional directory is required to fix broken snapshot timestamps
-		btrfs su sn "$TARGET" "$STORAGE"/"$time"/snapshot > /dev/null
-		btrfs pr set "$STORAGE"/"$time"/snapshot ro true # optionally gives it read only permissions
-		proclog delete+create
-	else
-		# creates a new snapshot and logs actions
-		mkdir "$STORAGE"/"$time"
-		btrfs su sn "$TARGET" "$STORAGE"/"$time"/snapshot > /dev/null
-		btrfs pr set "$STORAGE"/"$time"/snapshot ro true # optionally gives it read only permissions
-		proclog create
-	fi
+  if ((count >= INTERVAL)); then
+    # finds the oldest snapshot and deletes it
+    for f in "$STORAGE"/*/; do if [[ ! "$old" || "$f" -ot "$old" ]]; then old="$f"; fi; done
+    btrfs su de "$old"/snapshot >/dev/null
+    rmdir "$old"
+
+    # creates a new snapshot and logs actions
+    mkdir "$STORAGE"/"$time" # additional directory is required to fix broken snapshot timestamps
+    btrfs su sn "$TARGET" "$STORAGE"/"$time"/snapshot >/dev/null
+    btrfs pr set "$STORAGE"/"$time"/snapshot ro true # optionally gives it read only permissions
+    proclog delete+create
+  else
+    # creates a new snapshot and logs actions
+    mkdir "$STORAGE"/"$time"
+    btrfs su sn "$TARGET" "$STORAGE"/"$time"/snapshot >/dev/null
+    btrfs pr set "$STORAGE"/"$time"/snapshot ro true # optionally gives it read only permissions
+    proclog create
+  fi
 }
 # pause feature
 # create anything with "stop" in the $STORAGE
 # to stop tiny photographer
 if ls "$STORAGE" | grep -q stop; then
-        proclog stopped 
-        exit
+  proclog stopped
+  exit
 else
-        main
+  main
 fi

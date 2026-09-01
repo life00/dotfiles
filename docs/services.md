@@ -4,7 +4,7 @@
 
 | Service | Where | Notes |
 |---------|-------|-------|
-| `awecron` | modules/services.nix | Custom cron daemon (see custom-packages.md). Runs cronjobs from `~/.cfg/awecron/` as root. |
+| `awecron` | modules/services.nix | Custom cron daemon (see custom-packages.md). Runs cronjobs from `/etc/awecron/` as root. |
 | `mpd` (user) | home/media.nix | Music daemon; pipewire output, playlist/state under `~/.cfg/mpd`. Started via HM `services.mpd`. |
 | `pipewire` | modules/services.nix | Sound server (wireplumber + pipewire-pulse), drives mpd/volume keys. |
 | `syncthing` | modules/services.nix | System service under `user`; config `~/.cfg/syncthing`, GUI `127.0.0.1:8384`. Devices/folders added via Web UI (overrideDevices/Folders off). |
@@ -29,5 +29,5 @@
 ## Notes
 
 - MPD state must persist: HM creates `~/.cfg/mpd/` (db, state, pid) — directory exists on first build, daemon auto-creates files.
-- awecron requires `~/.cfg/awecron/` to be root-readable; HM symlinks it as user files — unit sets `User=root` and `XDG_CONFIG_HOME=/home/user/.cfg` so root resolves config through the same path; cronjob `run` files are chmod +x in dotfiles.
+- awecron reads config from `/etc/awecron/` (the Go binary's `os.UserConfigDir()` fallback — `/etc/awecron` after it can't find `$XDG_CONFIG_HOME/awecron`). `/etc/awecron` is populated by an activation script (`modules/services.nix`): `cfg`/`run` files symlink to the Nix store (`dotfiles/awecron`), `tmr` files are regular files created fresh on first boot.
 - virt-manager needs `user` in the `libvirtd` group (done — the docs/users.md group name).
