@@ -1,19 +1,15 @@
-#!/bin/dash
-
-CACHE="/home/user/etc/cache/updater/"
+#!/usr/bin/env dash
 
 run() {
-  /bin/su "user" -P -s /bin/sh -c '"${1}"' run "/etc/awecron/updater/$1" 
+  su "user" -s /bin/sh -c '"${1}"' run "/etc/awecron/updater/$1"
 }
 
-if ping -c 1 google.com > /dev/null
-then
+if ping -c 1 google.com >/dev/null; then
   run update
 else
   run failed
-  ( 
+  (
     sleep 60
-    ping -c 1 google.com > /dev/null && run update
+    ping -c 1 google.com >/dev/null && run update
   ) &
 fi
-

@@ -1,12 +1,21 @@
-#!/bin/dash
+#!/usr/bin/env dash
 
-CACHE="/home/user/etc/cache/updater/"
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/updater"
 export DISPLAY=":0"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
 notify-send -t 10000 "Updater" "Checking for updates..."
-package_count=$(doas dnf -q check-update| wc -l)
+mkdir -p "$CACHE"
+
+cd "$HOME/dev/src/nix"
+nix flake update 2>/dev/null
+
+if git diff --quiet flake.lock 2>/dev/null; then
+  package_count=0
+else
+  package_count=1
+fi
+
 notify-send -t 10000 "Updater" "${package_count} updates found."
 printf "updater: %s updates found.\n" "${package_count}"
-printf "%s" "${package_count}" > "$CACHE/count"
-
+printf "%s" "${package_count}" >"$CACHE/count"

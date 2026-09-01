@@ -114,7 +114,7 @@
       "on-click": "alacritty --class alacritty-float -e btm -e --default_widget_type=net"
     },
    "battery": {
-      "bat": "macsmc-battery",
+      "bat": "BAT0",
       "interval": 30,
       "states": {
       	"fine": 80,
@@ -132,9 +132,9 @@
     "custom/updater": {
       "interval": 60,
       "tooltip": true,
-      "exec": "echo 󰏗 $(cat $XDG_CACHE_HOME/updater/count)",
-      "on-click-right": "$XDG_CONFIG_HOME/awecron/updater/update",
-      "on-click": "alacritty --class alacritty-float -e bash -c 'if doas dnf update; then printf 0 > $XDG_CACHE_HOME/updater/count; read -n1; fi'"
+      "exec": "echo 󰏗 $(cat /home/user/etc/cache/updater/count)",
+      "on-click-right": "/home/user/.cfg/awecron/updater/update",
+      "on-click": "alacritty --class alacritty-float -e bash -c 'if doas nixos-rebuild switch --impure --flake /home/user/dev/src/nix#mb2017; then printf 0 > /home/user/etc/cache/updater/count; read -n1; fi'"
     },
     "backlight": {
         "format": "{icon} {percent}%",

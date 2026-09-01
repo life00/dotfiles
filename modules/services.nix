@@ -12,7 +12,10 @@ in
     description = "Awecron cron daemon";
     wantedBy = [ "multi-user.target" ];
     # scripts require bash
-    path = with pkgs; [ bash ];
+    path = with pkgs; [
+      bash
+      dash
+    ];
     serviceConfig = {
       ExecStart = "${awecron}/bin/awecron";
       User = "root";
@@ -25,13 +28,16 @@ in
   system.activationScripts.awecron = lib.stringAfter [ "users" ] ''
     cfgsrc="${./../dotfiles/awecron}"
     mkdir -p /etc/awecron
-    ln -sfn "$cfgsrc/cfg" /etc/awecron/cfg
+    for f in "$cfgsrc"/*; do
+      [ -f "$f" ] && ln -sfn "$f" "/etc/awecron/$(basename "$f")"
+    done
     for d in "$cfgsrc"/*/; do
-      name=$(basename "$d")
       [ -d "$d" ] || continue
+      name=$(basename "$d")
       mkdir -p "/etc/awecron/$name"
-      ln -sfn "$d/cfg" "/etc/awecron/$name/cfg"
-      ln -sfn "$d/run" "/etc/awecron/$name/run"
+      for f in "$d"/*; do
+        [ -f "$f" ] && ln -sfn "$f" "/etc/awecron/$name/$(basename "$f")"
+      done
     done
   '';
 
