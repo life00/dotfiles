@@ -8,8 +8,7 @@
   # `catppuccin.zsh` is `catppuccin.zsh-syntax-highlighting` here.
   catppuccin = {
     enable = true;
-    # ponytail: explicit per-port enable below, so no auto enrollment.
-    autoEnable = false;
+    autoEnable = true;
     flavor = "macchiato";
     accent = "lavender";
     gtk.icon = {
