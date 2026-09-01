@@ -8,6 +8,8 @@
   # `catppuccin.zsh` is `catppuccin.zsh-syntax-highlighting` here.
   catppuccin = {
     enable = true;
+    # ponytail: explicit per-port enable below, so no auto enrollment.
+    autoEnable = false;
     flavor = "macchiato";
     accent = "lavender";
     gtk.icon = {
@@ -65,4 +67,8 @@
   # ponytail: the GTK theme/icon/cursor/font dconf DB is applied SYSTEM-wide
   # in modules/fonts.nix (programs.dconf is a NixOS option, not home-manager);
   # the old HM `programs.dconf` block here was removed as a duplicate.
+
+  # catppuccin.cursors sets home.pointerCursor without `.enable`; be explicit to
+  # keep cursor config generation (and silence the deprecation warning).
+  home.pointerCursor.enable = true;
 }

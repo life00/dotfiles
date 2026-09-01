@@ -16,6 +16,12 @@
     };
   };
 
+  # disable catppuccin auto enable
+  catppuccin = {
+    enable = true;
+    autoEnable = false;
+  };
+
   # icon theme
 
   environment.systemPackages = with pkgs; [

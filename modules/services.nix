@@ -55,7 +55,7 @@ in
   # disabled by default
   services.ollama = {
     enable = lib.mkForce false;
-    models = "/opt/user/ollama";
+    modelsDir = "/opt/user/ollama";
     user = "user";
     group = "user";
   };
@@ -75,7 +75,7 @@ in
   ];
 
   # login manager
-  programs.regreet = {
+  services.displayManager.regreet = {
     enable = true;
     settings.background.path = "${../wallpapers/waves.png}";
   };

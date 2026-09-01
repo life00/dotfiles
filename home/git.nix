@@ -8,13 +8,13 @@
 
   programs.git = {
     enable = true;
-    userName = "life00";
-    userEmail = "contact.5lu1v@simplelogin.co";
     signing = {
       key = "${config.home.homeDirectory}/etc/sec/ssh/key-r0.sec";
       format = "ssh";
     };
-    extraConfig = {
+    settings = {
+      user.name = "life00";
+      user.email = "contact.5lu1v@simplelogin.co";
       gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.cfg/ssh/allowed_signers";
       core.pager = "nvim +Man! -c 'set ft=git'";
       interactive.diffFilter = "delta --color-only";
@@ -29,15 +29,31 @@
   };
 
   # ssh config (no keys — copy manually)
+  # ponytail: enableDefaultConfig=false; the former ssh-module defaults are
+  # reproduced explicitly in settings."*" below.
   programs.ssh = {
     enable = true;
-    extraConfig = ''
-      Host github github.com
-        HostName github.com
-        User git
-        PreferredAuthentications publickey
-        IdentityFile ${config.home.homeDirectory}/etc/sec/ssh/key-r0.sec
-    '';
+    enableDefaultConfig = false;
+    settings = {
+      "*" = {
+        ForwardAgent = false;
+        AddKeysToAgent = "no";
+        Compression = false;
+        ServerAliveInterval = 0;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
+      };
+      "github github.com" = {
+        HostName = "github.com";
+        User = "git";
+        PreferredAuthentications = "publickey";
+        IdentityFile = "${config.home.homeDirectory}/etc/sec/ssh/key-r0.sec";
+      };
+    };
   };
 
   # allowed_signers (public keys only — no private keys)

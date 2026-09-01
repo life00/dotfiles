@@ -70,13 +70,13 @@
 
     # zsh-vi-mode highlight colors (set before the plugin loads in order 900).
     # System-wide command logging lives in modules/users.nix.
-    initExtraFirst = ''
-      ZVM_VI_HIGHLIGHT_BACKGROUND=#494d64
-      ZVM_VI_HIGHLIGHT_FOREGROUND=text
-      ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
-    '';
-
-    initExtra = ''
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
+        ZVM_VI_HIGHLIGHT_BACKGROUND=#494d64
+        ZVM_VI_HIGHLIGHT_FOREGROUND=text
+        ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
+      '')
+      ''
       # cheat.sh
       cht() {
         curl cheat.sh/"$@"
@@ -109,7 +109,8 @@
       bindkey -M vicmd 'j' history-substring-search-down
       export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#494d64,bg=#c6a0f6"
       export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#494d64,bg=#ed8796"
-    '';
+    ''
+    ];
   };
 
   # zsh plugins via HM
