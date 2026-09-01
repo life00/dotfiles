@@ -1,11 +1,10 @@
 # Dotfiles Inventory
 
-`dotfiles/` holds configs that stay closer to their upstream format than HM abstractions. Each is symlinked into `~/.cfg/<name>` by home-manager (`home.file`); treat this directory as the authoritative edited copy. The sway config is Nix-native (`home/desktop.nix`) since this HM rev's `programs.sway` was dropped in favor of `wayland.windowManager.sway`. swaylock is Nix-native too (`programs.swaylock.settings` in `home/desktop.nix`, rendered to `~/.cfg/swaylock/config`; palette from `catppuccin.swaylock` in `home/theme.nix`). Sway wallpapers live at the top-level `wallpapers/` (not a dotfile).
+`dotfiles/` holds configs that stay closer to their upstream format than HM abstractions. Each is symlinked into `~/.cfg/<name>` by home-manager (`home.file`); treat this directory as the authoritative edited copy. The sway config is Nix-native (`home/desktop.nix`) since this HM rev's `programs.sway` was dropped in favor of `wayland.windowManager.sway`. swaylock is Nix-native too (`programs.swaylock.settings` in `home/desktop.nix`, rendered to `~/.cfg/swaylock/config`; palette from `catppuccin.swaylock` in `home/theme.nix`). Waybar is Nix-native too (`programs.waybar.settings` + `style` in `home/desktop.nix`, palette from `catppuccin.waybar`). Sway wallpapers live at the top-level `wallpapers/` (not a dotfile).
 
 | Directory | Contents | Notes |
 |-----------|----------|-------|
 | `zsh/` | zshenv, zshrc, startup, aliases, addons, config/ | Kept as reference; effective config lives in `home/shell.nix` (HM). Not symlinked. |
-| `waybar/` | `config`, `style.css` | Ported from Fedora, Catppuccin Macchiato. |
 | `rofi/` | `config.rasi`, `config/` (colors, font, askpass, confirm, powermenu), `bin/` (killer, powermenu, scsh) | Scripts used by sway F10/F11/F4. |
 | `dunst/` | `dunstrc` | Minimal notification setup. |
 | `ncmpcpp/` | `config`, `bindings` | ncmpcpp for mpd. |

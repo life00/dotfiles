@@ -46,21 +46,30 @@
     bottom = {
       enable = true;
     };
-    # ponytail: rofi/waybar/dunst are NOT themed via catppuccin — their
+    # ponytail: rofi/dunst are NOT themed via catppuccin — their
     # configs are raw dotfiles carrying the palette themselves
-    # (dotfiles/rofi, dotfiles/waybar, dotfiles/dunst).
-    # catppuccin.rofi/waybar/dunst would also collide with home/desktop.nix
-    # dotfile symlinks (both write the same config files).
+    # (dotfiles/rofi, dotfiles/dunst).
+    # catppuccin.rofi/dunst would also collide with home/desktop.nix
+    # dotfile symlinks (both write the same config files). waybar IS themed
+    # via catppuccin (see above).
     # swaylock comes from the catppuccin port (official macchiato .conf renders
     # into `programs.swaylock.settings`); the only hardcoded addition is the
     # font, kept in home/desktop.nix.
     swaylock = {
       enable = true;
     };
+    # waybar is themed via the catppuccin flake: `programs.waybar.style` (in
+    # home/desktop.nix) references the palette vars the import defines, so the
+    # flavor/accent set above (macchiato/lavender) drives the whole bar. The
+    # raw dotfile symlinks for waybar were removed from home/desktop.nix so the
+    # two don't collide.
+    waybar = {
+      enable = true;
+    };
     # catppuccin.sway stays unset: this catppuccin rev has autoEnable=true, so
     # the sway integration auto-injects an `include` of its macchiato $color
-    # vars into the generated config — inert, since sway colors are hardcoded
-    # hex in home/desktop.nix.
+    # vars into the generated config; `config.colors` in home/desktop.nix
+    # references them ($crust, $lavender, $text …).
   };
 
   # ponytail: the GTK theme/icon/cursor/font dconf DB is applied SYSTEM-wide

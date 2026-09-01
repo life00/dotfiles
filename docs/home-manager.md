@@ -15,7 +15,8 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 | neovim (installs binary) | `home/editor.nix` |
 | sway (config) | `home/desktop.nix` |
 | swaylock (config; palette via catppuccin flake, font in `home/desktop.nix`) | `home/desktop.nix` + `home/theme.nix` |
-| swayidle, grim, slurp, wl-clipboard, waybar, dunst (packages) | `home/desktop.nix` |
+| swayidle, grim, slurp, wl-clipboard, dunst (packages) | `home/desktop.nix` |
+| waybar (config via settings, style via catppuccin variables) | `home/desktop.nix` + `home/theme.nix` |
 | mpd (user service) | `home/media.nix` |
 | mpv | `home/media.nix` |
 | bottom (theme via catppuccin flake, flags/filters) | `home/files.nix` (`package = null`; binary from system modules/packages.nix) |
@@ -24,7 +25,6 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 
 | Config | Source dir |
 |--------|------------|
-| waybar config+style | `dotfiles/waybar/` |
 | rofi + scripts | `dotfiles/rofi/` |
 | dunst | `dotfiles/dunst/` |
 | ncmpcpp | `dotfiles/ncmpcpp/` |
@@ -41,7 +41,7 @@ Home-manager runs as a NixOS module (`home-manager.nixosModules.home-manager`, `
 ## Rationale
 
 - Nix-native when the config is a) simple, b) value-checked by HM (e.g. alacritty strict settings types), c) maintained by HM (zsh plugin sources).
-- Raw dotfiles when the config carries custom scripts (rofi/scsh/killer, waybar style scripts, lf preview, awecron run scripts) or would be a 1:1 copy with no HM benefit (waybar/ncmpcpp/cava).
+- Raw dotfiles when the config carries custom scripts (rofi/scsh/killer, waybar style scripts, lf preview, awecron run scripts) or would be a 1:1 copy with no HM benefit (ncmpcpp/cava).
 - HM handles *where* files land (XDG = `~/.cfg`) and *which packages exist*; local edits outside HM are preserved because `home.file` symlinks to the store (immutable) — treat dotfiles dir as the source of truth.
 
 | obs-studio | `home/media.nix` (per-user config only; this HM rev has no gimp/virt-manager modules) |

@@ -6,13 +6,13 @@
   ...
 }:
 {
-  # Desktop dotfiles (waybar, rofi, dunst) — referenced, not inlined.
-  # sway + swaylock configs are generated natively below; sway wallpapers moved
-  # to /wallpapers (referenced as an absolute store path, so no XDG env
-  # dependency).
+  # Desktop dotfiles (rofi, dunst) — referenced, not inlined.
+  # sway, swaylock + waybar configs are generated natively below; sway
+  # wallpapers moved to /wallpapers (referenced as an absolute store path, so
+  # no XDG env dependency).
   home.file = {
-    ".cfg/waybar/config".source = ../dotfiles/waybar/config;
-    ".cfg/waybar/style.css".source = ../dotfiles/waybar/style.css;
+    # waybar config + style are Nix-native (`programs.waybar` below), not
+    # dotfile symlinks — the raw dotfiles were removed (dotfiles/waybar/).
     ".cfg/rofi/config".source = ../dotfiles/rofi/config;
     ".cfg/rofi/config.rasi".source = ../dotfiles/rofi/config.rasi;
     ".cfg/rofi/catppuccin-macchiato.rasi".source = ../dotfiles/rofi/catppuccin-macchiato.rasi;
@@ -92,35 +92,39 @@
         ];
       };
 
+      # Colors use the official catppuccin macchiato $color vars — defined by the
+      # auto-included `catppuccin.sway` theme (catppuccin/macchiato include in
+      # extraConfigEarly). The old custom hex (#1A1826, #C9CBFF, #575268 …
+      # ) are snapped to the nearest palette var.
       colors = {
-        background = "#1A1826";
+        background = "$crust";
         focused = {
-          border = "#b7bdf8";
-          background = "#1A1826";
-          text = "#C9CBFF";
-          indicator = "#7dc4e4";
-          childBorder = "#b7bdf8";
+          border = "$lavender";
+          background = "$crust";
+          text = "$text";
+          indicator = "$sapphire";
+          childBorder = "$lavender";
         };
         focusedInactive = {
-          border = "#575268";
-          background = "#1A1826";
-          text = "#C9CBFF";
-          indicator = "#575268";
-          childBorder = "#575268";
+          border = "$surface1";
+          background = "$crust";
+          text = "$text";
+          indicator = "$surface1";
+          childBorder = "$surface1";
         };
         unfocused = {
-          border = "#1E1E2E";
-          background = "#1A1826";
-          text = "#C9CBFF";
-          indicator = "#1E1E2E";
-          childBorder = "#1A1826";
+          border = "$mantle";
+          background = "$crust";
+          text = "$text";
+          indicator = "$mantle";
+          childBorder = "$crust";
         };
         urgent = {
-          border = "#F28FAD";
-          background = "#1A1826";
-          text = "#C9CBFF";
-          indicator = "#F28FAD";
-          childBorder = "#F28FAD";
+          border = "$maroon";
+          background = "$crust";
+          text = "$text";
+          indicator = "$maroon";
+          childBorder = "$maroon";
         };
       };
 
@@ -258,6 +262,394 @@
     '';
   };
 
+  # Waybar — Nix-native via `programs.waybar`, rendered to ~/.cfg/waybar/{config,style.css}.
+  # `settings` is the per-module JSON (launched by the sway `bars` entry above).
+  # `style` is a CSS string that references catppuccin `@palette` vars; the
+  # `catppuccin.waybar` module (home/theme.nix) prepends the `@import` that
+  # defines them, so flavor/accent drives the whole bar.
+  programs.waybar = {
+    enable = true;
+    settings.mainBar = {
+      bar_id = "bar-0";
+      ipc = true;
+      height = 27; # Waybar height (to be removed for auto height)
+      modules-left = [
+        "sway/workspaces"
+        "sway/window"
+        "sway/mode"
+      ];
+      modules-center = [
+        "mpd"
+        "pulseaudio"
+        "disk"
+        "memory"
+        "temperature"
+        "cpu"
+        "network"
+        "battery"
+      ];
+      modules-right = [
+        "custom/updater"
+        "backlight"
+        "tray"
+        "sway/language"
+        "clock"
+      ];
+      # margin was 12 for both without hide/show mode
+      margin-left = 0;
+      margin-right = 0;
+      margin-bottom = 0;
+
+      "sway/workspaces" = {
+        disable-scroll = false;
+        all-outputs = true;
+        format = "{icon}";
+        format-icons = {
+          "1" = "󱓞";
+          "2" = "";
+          "3" = "";
+          "4" = "󰚇";
+          "high-priority-named" = [
+            "1"
+            "2"
+            "3"
+            "4"
+            "8"
+            "9"
+            "10"
+          ];
+          urgent = "";
+          focused = "";
+          default = "";
+        };
+      };
+      "sway/window" = {
+        format = " {title}";
+        max-length = 11;
+        rewrite = {
+          "" = "desktop";
+        };
+      };
+      "sway/mode" = {
+        format = "󰕮 {}";
+      };
+      mpd = {
+        # format = "{elapsedTime:%M:%S}/{totalTime:%M:%S} {stateIcon}";
+        format = "{stateIcon}";
+        format-disconnected = "󰝛";
+        format-stopped = "󰝛";
+        on-click = "mpc toggle";
+        on-click-right = "alacritty --class alacritty-float -e ncmpcpp";
+        smooth-scrolling-threshold = "0.1";
+        on-scroll-down = "mpc seek +1%";
+        on-scroll-up = "mpc seek -1%";
+        interval = 10;
+        state-icons = {
+          paused = "󰝛";
+          playing = "󰝚";
+        };
+        tooltip-format = "MPD (connected)";
+        tooltip-format-disconnected = "MPD (disconnected)";
+      };
+      pulseaudio = {
+        scroll-step = 0.1;
+        reverse-scrolling = true;
+        format = "{icon} {volume}% {format_source}";
+        format-bluetooth = "{volume}% {icon} {format_source}";
+        format-bluetooth-muted = "󰆪 {icon} {format_source}";
+        format-muted = "󰆪 {format_source}";
+        format-source = " {volume}%";
+        format-source-muted = "";
+        format-icons = {
+          headphone = "";
+          hands-free = "󰂑";
+          headset = "󰂑";
+          phone = "";
+          portable = "";
+          car = "";
+          default = [
+            ""
+            ""
+            ""
+          ];
+        };
+        on-click = "pavucontrol";
+      };
+      disk = {
+        interval = 60;
+        format = "󰋊 {percentage_used}%";
+        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=disk";
+      };
+      memory = {
+        interval = 5;
+        format = " {}%";
+        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=mem";
+      };
+      temperature = {
+        interval = 10;
+        critical-threshold = 80;
+        format = "{icon} {temperatureC}°C";
+        format-icons = [
+          ""
+          ""
+          ""
+        ];
+        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=temp";
+      };
+      cpu = {
+        interval = 5;
+        format = "󰍛 {usage}%";
+        tooltip = false;
+        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=cpu";
+        on-click-right = "alacritty --class alacritty-float -e btm -e --default_widget_type=proc";
+      };
+      network = {
+        # interface = "wlp2*"; # (Optional) To force the use of this interface
+        format = " {bandwidthUpBytes}  {bandwidthDownBytes}";
+        format-disconnected = ""; # An empty format will hide the module.
+        tooltip-format = "Connected";
+        tooltip-format-disconnected = "Disconnected";
+        interval = 5;
+        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=net";
+      };
+      battery = {
+        bat = "BAT0";
+        interval = 30;
+        states = {
+          fine = 80;
+          caution = 60;
+          warning = 40;
+          critical = 20;
+        };
+        format = "{icon}  {capacity}%";
+        format-icons = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
+        format-full = "󰉁";
+        format-charging = "󰛕 {capacity}%";
+        tooltip-format-full = "Plugged";
+        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=battery";
+      };
+      "custom/updater" = {
+        interval = 60;
+        tooltip = true;
+        exec = "echo 󰏗 $(cat /home/user/etc/cache/updater/count)";
+        on-click-right = "/home/user/.cfg/awecron/updater/update";
+        on-click = "alacritty --class alacritty-float -e bash -c 'if doas nixos-rebuild switch --impure --flake /home/user/dev/src/nix#mb2017; then printf 0 > /home/user/etc/cache/updater/count; read -n1; fi'";
+      };
+      backlight = {
+        format = "{icon} {percent}%";
+        format-icons = [
+          "󰃞"
+          "󰃠"
+        ];
+        on-scroll-down = "light -A 1";
+        on-scroll-up = "light -U 1";
+      };
+      tray = {
+        spacing = 10;
+      };
+      "sway/language" = {
+        format = " {short}";
+        on-click = "swaymsg input '*' xkb_switch_layout next";
+        min-length = 4;
+      };
+      clock = {
+        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        format = " {:%H:%M}";
+        format-alt = "󰃰 {:%A, %B %d}";
+        on-click-right = "alacritty --class alacritty-float -e khal interactive";
+      };
+    };
+
+    # All colors are catppuccin macchiato @palette vars
+    style = ''
+      * {
+        border: none;
+        font-family: JetBrainsMono Nerd Font;
+        font-size: 13px;
+      }
+
+      window#waybar {
+        background-color: transparent;
+        /*background-color: @surface0;*/
+        border-bottom: 0px solid transparent;
+        color: @text;
+        transition-property: background-color;
+        transition-duration: .5s;
+      }
+
+      window#waybar.hidden {
+        opacity: 0.2;
+      }
+
+      #workspaces,
+      #mode,
+      #disk,
+      #cpu,
+      #memory,
+      #temperature,
+      #custom-bemenu,
+      #custom-media,
+      #custom-fans,
+      #clock,
+      #idle_inhibitor,
+      #window,
+      #language,
+      #pulseaudio,
+      #backlight,
+      #battery,
+      #custom-updater,
+      #network,
+      #mpd,
+      #tray {
+        background-color: @mantle;
+        padding: 0 10px;
+        margin: 2px 4px 5px 4px;
+        border: 1px solid @accent;
+        border-radius: 90px;
+        background-clip: padding-box;
+      }
+
+      #workspaces button {
+        padding: 0 5px;
+        min-width: 20px;
+        color: @surface1;
+      }
+
+      /* This is supposed to remove that white color when hovering over the buttons but it simply does not work.*/
+      #workspaces button:hover {
+        background-color: @mantle;
+      }
+
+      #workspaces button.focused {
+        color: @sapphire;
+      }
+
+      #workspaces button.urgent {
+        color: @red;
+      }
+
+      #cpu {
+        color: @red;
+      }
+
+      #memory {
+        color: @pink;
+      }
+
+      #temperature {
+        color: @maroon;
+      }
+
+      #temperature.critical {
+        background-color: @red;
+        color: @base;
+      }
+
+      #pulseaudio {
+        color: @teal;
+      }
+
+      #custom-updater {
+        color: @mauve;
+      }
+
+      #custom-media {
+        background-color: @green;
+        color: @base;
+      }
+
+      #clock {
+        color: @accent;
+      }
+
+      #idle_inhibitor {
+        color: @text;
+      }
+
+      #idle_inhibitor.activated {
+        background-color: @text;
+        color: @base;
+      }
+
+      #language {
+        color: @flamingo;
+      }
+
+      #backlight {
+        color: @peach;
+      }
+
+      #battery {
+        color: @green;
+      }
+
+      #battery.charging, #battery.full {
+        color: @teal;
+      }
+
+      #battery.fine:not(.charging) {
+          color: @yellow;
+      }
+
+      #battery.caution:not(.charging) {
+          color: @peach;
+      }
+
+      #battery.warning:not(.charging) {
+          color: @maroon;
+      }
+
+      #battery.critical:not(.charging) {
+          color: @red;
+      }
+
+      #mpd.playing {
+        color: @pink;
+      }
+      #mpd.paused {
+        color: @maroon;
+      }
+
+      #mpd.stopped {
+        color: @red;
+      }
+
+      #mpd.disconnected {
+        color: @red;
+      }
+
+      #network {
+        color: @sky;
+      }
+
+      #network.linked {
+       color: @green;
+      }
+
+      #network.disconnected {
+          color: @red;
+      }
+
+      #mode {
+        color: @red;
+      }
+
+      #disk {
+        color: @yellow;
+      }
+
+      #window {
+        color: @blue;
+      }
+    '';
+  };
+
   # swaylock — Nix-native via `programs.swaylock`, rendered to
   # ~/.cfg/swaylock/config from xdg.configFile. The palette comes from the
   # catppuccin port (catppuccin.swaylock in home/theme.nix); the font and the
@@ -312,4 +704,3 @@
     Install.WantedBy = [ "default.target" ];
   };
 }
-

@@ -19,13 +19,14 @@ Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and 
 | starship | `catppuccin.starship.enable` |
 | bottom | `catppuccin.bottom.enable` (theme only; non-theme options in `home/files.nix`) |
 | swaylock | `catppuccin.swaylock.enable` (official macchiato .conf → `programs.swaylock.settings` in home/desktop.nix; font only hardcoded) |
-| rofi/waybar/dunst | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
+| waybar | `catppuccin.waybar.enable` (prepends the macchiato `@palette` var import; `programs.waybar.style` in home/desktop.nix references those vars, so flavor/accent drives the bar) |
+| rofi/dunst | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
 
 Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fetched from the flake at build time, no vendored theme files in repo.
 
 ## 2. Hardcoded inline (configs not covered by the flake)
 
-- Sway borders/background (`home/desktop.nix` — native sway config `config.colors`): `#b7bdf8 #1A1826 #C9CBFF #7dc4e4 …`. The catppuccin flake auto-injects its `catppuccin/macchiato` var-include into the generated config; the `$color` vars are unused (hardcoded hex kept for parity with the old dotfile).
+- Sway borders/background (`home/desktop.nix` — native sway config `config.colors`): uses the catppuccin macchiato `$color` vars (`$lavender $crust $text $sapphire` …). The catppuccin flake auto-injects its `catppuccin/macchiato` var-include (`catppuccin.sway` autoEnable) via `extraConfigEarly`, which defines those vars; the old custom hex was snapped to the nearest palette var.
 - Swaylock colors: from the catppuccin port (`catppuccin.swaylock.enable` in home/theme.nix; official macchiato .conf rendered into `programs.swaylock.settings`). Only the font (`JetBrainsMono Nerd Font`) is hardcoded in `home/desktop.nix`.
 - Git delta (in `home/git.nix` — catppuccin palette via `map-styles`, `blame-palette`, etc.).
 - mpv (`home/media.nix`): `background="#181926"`, `sub-color="#cad3f5"`.

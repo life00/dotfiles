@@ -17,13 +17,13 @@ greetd (tuigreet) --sway--> sway --waybar/rofi/etc.
 - Start apps: `usbguard-notifier`, `nm-applet --indicator`, `dunst`, `mpc volume 50`, `opensnitch-ui`, `chmod -R g+rwx /run/user/`. (mpd itself runs as a systemd user service from `home/media.nix`, not a sway exec.)
 - Swayidle is a **systemd user service** (`services.swayidle`, binds to `graphical-session.target` via sway's `sway-session.target`); commands use absolute store paths because the unit PATH only has bash.
 - Fn bindings: F1-F3 mpd control, F4 screenshot, F5/F6 brightness, F7/F8 volume, F9 keyboard layout next, F10 powermenu, F11 process killer.
-- Catppuccin Macchiato border/background colors inline (`config.colors`); the auto-enabled `catppuccin.sway` include defines `$color` vars (harmless, unused).
+- Catppuccin Macchiato border/background colors via the official `$color` vars (`config.colors` references `$crust`, `$lavender`, `$text` …); the auto-enabled `catppuccin.sway` include defines them.
 - Font: `JetBrainsMono NFM 11px`.
 - Config validated with `sway -c <generated> --validate --unsupported-gpu` (HM `checkConfig` is auto-off since `package = null`).
 
 ## Waybar
 
-`dotfiles/waybar/` — top bar, hidden (`mode hide`), modules: workspaces, mpd, pulseaudio, disk, memory, temperature, cpu, network, battery, updater (reads `$XDG_CACHE_HOME/updater/count`), backlight, tray, language, clock. All Catppuccin Macchiato.
+`programs.waybar` in `home/desktop.nix` — top bar, hidden (`mode hide`), modules: workspaces, mpd, pulseaudio, disk, memory, temperature, cpu, network, battery, updater (reads `$XDG_CACHE_HOME/updater/count`), backlight, tray, language, clock. Config is Nix-native `settings`; the style is a CSS string referencing the catppuccin `@palette` vars imported by `catppuccin.waybar` (home/theme.nix), so macchiato/lavender drives the whole bar. Launched by the sway `bars` entry above.
 
 ## Rofi
 
