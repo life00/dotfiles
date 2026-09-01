@@ -47,6 +47,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";
+      ai = "aichat";
       ls = "eza --icons always";
       tree = "eza --icons always -T";
       delta = "delta --pager less";
