@@ -29,8 +29,7 @@
     sway
     swaylock
     swayidle
-    greetd
-    tuigreet
+    regreet
   ];
 
   # nix settings

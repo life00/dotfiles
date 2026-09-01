@@ -75,14 +75,8 @@ in
   ];
 
   # login manager
-  services.greetd = {
+  programs.regreet = {
     enable = true;
-    useTextGreeter = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd sway";
-        user = "greeter";
-      };
-    };
+    settings.background.path = "${../wallpapers/waves.png}";
   };
 }
