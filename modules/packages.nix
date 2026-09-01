@@ -10,7 +10,7 @@
     networkmanager
     opensnitch
     usbguard
-    ollama      # disabled service; kept for when it's enabled
+    ollama # disabled service; kept for when it's enabled
     firewalld
 
     # hardware / storage / root admin
@@ -19,6 +19,7 @@
     duperemove
     lsof
     libargon2
+    file
     curl
 
     # shells
@@ -31,6 +32,8 @@
     swaylock
     swayidle
   ];
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.nix-ld.enable = true;
 }
