@@ -24,6 +24,9 @@
   };
   security.sudo.enable = false;
 
+  # swaylock auth
+  security.pam.services.swaylock = { };
+
   # disable sshd
   services.openssh = {
     enable = false;
