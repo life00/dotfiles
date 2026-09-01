@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   boot.loader = {
     efi = {
@@ -10,6 +10,8 @@
       device = "nodev";
       efiSupport = true;
       enableCryptodisk = true;
+      font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNLNerdFontMono-Bold.ttf";
+      fontSize = 32;
       extraConfig = ''
         set timeout=5
       '';
