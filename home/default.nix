@@ -7,9 +7,7 @@
   imports = [
     inputs.catppuccin.homeModules.catppuccin
     ./shell.nix
-    ./git.nix
-    ./terminal.nix
-    ./editor.nix
+    ./develpoment.nix
     ./desktop.nix
     ./media.nix
     ./files.nix
