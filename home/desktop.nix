@@ -2,11 +2,10 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }:
 {
-  # Desktop dotfiles (rofi, dunst) — referenced, not inlined.
+  # Desktop dotfiles (rofi) — referenced, not inlined.
   # sway, swaylock + waybar configs are generated natively below; sway
   # wallpapers moved to /wallpapers (referenced as an absolute store path, so
   # no XDG env dependency).
@@ -17,7 +16,19 @@
     ".cfg/rofi/config.rasi".source = ../dotfiles/rofi/config.rasi;
     ".cfg/rofi/catppuccin-macchiato.rasi".source = ../dotfiles/rofi/catppuccin-macchiato.rasi;
     ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
-    ".cfg/dunst/dunstrc".source = ../dotfiles/dunst/dunstrc;
+  };
+
+  # dunst — Nix-native via `services.dunst`, with catppuccin macchiato palette
+  # applied by `catppuccin.dunst` (home/theme.nix). The drop-in conf overrides
+  # colors; only non-color settings live here.
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        frame_width = 1;
+        separator_color = "frame";
+      };
+    };
   };
 
   # Sway — fully native config. Colors are Catppuccin Macchiato; the wallpaper
@@ -229,7 +240,6 @@
         { command = "swaymsg 'workspace number 1'"; }
         { command = "usbguard-notifier"; }
         { command = "nm-applet --indicator"; }
-        { command = "dunst"; }
         # mpd runs as a systemd USER service (home/media.nix), not a sway exec —
         # starting it here would double-launch. Volume default kept.
         { command = "mpc volume 50"; }
@@ -703,5 +713,23 @@
       Restart = "on-failure";
     };
     Install.WantedBy = [ "default.target" ];
+  };
+
+  # khal — Nix-native via `programs.khal` (was dotfiles/khal/config).
+  # Calendar storage is a plain local FS path (no vdirsyncer/pimsync sync).
+  accounts.calendar.accounts.private = {
+    khal.enable = true;
+    local.path = "/home/user/etc/data/khal/calendars/private";
+  };
+
+  programs.khal = {
+    enable = true;
+    locale = {
+      timeformat = "%H:%M";
+      dateformat = "%d.%m.%Y";
+      longdateformat = "%d.%m.%Y";
+      datetimeformat = "%d.%m.%Y %H:%M";
+      longdatetimeformat = "%d.%m.%Y %H:%M";
+    };
   };
 }

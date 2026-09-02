@@ -20,7 +20,8 @@ Applied via `catppuccin.nixosModules.catppuccin` (hosts/mb2017/default.nix) and 
 | bottom | `catppuccin.bottom.enable` (theme only; non-theme options in `home/files.nix`) |
 | swaylock | `catppuccin.swaylock.enable` (official macchiato .conf → `programs.swaylock.settings` in home/desktop.nix; font only hardcoded) |
 | waybar | `catppuccin.waybar.enable` (prepends the macchiato `@palette` var import; `programs.waybar.style` in home/desktop.nix references those vars, so flavor/accent drives the bar) |
-| rofi/dunst | raw dotfiles carrying the palette themselves — NOT catppuccin flake modules (would collide with the dotfile symlinks) |
+| dunst | `catppuccin.dunst.enable` (drop-in conf for colors; `services.dunst.settings` in home/desktop.nix for non-color options) |
+| rofi | raw dotfile carrying the palette itself — NOT catppuccin flake module (would collide with the dotfile symlinks) |
 
 Flavor/accent set once: `flavor = "macchiato"`, `accent = "lavender"`. Themes fetched from the flake at build time, no vendored theme files in repo.
 

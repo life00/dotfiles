@@ -14,7 +14,7 @@ greetd (tuigreet) --sway--> sway --waybar/rofi/etc.
 
 - Mod4 (super) as mod, vim home-row keys, resize mode, scratchpad (`$mod+Shift+m` / `$mod+m`), gestures (`bindgesture swipe:*` in `extraConfig` for workspaces/lock/menu).
 - Output: `wallpapers/tux.png` (repo-root top-level dir, referenced as an **absolute store path** — old `$XDG_CONFIG_HOME/sway/wallpapers/…` broke because greetd's sway session has no `XDG_CONFIG_HOME`) + `eDP-1` 2560x1600 placeholder.
-- Start apps: `usbguard-notifier`, `nm-applet --indicator`, `dunst`, `mpc volume 50`, `opensnitch-ui`, `chmod -R g+rwx /run/user/`. (mpd itself runs as a systemd user service from `home/media.nix`, not a sway exec.)
+- Start apps: `usbguard-notifier`, `nm-applet --indicator`, `mpc volume 50`, `opensnitch-ui`, `chmod -R g+rwx /run/user/`. (mpd itself runs as a systemd user service from `home/media.nix`, not a sway exec; dunst runs as a HM user service via `services.dunst`.)
 - Swayidle is a **systemd user service** (`services.swayidle`, binds to `graphical-session.target` via sway's `sway-session.target`); commands use absolute store paths because the unit PATH only has bash.
 - Fn bindings: F1-F3 mpd control, F4 screenshot, F5/F6 brightness, F7/F8 volume, F9 keyboard layout next, F10 powermenu, F11 process killer.
 - Catppuccin Macchiato border/background colors via the official `$color` vars (`config.colors` references `$crust`, `$lavender`, `$text` …); the auto-enabled `catppuccin.sway` include defines them.

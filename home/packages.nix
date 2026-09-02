@@ -147,7 +147,6 @@
 
     # WM stack companions (merged from home/desktop.nix's home.packages)
     waybar
-    dunst
     grim
     slurp
     wl-clipboard

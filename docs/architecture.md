@@ -4,7 +4,7 @@
 
 - **Flakes-based** NixOS config (not channels). Pinned inputs: `nixpkgs` (unstable), `home-manager`, `disko`, `catppuccin`, `stevenblack-hosts`.
 - **Home Manager as a NixOS module** (`home-manager.nixosModules.home-manager`) — single `nixos-rebuild switch` rebuilds everything. HM is *not* used for everything; complex configs live as raw dotfiles via `home.file`/`xdg.configFile`.
-- **catppuccin/nix** supplies all Catppuccin themes as first-class HM modules (gtk, cursors, fzf, nvim, alacritty, bat, delta, zsh fsh, starship, swaylock, waybar, rofi, dunst).
+- **catppuccin/nix** supplies all Catppuccin themes as first-class HM modules (gtk, cursors, fzf, nvim, alacritty, bat, delta, zsh fsh, starship, swaylock, waybar, dunst).
 - **disko** declaratively formats the disk (LUKS + btrfs subvolumes, swapfile).
 
 ## Layout
@@ -18,9 +18,9 @@ modules/          # NixOS options: boot, disko, filesystems, networking,
 home/             # HM options: shell, git, terminal, editor, desktop,
                   # media, files, theme, packages
 pkgs/             # custom derivations: awecron, getmusic (Go build)
-dotfiles/          # raw configs: zsh, sway, waybar, rofi, dunst, ncmpcpp,
+dotfiles/          # raw configs: zsh, rofi, ncmpcpp,
                   # cava, lf, sioyek, khal, nvim, ssh, bin/, awecron
-                  # (sway, swaylock, waybar are now Nix-native — see home/desktop.nix)
+                  # (sway, swaylock, waybar, dunst are now Nix-native — see home/desktop.nix)
 modules/xkb/      # custom-mech xkb layout file
 ```
 

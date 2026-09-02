@@ -35,6 +35,9 @@
     delta = {
       enable = true;
     };
+    sioyek = {
+      enable = true;
+    };
     zsh-syntax-highlighting = {
       enable = true;
     };
@@ -46,12 +49,13 @@
     bottom = {
       enable = true;
     };
-    # ponytail: rofi/dunst are NOT themed via catppuccin — their
-    # configs are raw dotfiles carrying the palette themselves
-    # (dotfiles/rofi, dotfiles/dunst).
-    # catppuccin.rofi/dunst would also collide with home/desktop.nix
-    # dotfile symlinks (both write the same config files). waybar IS themed
-    # via catppuccin (see above).
+    # ponytail: rofi is NOT themed via catppuccin — its config is a raw
+    # dotfile carrying the palette itself (dotfiles/rofi).
+    # catppuccin.rofi would collide with home/desktop.nix dotfile symlinks
+    # (both write the same config files). waybar IS themed via catppuccin.
+    dunst = {
+      enable = true;
+    };
     # swaylock comes from the catppuccin port (official macchiato .conf renders
     # into `programs.swaylock.settings`); the only hardcoded addition is the
     # font, kept in home/desktop.nix.

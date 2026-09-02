@@ -29,7 +29,7 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 │   ├── git.nix                 # git config, ssh, allowed_signers
 │   ├── terminal.nix            # alacritty
 │   ├── editor.nix              # neovim (dotfiles), bat
-│   ├── desktop.nix             # sway (native config), waybar, rofi, dunst, swayidle
+│   ├── desktop.nix             # sway (native config), waybar, rofi, swayidle
 │   ├── media.nix               # mpd, ncmpcpp, mpv, cava, obs/gimp placeholders
 │   ├── files.nix               # lf, bottom (btm), dev/bin scripts, qalculate, sioyek
 │   ├── theme.nix               # Catppuccin (GTK, cursors, fsh), dconf
@@ -42,7 +42,6 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
     ├── zsh/                    # startup, aliases, addons, config/
     ├── waybar/                 # config + style.css
     ├── rofi/                   # config.rasi + config/ + bin/
-    ├── dunst/                   # dunstrc
     ├── ncmpcpp/                # config + bindings
     ├── cava/                   # config + shaders/
     ├── lf/                     # lfrc, colors, preview.sh, lfrc.cmd

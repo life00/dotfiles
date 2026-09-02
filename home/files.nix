@@ -55,16 +55,35 @@
     };
   };
 
-  # qalculate
-  home.file.".cfg/qalculate/qalc.cfg".source = ../dotfiles/qalculate/qalc.cfg;
+  # sioyek — Nix-native via `programs.sioyek` (package comes from
+  # home/packages.nix). Theme is the catppuccin macchiato palette inlined below.
+  # ponytail: catppuccin.sioyek is broken on this HM rev — it writes a literal
+  # `source <path>` line instead of merging colors, so the palette is inlined
+  # here. bindings = keys_user.config, config = prefs_user.config (keys are
+  # sorted alphabetically by HM's renderer, content is unchanged).
+  programs.sioyek = {
+    enable = true;
+    bindings = {
+      screen_down = "<C-d>";
+      screen_up = "<C-u>";
+      previous_page = "<C-p>";
+      next_page = "<C-n>";
+      copy = "y";
+      toggle_custom_color = "c";
+    };
+    config = {
+      collapsed_toc = "1";
+      font_size = "12";
+      ui_font = "JetBrainsMono Nerd Font";
+      status_bar_font_size = "16";
+      page_separator_width = "3";
 
-  # sioyek
-  home.file.".cfg/sioyek/prefs_user.config".source = ../dotfiles/sioyek/prefs_user.config;
-  home.file.".cfg/sioyek/keys_user.config".source = ../dotfiles/sioyek/keys_user.config;
-
-  # khal
-  home.file.".cfg/khal/config".source = ../dotfiles/khal/config;
-
+      startup_commands = [
+        "toggle_horizontal_scroll_lock"
+        "toggle_custom_color"
+      ];
+    };
+  };
 
   # custom xkb layout (installed system-wide via locale.nix)
   # kept here for reference

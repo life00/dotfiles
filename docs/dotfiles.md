@@ -6,7 +6,6 @@
 |-----------|----------|-------|
 | `zsh/` | zshenv, zshrc, startup, aliases, addons, config/ | Kept as reference; effective config lives in `home/shell.nix` (HM). Not symlinked. |
 | `rofi/` | `config.rasi`, `config/` (colors, font, askpass, confirm, powermenu), `bin/` (killer, powermenu, scsh) | Scripts used by sway F10/F11/F4. |
-| `dunst/` | `dunstrc` | Minimal notification setup. |
 | `ncmpcpp/` | `config`, `bindings` | ncmpcpp for mpd. |
 | `cava/` | `config`, `shaders/` | Audio visualizer. |
 | `lf/` | `lfrc`, `lfrc.cmd`, `colors`, `icons`, `icons_colored`, `preview.sh` | Extended lf config: zoxide/fzf integration, bulk rename, marks, git status, live preview script. |
