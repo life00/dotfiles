@@ -16,7 +16,7 @@
     cryptsetup
     duperemove
     lsof
-    neovim
+    vim
     libargon2
     file
     curl
