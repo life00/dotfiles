@@ -37,6 +37,32 @@
       videos = "${config.home.homeDirectory}/med/videos";
     };
 
+    dataFile."applications/neovim.desktop".source = ../dotfiles/neovim.desktop;
+    dataFile."applications/lf.desktop".source = ../dotfiles/lf.desktop;
+
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/html" = "chromium.desktop";
+        "x-scheme-handler/http" = "chromium.desktop";
+        "x-scheme-handler/https" = "chromium.desktop";
+
+        "video/mp4" = "mpv.desktop";
+        "video/webm" = "mpv.desktop";
+        "audio/mp3" = "mpv.desktop";
+        "audio/ogg" = "mpv.desktop";
+
+        "application/pdf" = "sioyek.desktop";
+
+        "image/png" = "imv.desktop";
+        "image/jpeg" = "imv.desktop";
+        "image/gif" = "imv.desktop";
+
+        "inode/directory" = "lf.desktop";
+
+        "text/plain" = "neovim.desktop";
+      };
+    };
   };
 
   home.sessionPath = [

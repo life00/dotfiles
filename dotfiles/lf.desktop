@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=lf
+Exec=alacritty -e lf %F
+Type=Application
+Terminal=false
+Categories=FileManager;

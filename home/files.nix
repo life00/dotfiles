@@ -8,8 +8,7 @@
   # and lfrc is symlinked verbatim from dotfiles/. The zlf cd-on-quit wrapper
   # is restored in home/shell.nix.
   home.file.".cfg/lf/lfrc".source = ../dotfiles/lf/lfrc;
-  home.file.".cfg/lf/lfrc.cmd".source = ../dotfiles/lf/lfrc.cmd;
-  home.file.".cfg/lf/colors".source = ../dotfiles/lf/colors;
+  home.file.".cfg/lf/icons".source = ../dotfiles/lf/icons;
   home.file.".cfg/lf/preview.sh".source = ../dotfiles/lf/preview.sh;
 
   # nvim — full LazyVim dotfiles tracked verbatim (see docs/dotfiles.md);
