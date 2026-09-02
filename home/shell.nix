@@ -278,5 +278,13 @@
 
     # texlive
     TEXMFVAR = "/tmp/texlive/texmf-var";
+
+    # xdg user dirs
+    XDG_DOWNLOAD_DIR = config.xdg.userDirs.download;
+    XDG_DESKTOP_DIR = config.xdg.userDirs.desktop;
+    XDG_DOCUMENTS_DIR = config.xdg.userDirs.documents;
+    XDG_MUSIC_DIR = config.xdg.userDirs.music;
+    XDG_PICTURES_DIR = config.xdg.userDirs.pictures;
+    XDG_VIDEOS_DIR = config.xdg.userDirs.videos;
   };
 }
