@@ -26,7 +26,7 @@ proclog() {
 main() {
   # gets the amount of snapshots
   # something may break if in $STORAGE would be non snapshots
-  count=$(ls "$STORAGE" | wc -l)
+  count=$(ls -1 "$STORAGE" | wc -l)
 
   # this is specifically for names
   time=$(date +"$DISPLAY")
