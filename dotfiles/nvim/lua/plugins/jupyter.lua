@@ -37,7 +37,7 @@ return {
     opts = {
       closePreviewOnExit = false,
       lsp_features = {
-        languages = { "python", "r", "julia", "bash", "sql" },
+        languages = { "python", "r", "bash", "sql" },
         chunks = "all",
         diagnostics = {
           enabled = true,

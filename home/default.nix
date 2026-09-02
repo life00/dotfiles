@@ -21,6 +21,7 @@
   home.homeDirectory = "/home/user";
   home.stateVersion = "26.05";
 
+  # custom xdg directory layout
   xdg = {
     enable = true;
     configHome = "${config.home.homeDirectory}/.cfg";

@@ -2,26 +2,21 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }:
 {
   programs.zsh = {
     enable = true;
-    # ponytail: `enableLsColors` was removed from home-manager's programs.zsh;
-    # aliases force `eza --icons` anyway. Dropped.
+    # vim mode
     defaultKeymap = "viins";
 
-    # Fast compinit: fully regenerate the completion dump only when it is
-    # missing or older than 24h, otherwise reuse it with `-C` (no fpath rescan).
-    # This is the dominant startup cost (was ~830ms): the packs come from
-    # /nix/store paths whose hashes change every rebuild, so plain `compinit`
-    # re-stats ~3700 files across 27 fpath dirs on *every* startup and keeps
-    # invalidating the dump. The 24h window still picks up rebuilds within the
-    # day while keeping the common case ~13ms. Dump lives in $ZDOTDIR.
+    setOptions = [
+      "interactive_comments"
+    ];
+
+    # fast compinit
     completionInit = ''
-      # Only regenerate the completion dump when it is missing or older than
-      # 24h; otherwise reuse it with -C (no fpath rescan) for fast startup.
+      # regenrate compinit only if older than 24h
       autoload -U compinit
       for dumpfile in "''${ZDOTDIR:-$HOME}/.zcompdump"(N.mh+24); do
         compinit -d "''${ZDOTDIR:-$HOME}/.zcompdump"
@@ -36,12 +31,6 @@
       save = 5000;
       ignoreDups = true;
     };
-
-    # zsh options (set at order 950, after plugins). HIST_IGNORE_DUPS +
-    # SHARE_HISTORY etc. come from `history.ignoreDups` above; add the rest.
-    setOptions = [
-      "interactive_comments"
-    ];
 
     shellAliases = {
       ".." = "cd ..";
@@ -68,55 +57,48 @@
       todo = "rg '\\- \\[ \\] ' --sortr 'modified' --glob '*.md' '/home/user/doc/'";
     };
 
-    # zsh-vi-mode highlight colors (set before the plugin loads in order 900).
-    # System-wide command logging lives in modules/users.nix.
+    # some ugly legacy zsh configs
     initContent = lib.mkMerge [
       (lib.mkBefore ''
+        # zsh-vi-mode highlight colors (set before the plugin loads).
         ZVM_VI_HIGHLIGHT_BACKGROUND=#494d64
         ZVM_VI_HIGHLIGHT_FOREGROUND=text
         ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
       '')
       ''
-      # cheat.sh
-      cht() {
-        curl cheat.sh/"$@"
-      }
+        # cheat.sh
+        cht() {
+          curl cheat.sh/"$@"
+        }
 
-      # lf: cd to last visited dir on quit (was provided by HM programs.lf,
-      # which is disabled - lf config is a raw dotfile, see home/files.nix)
-      zlf() {
-        local last="$XDG_STATE_HOME/lf/lastdir"
-        command lf -last-dir-path "$last" "$@"
-        if [[ -s "$last" ]]; then
-          cd "$(cat "$last")"
-        fi
-      }
+        # lf: cd to last visited dir on quit
+        zlf() {
+          local last="$XDG_STATE_HOME/lf/lastdir"
+          command lf -last-dir-path "$last" "$@"
+          if [[ -s "$last" ]]; then
+            cd "$(cat "$last")"
+          fi
+        }
 
-      # fzf-tab Catppuccin Macchiato theme (was `zstyle ':fzf-tab:*' fzf-flags`
-      # in the original dotfiles/zsh/addons)
-      zstyle ':fzf-tab:*' fzf-flags --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
-        --color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
-        --color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
-        --color=selected-bg:#494D64 \
-        --color=border:#363A4F,label:#CAD3F5
+        # fzf-tab Catppuccin Macchiato theme
+        zstyle ':fzf-tab:*' fzf-flags --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
+          --color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
+          --color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
+          --color=selected-bg:#494D64 \
+          --color=border:#363A4F,label:#CAD3F5
 
-      # zsh-history-substring-search bindkeys + highlight colors
-      # (was dotfiles/zsh/config/zsh-history-substring-search.conf). Runs after
-      # the plugin is sourced (order 900); the widgets must exist by then.
-      bindkey '^[[A' history-substring-search-up
-      bindkey '^[[B' history-substring-search-down
-      bindkey -M vicmd 'k' history-substring-search-up
-      bindkey -M vicmd 'j' history-substring-search-down
-      export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#494d64,bg=#c6a0f6"
-      export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#494d64,bg=#ed8796"
-    ''
+        # zsh-history-substring-search bindkeys + highlight colors
+        bindkey '^[[A' history-substring-search-up
+        bindkey '^[[B' history-substring-search-down
+        bindkey -M vicmd 'k' history-substring-search-up
+        bindkey -M vicmd 'j' history-substring-search-down
+        export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#494d64,bg=#c6a0f6"
+        export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#494d64,bg=#ed8796"
+      ''
     ];
   };
 
-  # zsh plugins via HM
-  # ponytail: nixpkgs zsh plugin packages nest the init file under `share/...`,
-  # not at the package root, so the default `file = "${name}.plugin.zsh"` never
-  # matches and nothing gets sourced. Each entry must pin the real relative path.
+  # zsh plugins
   programs.zsh.plugins = [
     {
       name = "fzf-tab";
@@ -143,17 +125,15 @@
       src = pkgs.zsh-fast-syntax-highlighting;
       file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
     }
-    # ponytail: `programs.oh-my-zsh` was removed from home-manager in this
-    # revision (only `programs.oh-my-posh` remains), but `pkgs.oh-my-zsh` still
-    # ships the plugin tree. Source its `git.plugin.zsh` directly (same file the
-    # old `dotfiles/zsh/addons` did) instead of the dropped HM option, keeping
-    # the full alias set (gst/gd/gaa/gcmsg/gcm/... ) + helpers (`git_main_branch`).
     {
       name = "git";
       src = pkgs.oh-my-zsh;
       file = "share/oh-my-zsh/plugins/git/git.plugin.zsh";
     }
   ];
+
+  # enables fzf keybindings in shell
+  programs.fzf.enable = true;
 
   # zoxide
   programs.zoxide = {
@@ -166,33 +146,29 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      # faithful port of ~/Downloads/cfg starship/starship.toml (reference).
-      # The earlier port stripped the / powerline separators + icons (folder
-      # , clock , git stash ) and left broken/empty []() groups; they are
-      # now restored verbatim from the reference.
       format = "$battery$username$hostname$character";
       right_format = "$cmd_duration$git_status$git_branch$directory";
 
       character = {
-        format = " [](fg:#181926 bg:none)$symbol[](fg:#181926 bg:none) ";
-        success_symbol = "[󰠥](fg:#a6da95 bg:#181926)";
-        error_symbol = "[󰠥](fg:#ed8796 bg:#181926)";
-        vicmd_symbol = "[󰠥](fg:#8aadf4 bg:#181926)";
+        format = " [](fg:crust bg:none)$symbol[](fg:crust bg:none) ";
+        success_symbol = "[󰠥](fg:green bg:crust)";
+        error_symbol = "[󰠥](fg:red bg:crust)";
+        vicmd_symbol = "[󰠥](fg:blue bg:crust)";
         disabled = false;
       };
 
       hostname = {
         ssh_only = true;
         trim_at = ".";
-        format = " [](fg:#181926 bg:none)[󰍹](fg:#ee99a0 bg:#181926)[](fg:#181926 bg:#1e2030)[ $hostname]($style)[](fg:#1e2030 bg:none)";
-        style = "fg:#ee99a0 bg:#1e2030";
+        format = " [](fg:crust bg:none)[󰍹](fg:maroon bg:crust)[](fg:crust bg:mantle)[ $hostname]($style)[](fg:mantle bg:none)";
+        style = "fg:maroon bg:mantle";
         disabled = false;
       };
 
       username = {
-        style_root = "fg:#ed8796";
-        style_user = "fg:#eed49f";
-        format = " [](fg:#181926 bg:none)[󰀉]($style bg:#181926)[](fg:#181926 bg:#1e2030)[ $user]($style bg:#1e2030)[](fg:#1e2030 bg:none)";
+        style_root = "fg:red";
+        style_user = "fg:yellow";
+        format = " [](fg:crust bg:none)[󰀉]($style bg:crust)[](fg:crust bg:mantle)[ $user]($style bg:mantle)[](fg:mantle bg:none)";
         show_always = false;
         disabled = false;
       };
@@ -200,16 +176,16 @@
       battery = {
         charging_symbol = "󰂄";
         discharging_symbol = "󰂃";
-        format = " [](fg:#181926 bg:none)[$symbol]($style bg:#181926)[](fg:#181926 bg:#1e2030)[ $percentage]($style bg:#1e2030)[](fg:#1e2030 bg:none)";
+        format = " [](fg:crust bg:none)[$symbol]($style bg:crust)[](fg:crust bg:mantle)[ $percentage]($style bg:mantle)[](fg:mantle bg:none)";
         disabled = false;
         display = [
           {
             threshold = 10;
-            style = "fg:#ed8796";
+            style = "fg:red";
           }
           {
             threshold = 20;
-            style = "fg:#f5a97f";
+            style = "fg:peach";
           }
         ];
       };
@@ -217,29 +193,29 @@
       directory = {
         truncation_length = 5;
         truncate_to_repo = false;
-        format = "([](fg:#181926 bg:none)[$read_only]($read_only_style)[](fg:#181926 bg:none) )[](fg:#181926 bg:none)[](fg:#8bd5ca bg:#181926)[](fg:#181926 bg:#1e2030)[ $path]($style)[](fg:#1e2030 bg:none)";
-        style = "fg:#8db5ca bg:#1e2030";
+        format = "([](fg:crust bg:none)[$read_only]($read_only_style)[](fg:crust bg:none) )[](fg:crust bg:none)[](fg:teal bg:crust)[](fg:crust bg:mantle)[ $path]($style)[](fg:mantle bg:none)";
+        style = "fg:teal bg:mantle";
         disabled = false;
         read_only = "󰍁";
-        read_only_style = "fg:#ed8796 bg:#181926";
+        read_only_style = "fg:red bg:crust";
         truncation_symbol = "";
-        repo_root_style = "fg:#8aadf4 bg:#1e2030";
-        repo_root_format = "([](fg:#181926 bg:none)[$read_only]($read_only_style)[](fg:#181926 bg:none) )[](fg:#181926 bg:none)[](fg:#8bd5ca bg:#181926)[](fg:#181926 bg:#1e2030)[ $repo_root]($repo_root_style)[$path]($style)[](fg:#1e2030 bg:none)";
+        repo_root_style = "fg:blue bg:mantle";
+        repo_root_format = "([](fg:crust bg:none)[$read_only]($read_only_style)[](fg:crust bg:none) )[](fg:crust bg:none)[](fg:teal bg:crust)[](fg:crust bg:mantle)[ $repo_root]($repo_root_style)[$path]($style)[](fg:mantle bg:none)";
         home_symbol = "~";
         use_os_path_sep = true;
       };
 
       git_branch = {
         always_show_remote = false;
-        format = "[](fg:#181926 bg:none)[$symbol](fg:#c6a0f6 bg:#181926)[](fg:#181926 bg:#1e2030)[ $branch]($style)[](fg:#1e2030 bg:none) ";
+        format = "[](fg:crust bg:none)[$symbol](fg:mauve bg:crust)[](fg:crust bg:mantle)[ $branch]($style)[](fg:mantle bg:none) ";
         symbol = "";
-        style = "fg:#c6a0f6 bg:#1e2030";
+        style = "fg:mauve bg:mantle";
         only_attached = false;
         disabled = false;
       };
 
       git_status = {
-        format = "([](fg:#181926 bg:none)[󰊢](fg:#f0c6c6 bg:#181926)[](fg:#181926 bg:#1e2030)[ $all_status$ahead_behind]($style)[](fg:#1e2030 bg:none) )";
+        format = "([](fg:crust bg:none)[󰊢](fg:flamingo bg:crust)[](fg:crust bg:mantle)[ $all_status$ahead_behind]($style)[](fg:mantle bg:none) )";
         conflicted = "= ";
         ahead = "";
         behind = "";
@@ -251,7 +227,7 @@
         staged = "+$count ";
         renamed = "» ";
         deleted = "󰆳 ";
-        style = "fg:#f0c6c6 bg:#1e2030";
+        style = "fg:flamingo bg:mantle";
         ignore_submodules = false;
         disabled = false;
       };
@@ -259,8 +235,8 @@
       cmd_duration = {
         min_time = 10000;
         show_milliseconds = false;
-        format = "[](fg:#181926 bg:none)[]($style bg:#181926)[](fg:#181926 bg:#1e2030)[ $duration]($style bg:#1e2030)[](fg:#1e2030 bg:none) ";
-        style = "fg:#7dc4e4";
+        format = "[](fg:crust bg:none)[]($style bg:crust)[](fg:crust bg:mantle)[ $duration]($style bg:mantle)[](fg:mantle bg:none) ";
+        style = "fg:sapphire";
         disabled = false;
         show_notifications = false;
         min_time_to_notify = 60000;
@@ -268,7 +244,7 @@
     };
   };
 
-  # zshenv environment variables (XDG, program paths, etc.)
+  # zshenv environment variables
   home.sessionVariables = {
     PAGER = "nvim +Man!";
     EDITOR = "nvim";
@@ -278,8 +254,7 @@
     MESA_GL_VERSION_OVERRIDE = "3.3";
     MESA_GLSL_VERSION_OVERRIDE = "330";
 
-    # starship (config generated by home-manager programs.starship.settings
-    # below — lives at ~/.cfg/starship.toml; keep STARSHIP_CONFIG in sync)
+    # starship
     STARSHIP_CONFIG = "${config.home.homeDirectory}/.cfg/starship.toml";
     STARSHIP_CACHE = "${config.home.homeDirectory}/etc/cache/starship/cache";
 
@@ -303,15 +278,5 @@
 
     # texlive
     TEXMFVAR = "/tmp/texlive/texmf-var";
-
-    # ollama
-    OLLAMA_MODELS = "/opt/user/ollama";
-
-    # julia
-    JULIA_DEPOT_PATH = "${config.home.homeDirectory}/etc/data/julia:$JULIA_DEPOT_PATH";
-    JULIAUP_DEPOT_PATH = "${config.home.homeDirectory}/etc/data/julia";
-
-    # fzf colors (Catppuccin Macchiato)
-    FZF_DEFAULT_OPTS = " --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 --color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 --color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 --color=selected-bg:#494D64 --color=border:#363A4F,label:#CAD3F5";
   };
 }
