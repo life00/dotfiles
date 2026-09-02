@@ -226,6 +226,7 @@
       };
 
       startup = [
+        { command = "swaymsg 'workspace number 1'"; }
         { command = "usbguard-notifier"; }
         { command = "nm-applet --indicator"; }
         { command = "dunst"; }
