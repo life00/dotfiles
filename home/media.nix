@@ -26,16 +26,14 @@
   home.file.".cfg/ncmpcpp/config".source = ../dotfiles/ncmpcpp/config;
   home.file.".cfg/ncmpcpp/bindings".source = ../dotfiles/ncmpcpp/bindings;
 
-  # mpv (minimal config via HM)
+  # mpv
   programs.mpv = {
     enable = true;
-    # ponytail: config is now an attrset (type-checked), not raw lines
     config = {
       background = "#181926";
       sub-color = "#cad3f5";
       sub-font = "JetBrainsMono Nerd Font";
     };
-    # ponytail: `inputConfig` was renamed to `bindings` (attrs key -> command)
     bindings = {
       h = "add video-pan-x 0.05";
       l = "add video-pan-x -0.05";
@@ -48,7 +46,4 @@
 
   # cava (dotfiles config)
   home.file.".cfg/cava/config".source = ../dotfiles/cava/config;
-  # shaders directory
-  home.file.".cfg/cava/shaders".source = ../dotfiles/cava/shaders;
 }
-

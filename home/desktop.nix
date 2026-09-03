@@ -5,28 +5,15 @@
   ...
 }:
 {
-  # Desktop dotfiles (rofi scripts + powermenu theme assets) — referenced, not
-  # inlined. Main rofi config + catppuccin theme are Nix-native via
-  # `programs.rofi` + `catppuccin.rofi` below.
-  home.file = {
-    # waybar config + style are Nix-native (`programs.waybar` below), not
-    # dotfile symlinks — the raw dotfiles were removed (dotfiles/waybar/).
-    ".cfg/rofi/config".source = ../dotfiles/rofi/config;
-    ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
-  };
-
-  # Rofi — Nix-native via `programs.rofi`. The catppuccin macchiato theme
-  # comes from `catppuccin.rofi` (home/theme.nix), which installs it to
-  # ~/etc/data/rofi/themes and emits `@theme`/`@import`. XDG vars are exported
-  # by the session, so the named lookup resolves. `location` maps to the named
-  # option; the rest of the old config.rasi lives in `extraConfig`.
-  # Powermenu/confirm/askpass sub-themes stay in dotfiles/rofi/config/
-  # (referenced by scripts via $HOME/.cfg/rofi/config/*.rasi).
   programs.rofi = {
     enable = true;
     terminal = "alacritty";
-    location = "center"; # was `location: 0` (top)
-    modes = [ "run" "drun" "window" ];
+    location = "center";
+    modes = [
+      "run"
+      "drun"
+      "window"
+    ];
     extraConfig = {
       icon-theme = "ePapirus-Dark";
       show-icons = true;
@@ -42,9 +29,11 @@
     };
   };
 
-  # dunst — Nix-native via `services.dunst`, with catppuccin macchiato palette
-  # applied by `catppuccin.dunst` (home/theme.nix). The drop-in conf overrides
-  # colors; only non-color settings live here.
+  home.file = {
+    ".cfg/rofi/config".source = ../dotfiles/rofi/config;
+    ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
+  };
+
   services.dunst = {
     enable = true;
     settings = {
@@ -55,38 +44,26 @@
     };
   };
 
-  # Sway — fully native config. Colors are Catppuccin Macchiato; the wallpaper
-  # is the absolute store path `/wallpapers/tux.png` (the old
-  # `$XDG_CONFIG_HOME/sway/wallpapers/…` broke because greetd's sway session
-  # has an unset XDG_CONFIG_HOME). `systemd.enable` stays on so
-  # sway-session.target→graphical-session.target runs services.swayidle.
   wayland.windowManager.sway = {
     enable = true;
-    # ponytail: the binary comes from the NixOS `programs.sway` module
-    # (modules/packages.nix), which greetd launches. HM package = null →
-    # checkConfig auto-off; validated manually with `sway --validate` instead.
     package = lib.mkForce null;
     systemd = {
       enable = true;
-      # host runs dbus-broker (services.dbus.implementation = "broker"): the
-      # session-startup line must use `import-environment`, not
-      # dbus-update-activation-environment (classic dbus).
       dbusImplementation = "broker";
     };
 
     config = {
       modifier = "Mod4";
       terminal = "alacritty";
-      # -terminal alacritty: terminal apps from the run combi launch in
-      # alacritty (matches the former dotfile $menu).
-      menu = "rofi -terminal alacritty -show combi -combi-modes drun#run -modes combi";
+      # FIXME: doesn't open the right menu
+      menu = "rofi -terminal alacritty -show combi -combi-modes drun"; # run -modes combi
       fonts = {
         names = [ "JetBrainsMono NFM" ];
         size = 11.0;
       };
 
       window = {
-        titlebar = false; # default_border pixel 1
+        titlebar = false;
         border = 1;
         hideEdgeBorders = "smart";
         commands = [
@@ -127,10 +104,7 @@
         ];
       };
 
-      # Colors use the official catppuccin macchiato $color vars — defined by the
-      # auto-included `catppuccin.sway` theme (catppuccin/macchiato include in
-      # extraConfigEarly). The old custom hex (#1A1826, #C9CBFF, #575268 …
-      # ) are snapped to the nearest palette var.
+      # catppuccin.sway colors are automatically included
       colors = {
         background = "$crust";
         focused = {
@@ -195,22 +169,17 @@
         hide_cursor = "10000";
       };
 
-      # Defaults from the HM module are merged per-key: overrides, additions
-      # and nulls (removals). Wrapped in mkOptionDefault so the module's
-      # native default bindings (workspace numbers, focus/move keys,
-      # Mod4+Return, Mod4+q, …) are KEPT — a flat keybindings attrset would
-      # silently replace them all (see docs/home-manager.md).
       keybindings = lib.mkOptionDefault {
-        # launcher on space (d is freed)
+        # launcher on space
         "Mod4+space" = "exec ${config.wayland.windowManager.sway.config.menu}";
         "Mod4+d" = null;
-        # focus/floating toggle on Alt
+        # focus/floating toggle
         "Mod1+space" = "focus mode_toggle";
         "Mod1+Shift+space" = "floating toggle";
         "Mod4+Shift+space" = null;
         # floating terminal
         "Mod4+Shift+Return" = "exec alacritty --class alacritty-float";
-        # scratchpad on m (minus combos removed)
+        # scratchpad
         "Mod4+m" = "scratchpad show";
         "Mod4+Shift+m" = "move scratchpad";
         "Mod4+minus" = null;
@@ -218,23 +187,15 @@
         # workspace prev/next
         "Mod4+p" = "workspace prev";
         "Mod4+n" = "workspace next";
-        # reload on Shift+r (Shift+c freed)
+        # reload
         "Mod4+Shift+r" = "reload";
         "Mod4+Shift+c" = null;
-        # exit sway on Shift+q (as the former config); the module default
-        # exit-on-Shift+e is removed. Mod4+q (kill) comes from the former
-        # config too — this module binds kill to Mod4+Shift+q only.
+        # close window; exit sway
         "Mod4+q" = "kill";
         "Mod4+Shift+q" = "exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit sway' 'swaymsg exit'";
         "Mod4+Shift+e" = null;
-        # commented-out defaults in the old config
-        "Mod4+a" = null;
-        "Mod4+s" = null;
-        "Mod4+w" = null;
-        "Mod4+e" = null;
-        "Mod4+r" = null;
 
-        # Fn keys (was the NON DEFAULT block)
+        # fn keys
         "f1" = "exec mpc prev && notify-send \"playing previous song in queue\"";
         "f2" = "exec mpc toggle && notify-send \"toggled current audio stream\"";
         "f3" = "exec mpc next && notify-send \"playing next song in queue\"";
@@ -245,10 +206,10 @@
           "exec brightnessctl -d kbd_backlight set 1%- && notify-send \"keyboard brightness decreased\"";
         "f6+Shift" =
           "exec brightnessctl -d kbd_backlight set 1%+ && notify-send \"keyboard brightness increased\"";
-        "f7" = "exec pactl set-sink-volume 0 -1% && notify-send \"volume decreased\"";
-        "f8" = "exec pactl set-sink-volume 0 +1% && notify-send \"volume increased\"";
-        "f7+Shift" = "exec pactl set-sink-mute 0 1 && notify-send \"audio output muted\"";
-        "f8+Shift" = "exec pactl set-sink-mute 0 0 && notify-send \"audio output unmuted\"";
+        "f7" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-send \"volume decreased\"";
+        "f8" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ && notify-send \"volume increased\"";
+        "f7+Shift" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 && notify-send \"audio output muted\"";
+        "f8+Shift" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 && notify-send \"audio output unmuted\"";
         "f9" = "exec swaymsg input \"*\" xkb_switch_layout next && notify-send \"keyboard layout changed\"";
         "f10" = "exec /home/user/.bin/powermenu";
         "f11" = "exec /home/user/.bin/killer";
@@ -258,12 +219,8 @@
         { command = "swaymsg 'workspace number 1'"; }
         { command = "usbguard-notifier"; }
         { command = "nm-applet --indicator"; }
-        # mpd runs as a systemd USER service (home/media.nix), not a sway exec —
-        # starting it here would double-launch. Volume default kept.
         { command = "mpc volume 50"; }
         { command = "/bin/sh -c \"pkill -15 opensnitch-ui; opensnitch-ui\""; }
-        # make brave work from other user
-        { command = "chmod -R g+rwx /run/user/"; }
       ];
 
       bars = [
@@ -277,8 +234,7 @@
       ];
     };
 
-    # Lines the HM module can't express: titlebar metrics + gesture bindings.
-    # `include /etc/sway/config.d/*` dropped (native config replaces the default).
+    # config HM can't express
     extraConfig = ''
       titlebar_border_thickness 1
       titlebar_padding 1
@@ -291,17 +247,12 @@
     '';
   };
 
-  # Waybar — Nix-native via `programs.waybar`, rendered to ~/.cfg/waybar/{config,style.css}.
-  # `settings` is the per-module JSON (launched by the sway `bars` entry above).
-  # `style` is a CSS string that references catppuccin `@palette` vars; the
-  # `catppuccin.waybar` module (home/theme.nix) prepends the `@import` that
-  # defines them, so flavor/accent drives the whole bar.
   programs.waybar = {
     enable = true;
     settings.mainBar = {
       bar_id = "bar-0";
       ipc = true;
-      height = 27; # Waybar height (to be removed for auto height)
+      height = 27;
       modules-left = [
         "sway/workspaces"
         "sway/window"
@@ -324,7 +275,6 @@
         "sway/language"
         "clock"
       ];
-      # margin was 12 for both without hide/show mode
       margin-left = 0;
       margin-right = 0;
       margin-bottom = 0;
@@ -433,9 +383,9 @@
         on-click-right = "alacritty --class alacritty-float -e btm -e --default_widget_type=proc";
       };
       network = {
-        # interface = "wlp2*"; # (Optional) To force the use of this interface
+        # interface = "wlp2*";
         format = " {bandwidthUpBytes}  {bandwidthDownBytes}";
-        format-disconnected = ""; # An empty format will hide the module.
+        format-disconnected = "";
         tooltip-format = "Connected";
         tooltip-format-disconnected = "Disconnected";
         interval = 5;
@@ -495,7 +445,7 @@
       };
     };
 
-    # All colors are catppuccin macchiato @palette vars
+    # catppuccin @palette vars
     style = ''
       * {
         border: none;
@@ -679,14 +629,6 @@
     '';
   };
 
-  # swaylock — Nix-native via `programs.swaylock`, rendered to
-  # ~/.cfg/swaylock/config from xdg.configFile. The palette comes from the
-  # catppuccin port (catppuccin.swaylock in home/theme.nix); the font and the
-  # lock-screen wallpaper are hardcoded here (merged into the generated
-  # settings). The wallpaper is the absolute store path to dark-cat.png (same
-  # trick as the sway `output.bg` — no XDG env dependency under greetd). The
-  # binary comes from the system `programs.sway` module (modules/packages.nix),
-  # so the HM package is null.
   programs.swaylock = {
     enable = true;
     package = lib.mkForce null;
@@ -701,9 +643,6 @@
     };
   };
 
-  # swayidle as a systemd user service (was `exec swayidle -w …` in the dotfile).
-  # The unit's PATH only contains bash, so commands use absolute store paths.
-  # Binds to graphical-session.target, started via sway's sway-session.target.
   services.swayidle = {
     enable = true;
     timeouts = [
@@ -721,9 +660,7 @@
     events.before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
   };
 
-  # XDG desktop portal (wlroots) for screen sharing / portal requests on sway.
-  # D-Bus and xdg-desktop-portal normally activate the wlr backend, but we pin
-  # the unit so it is available even before the wlr backend D-Bus name exists.
+  # screen sharing
   systemd.user.services.xdg-desktop-portal-wlr = {
     Unit.Description = "XDG desktop portal for wlroots (sway)";
     Service = {
@@ -733,8 +670,7 @@
     Install.WantedBy = [ "default.target" ];
   };
 
-  # khal — Nix-native via `programs.khal` (was dotfiles/khal/config).
-  # Calendar storage is a plain local FS path (no vdirsyncer/pimsync sync).
+  # khal
   accounts.calendar.accounts.private = {
     khal.enable = true;
     local.path = "/home/user/etc/data/khal/calendars/private";

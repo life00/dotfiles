@@ -26,14 +26,14 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # MBP 2017 suspend/.resume fixes
+  # MBP 2017 suspend/resume fixes
   boot.kernelParams = [
     "intel_iommu=on" # required for applespi keyboard in stage 1
     "pcie_ports=compat" # fix Thunderbolt xHCI controller reset after resume
     "nvme_core.default_ps_max_latency_us=0" # prevent NVMe D3 cold deep sleep
   ];
 
-  # Pre/post suspend hook: disable d3cold + force PCI re-probe of WiFi
+  # pre/post suspend hook: disable d3cold + force PCI re-probe of WiFi
   environment.etc."systemd/system-sleep/mbp-suspend" = {
     mode = "0755";
     text = ''

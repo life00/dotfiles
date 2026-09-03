@@ -3,16 +3,9 @@
   ...
 }:
 {
-  # COMPLETE user-scope manifest. Everything a logged-in user touches lives
-  # here; modules/packages.nix holds only system/daemon/admin packages.
-  # Deliberate duplication: some of these are ALSO installed by home-manager
-  # config modules (programs.git, programs.mpv, programs.bottom, …) — listed
-  # here anyway as the single explicit inventory. Do not prune as "redundant".
-  # sway/swaylock/swayidle deliberately stay OUT (system modules/packages.nix
-  # + HM programs.sway/ssl services.swayidle own those binaries; HM package
-  # overrides are null in home/desktop.nix).
+  # all user packages
   home.packages = with pkgs; [
-    # CLI utilities
+    # cli utilities
     age
     cava
     entr
@@ -36,8 +29,11 @@
     yt-dlp
     unzip
     exiftool
-    brightnessctl # sway F5/F6 bindings (home/desktop.nix)
-    libnotify # notify-send in sway bindings
+    brightnessctl
+    libnotify
+    bat
+    starship
+    zoxide
 
     # development
     cargo
@@ -47,15 +43,14 @@
     rustc
     zig
     uv
-
-    # python
     python3
     poetry
-
-    # node
     nodejs
     pnpm
     yarn
+    opencode
+    alacritty
+    git
 
     # media
     ffmpeg
@@ -64,7 +59,7 @@
     pavucontrol
     playerctl
 
-    # docs / latex (full set from backup)
+    # latex
     texlivePackages.biblatex
     texlivePackages.biblatex-apa
     texlivePackages.biblatex-iso690
@@ -95,7 +90,7 @@
     texlivePackages.todonotes
     texlivePackages.xindy
 
-    # R + packages
+    # R packages
     R
     rPackages.dplyr
     rPackages.ggplot2
@@ -111,7 +106,7 @@
     rPackages.usethis
     rPackages.IRkernel
 
-    # science
+    # data science
     quarto
     python3.pkgs.jupyterlab
     python3.pkgs.ipykernel
@@ -121,7 +116,7 @@
     python3.pkgs.numpy
     python3.pkgs.scipy
 
-    # GUI apps
+    # gui apps
     chromium
     gimp
     libreoffice
@@ -135,50 +130,25 @@
     # ai
     aichat
 
-    # desktop / daemon companions
+    # desktop and daemon apps
     rofi
     usbguard-notifier
     opensnitch-ui
     khal
-    bottom # config via programs.bottom (home/files.nix)
-    lf # config is a raw dotfile (dotfiles/lf)
-    networkmanagerapplet # `exec nm-applet` in sway startup
+    mpd
+    bottom
+    lf
+    networkmanagerapplet
     xdg-desktop-portal-wlr
 
-    # WM stack companions (merged from home/desktop.nix's home.packages)
+    # window manager
     waybar
     grim
     slurp
     wl-clipboard
 
-    # HM-module-installed (single explicit inventory — see header comment)
-    git
-    bat
-    opencode
-    alacritty
-    starship
-    zoxide
-    mpd
-
     # comment out due to conflicts with program.{delta,neovim}
     # delta
     # neovim
   ];
-
-  # placeholders (commented out - enable when ready)
-  # chromium configuration
-  # programs.chromium = {
-  #   enable = true;
-  #   package = pkgs.chromium;
-  #   # bookmarks, extensions, vimium config managed externally
-  # };
-
-  # syncthing
-  # services.syncthing = {
-  #   enable = true;
-  #   dataDir = "${config.home.homeDirectory}/.cfg/syncthing";
-  # };
-
-  # opensnitch
-  # programs.opensnitch = { enable = true; };
 }

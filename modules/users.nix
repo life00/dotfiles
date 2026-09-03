@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 {
@@ -38,8 +37,7 @@
     "f /var/log/history.log 0666 root root -"
   ];
 
-  # System-wide command logging to /var/log/history.log
-  # for zsh and bash
+  # system-wide command logging to /var/log/history.log for zsh and bash
   programs.zsh.interactiveShellInit = ''
     precmd() {
       retrn=$?
@@ -56,19 +54,4 @@
       fi
     '';
   };
-
-  # Build-time store reference (for ../dotfiles/bin)
-  system.activationScripts.homeSetup = lib.stringAfter [ "users" ] ''
-    mkdir -p /home/user/.bin
-    ln -sfn /home/user/.cfg/rofi/bin/killer    /home/user/.bin/killer
-    ln -sfn /home/user/.cfg/rofi/bin/powermenu /home/user/.bin/powermenu
-    ln -sfn /home/user/.cfg/rofi/bin/scsh      /home/user/.bin/scsh
-    # dotfiles/bin workflow scripts — built-in store reference so activation
-    # does not depend on the ~/.cfg/bin home-manager symlink (created later).
-    for f in ${./../dotfiles/bin}/*; do
-      [ -e "$f" ] || continue
-      ln -sfn "$f" "/home/user/.bin/$(basename "$f")"
-    done
-  '';
 }
-

@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }:
 let
@@ -50,7 +51,7 @@ in
     enable = false;
     user = "user";
     dataDir = "/home/user";
-    configDir = "/home/user/.cfg/syncthing";
+    configDir = "${config.xdg.configHome}/syncthing";
     # devices/folders added via UI
     overrideDevices = false;
     overrideFolders = false;
