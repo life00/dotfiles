@@ -5,17 +5,41 @@
   ...
 }:
 {
-  # Desktop dotfiles (rofi) — referenced, not inlined.
-  # sway, swaylock + waybar configs are generated natively below; sway
-  # wallpapers moved to /wallpapers (referenced as an absolute store path, so
-  # no XDG env dependency).
+  # Desktop dotfiles (rofi scripts + powermenu theme assets) — referenced, not
+  # inlined. Main rofi config + catppuccin theme are Nix-native via
+  # `programs.rofi` + `catppuccin.rofi` below.
   home.file = {
     # waybar config + style are Nix-native (`programs.waybar` below), not
     # dotfile symlinks — the raw dotfiles were removed (dotfiles/waybar/).
     ".cfg/rofi/config".source = ../dotfiles/rofi/config;
-    ".cfg/rofi/config.rasi".source = ../dotfiles/rofi/config.rasi;
-    ".cfg/rofi/catppuccin-macchiato.rasi".source = ../dotfiles/rofi/catppuccin-macchiato.rasi;
     ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
+  };
+
+  # Rofi — Nix-native via `programs.rofi`. The catppuccin macchiato theme
+  # comes from `catppuccin.rofi` (home/theme.nix), which installs it to
+  # ~/etc/data/rofi/themes and emits `@theme`/`@import`. XDG vars are exported
+  # by the session, so the named lookup resolves. `location` maps to the named
+  # option; the rest of the old config.rasi lives in `extraConfig`.
+  # Powermenu/confirm/askpass sub-themes stay in dotfiles/rofi/config/
+  # (referenced by scripts via $HOME/.cfg/rofi/config/*.rasi).
+  programs.rofi = {
+    enable = true;
+    terminal = "alacritty";
+    location = "center"; # was `location: 0` (top)
+    modes = [ "run" "drun" "window" ];
+    extraConfig = {
+      icon-theme = "ePapirus-Dark";
+      show-icons = true;
+      drun-display-format = "{icon} {name}";
+      disable-history = false;
+      hide-scrollbar = true;
+      display-drun = " 󰀘  Apps ";
+      display-run = " 󰵊  Run ";
+      display-combi = " 󰵊  Run ";
+      display-window = " 󰕰  Window";
+      display-Network = " 󰤨  Network";
+      sidebar-mode = false;
+    };
   };
 
   # dunst — Nix-native via `services.dunst`, with catppuccin macchiato palette

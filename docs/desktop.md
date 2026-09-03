@@ -27,7 +27,7 @@ greetd (tuigreet) --sway--> sway --waybar/rofi/etc.
 
 ## Rofi
 
-`dotfiles/rofi/` — combi launcher (`drun#run`), powermenu (`config/powermenu.rasi` + `bin/powermenu` with shutdown/reboot/lock/suspend + `ctrlcache get`), screenshot pager (`bin/scsh` → `grim`/`slurp`), process killer (`bin/killer`). Theme via `config.rasi` importing `catppuccin-macchiato`.
+`programs.rofi` in `home/desktop.nix` — combi launcher (`drun#run`), powermenu (`config/powermenu.rasi` + `bin/powermenu` with shutdown/reboot/lock/suspend + `ctrlcache get`), screenshot pager (`bin/scsh` → `grim`/`slurp`), process killer (`bin/killer`). Catppuccin macchiato theme via `catppuccin.rofi` (home/theme.nix), which writes the theme files to `~/etc/data/rofi/themes` and injects `@theme`/`@import` into the generated config. The legacy `dotfiles/rofi/config.rasi` + `catppuccin-macchiato.rasi` were removed.
 
 ## Screenshots / locking
 

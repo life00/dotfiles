@@ -49,10 +49,13 @@
     bottom = {
       enable = true;
     };
-    # ponytail: rofi is NOT themed via catppuccin — its config is a raw
-    # dotfile carrying the palette itself (dotfiles/rofi).
-    # catppuccin.rofi would collide with home/desktop.nix dotfile symlinks
-    # (both write the same config files). waybar IS themed via catppuccin.
+    # rofi is themed via catppuccin: `catppuccin.rofi` writes the macchiato
+    # theme files to ~/etc/data/rofi/themes and injects @theme/@import into
+    # the `programs.rofi` config (home/desktop.nix). The legacy dotfile
+    # catppuccin-macchiato.rasi was removed.
+    rofi = {
+      enable = true;
+    };
     dunst = {
       enable = true;
     };
