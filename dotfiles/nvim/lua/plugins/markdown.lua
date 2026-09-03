@@ -32,7 +32,7 @@ return {
       }
       vim.g.mkdp_markdown_css = "/home/user/.cfg/nvim/styles/preview.css"
       vim.g.mkdp_page_title = "${name}"
-      vim.g.mkdp_browser = "/home/user/dev/bin/chromium-markdown-preview.sh"
+      vim.g.mkdp_browser = "chromium-markdown-preview"
     end,
     keys = {
       {

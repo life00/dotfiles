@@ -40,6 +40,7 @@
       ls = "eza --icons always";
       tree = "eza --icons always -T";
       delta = "delta --pager less";
+      sioyek = "sioyek-open";
       diff = "delta";
       lf = "zlf";
       R = "R --quiet --no-save";
@@ -69,15 +70,6 @@
         # cheat.sh
         cht() {
           curl cheat.sh/"$@"
-        }
-
-        # lf: cd to last visited dir on quit
-        zlf() {
-          local last="$XDG_STATE_HOME/lf/lastdir"
-          command lf -last-dir-path "$last" "$@"
-          if [[ -s "$last" ]]; then
-            cd "$(cat "$last")"
-          fi
         }
 
         # fzf-tab Catppuccin Macchiato theme

@@ -161,15 +161,9 @@
       input = {
         "*" = {
           tap = "enabled";
-          natural_scroll = "enabled";
-        };
-        "1452:833:Apple_SPI_Keyboard" = {
           xkb_layout = "us,ru";
           xkb_options = "caps:escape_shifted_capslock";
-        };
-        "1452:591:hfd.cn_USB_DEVICE" = {
-          xkb_layout = "custom-mech";
-          xkb_options = "caps:escape_shifted_capslock";
+          natural_scroll = "enabled";
         };
       };
 
