@@ -1,4 +1,5 @@
 {
+  config,
   ...
 }:
 {
@@ -13,52 +14,24 @@
   # custom binaries
   home.file.".cfg/bin".source = ../dotfiles/bin;
 
-  # bottom (btm)
-  programs.bottom = {
-    enable = true;
-    package = null;
-    settings = {
-      flags = {
-        hide_table_gap = false;
-        battery = true;
-        show_table_scroll_position = true;
-      };
-      processes = {
-        default_tree = true;
-        process_command = true;
-      };
-      network_graph.interface_filter = {
-        is_list_ignored = true;
-        list = [ "lo" ];
-        regex = true;
-        case_sensitive = false;
-        whole_word = false;
-      };
-    };
-  };
+  # rofi
+  home.file.".cfg/rofi/config".source = ../dotfiles/rofi/config;
+  home.file.".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
 
-  # sioyek
-  programs.sioyek = {
-    enable = true;
-    bindings = {
-      screen_down = "<C-d>";
-      screen_up = "<C-u>";
-      previous_page = "<C-p>";
-      next_page = "<C-n>";
-      copy = "y";
-      toggle_custom_color = "c";
-    };
-    config = {
-      collapsed_toc = "1";
-      font_size = "12";
-      ui_font = "JetBrainsMono Nerd Font";
-      status_bar_font_size = "16";
-      page_separator_width = "3";
+  # ncmpcpp
+  home.file.".cfg/ncmpcpp/config".source = ../dotfiles/ncmpcpp/config;
+  home.file.".cfg/ncmpcpp/bindings".source = ../dotfiles/ncmpcpp/bindings;
 
-      startup_commands = [
-        "toggle_horizontal_scroll_lock"
-        "toggle_custom_color"
-      ];
-    };
-  };
+  # cava
+  home.file.".cfg/cava/config".source = ../dotfiles/cava/config;
+
+  # ssh
+  home.file."${config.xdg.configHome}/ssh/allowed_signers".text = ''
+    # me
+    life00 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvrvklEwdxbJIe5KUL4y6cRIwhpmwx06w76fy6x31/A
+  '';
+
+  # desktop entries
+  xdg.dataFile."applications/neovim.desktop".source = ../dotfiles/neovim.desktop;
+  xdg.dataFile."applications/lf.desktop".source = ../dotfiles/lf.desktop;
 }

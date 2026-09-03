@@ -22,11 +22,6 @@
     '';
   };
 
-  # ncmpcpp (dotfiles config)
-  home.file.".cfg/ncmpcpp/config".source = ../dotfiles/ncmpcpp/config;
-  home.file.".cfg/ncmpcpp/bindings".source = ../dotfiles/ncmpcpp/bindings;
-
-  # mpv
   programs.mpv = {
     enable = true;
     config = {
@@ -44,6 +39,43 @@
     };
   };
 
-  # cava (dotfiles config)
-  home.file.".cfg/cava/config".source = ../dotfiles/cava/config;
+  programs.sioyek = {
+    enable = true;
+    bindings = {
+      screen_down = "<C-d>";
+      screen_up = "<C-u>";
+      previous_page = "<C-p>";
+      next_page = "<C-n>";
+      copy = "y";
+      toggle_custom_color = "c";
+    };
+    config = {
+      collapsed_toc = "1";
+      font_size = "12";
+      ui_font = "JetBrainsMono Nerd Font";
+      status_bar_font_size = "16";
+      page_separator_width = "3";
+
+      startup_commands = [
+        "toggle_horizontal_scroll_lock"
+        "toggle_custom_color"
+      ];
+    };
+  };
+
+  accounts.calendar.accounts.private = {
+    khal.enable = true;
+    local.path = "/home/user/etc/data/khal/calendars/private";
+  };
+
+  programs.khal = {
+    enable = true;
+    locale = {
+      timeformat = "%H:%M";
+      dateformat = "%d.%m.%Y";
+      longdateformat = "%d.%m.%Y";
+      datetimeformat = "%d.%m.%Y %H:%M";
+      longdatetimeformat = "%d.%m.%Y %H:%M";
+    };
+  };
 }

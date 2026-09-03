@@ -41,58 +41,6 @@
     };
   };
 
-  # allowed_signers
-  home.file."${config.xdg.configHome}/ssh/allowed_signers".text = ''
-    # me
-    life00 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvrvklEwdxbJIe5KUL4y6cRIwhpmwx06w76fy6x31/A
-  '';
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      font = {
-        normal = {
-          family = "JetBrainsMono NFM";
-          style = "Regular";
-        };
-        bold = {
-          family = "JetBrainsMono NFM";
-          style = "Bold";
-        };
-        italic = {
-          family = "JetBrainsMono NFM";
-          style = "Italic";
-        };
-        bold_italic = {
-          family = "JetBrainsMono NFM";
-          style = "Bold Italic";
-        };
-        size = 11;
-      };
-      cursor = {
-        style = {
-          shape = "Beam";
-          blinking = "On";
-        };
-        vi_mode_style = {
-          shape = "Block";
-        };
-      };
-      keyboard.bindings = [
-        {
-          key = "Return";
-          mods = "Shift";
-          chars = "\\u001B[13;2u";
-        }
-        {
-          key = "Return";
-          mods = "Control";
-          chars = "\\u001B[13;5u";
-        }
-      ];
-    };
-  };
-
   programs.neovim = {
     enable = true;
     # dotfiles are symlinked separately

@@ -7,7 +7,7 @@
   imports = [
     inputs.catppuccin.homeModules.catppuccin
     ./shell.nix
-    ./develpoment.nix
+    ./development.nix
     ./desktop.nix
     ./media.nix
     ./files.nix
@@ -36,9 +36,6 @@
       pictures = "${config.home.homeDirectory}/med";
       videos = "${config.home.homeDirectory}/med/videos";
     };
-
-    dataFile."applications/neovim.desktop".source = ../dotfiles/neovim.desktop;
-    dataFile."applications/lf.desktop".source = ../dotfiles/lf.desktop;
 
     mimeApps = {
       enable = true;

@@ -236,6 +236,75 @@
     };
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal = {
+          family = "JetBrainsMono NFM";
+          style = "Regular";
+        };
+        bold = {
+          family = "JetBrainsMono NFM";
+          style = "Bold";
+        };
+        italic = {
+          family = "JetBrainsMono NFM";
+          style = "Italic";
+        };
+        bold_italic = {
+          family = "JetBrainsMono NFM";
+          style = "Bold Italic";
+        };
+        size = 11;
+      };
+      cursor = {
+        style = {
+          shape = "Beam";
+          blinking = "On";
+        };
+        vi_mode_style = {
+          shape = "Block";
+        };
+      };
+      keyboard.bindings = [
+        {
+          key = "Return";
+          mods = "Shift";
+          chars = "\\u001B[13;2u";
+        }
+        {
+          key = "Return";
+          mods = "Control";
+          chars = "\\u001B[13;5u";
+        }
+      ];
+    };
+  };
+
+  programs.bottom = {
+    enable = true;
+    package = null;
+    settings = {
+      flags = {
+        hide_table_gap = false;
+        battery = true;
+        show_table_scroll_position = true;
+      };
+      processes = {
+        default_tree = true;
+        process_command = true;
+      };
+      network_graph.interface_filter = {
+        is_list_ignored = true;
+        list = [ "lo" ];
+        regex = true;
+        case_sensitive = false;
+        whole_word = false;
+      };
+    };
+  };
+
   # zshenv environment variables
   home.sessionVariables = {
     PAGER = "nvim +Man!";

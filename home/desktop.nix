@@ -29,11 +29,6 @@
     };
   };
 
-  home.file = {
-    ".cfg/rofi/config".source = ../dotfiles/rofi/config;
-    ".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
-  };
-
   services.dunst = {
     enable = true;
     settings = {
@@ -670,20 +665,4 @@
     Install.WantedBy = [ "default.target" ];
   };
 
-  # khal
-  accounts.calendar.accounts.private = {
-    khal.enable = true;
-    local.path = "/home/user/etc/data/khal/calendars/private";
-  };
-
-  programs.khal = {
-    enable = true;
-    locale = {
-      timeformat = "%H:%M";
-      dateformat = "%d.%m.%Y";
-      longdateformat = "%d.%m.%Y";
-      datetimeformat = "%d.%m.%Y %H:%M";
-      longdatetimeformat = "%d.%m.%Y %H:%M";
-    };
-  };
 }
