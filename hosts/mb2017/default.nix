@@ -11,6 +11,7 @@
     ../../modules/services.nix
     ../../modules/packages.nix
     ../../modules/fonts.nix
+    ../../modules/browsing.nix
   ];
 
   networking.hostName = "nixos";
