@@ -1,5 +1,7 @@
 {
+  lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -30,13 +32,6 @@
   # root password locked
   users.users.root.hashedPassword = "!";
 
-  # config links and history files
-  systemd.tmpfiles.rules = [
-    "L+ /home/user/.config - - - - /home/user/.cfg"
-    "f /var/log/zsh/histfile 0666 user user -"
-    "f /var/log/history.log 0666 root root -"
-  ];
-
   # system-wide command logging to /var/log/history.log for zsh and bash
   programs.zsh.interactiveShellInit = ''
     precmd() {
@@ -54,4 +49,43 @@
       fi
     '';
   };
+
+  # permission management
+  systemd.tmpfiles.rules = [
+    # history files
+    "f /var/log/zsh/histfile 0666 user user -"
+    "f /var/log/history.log 0666 root root -"
+
+    # top level directory ownership
+    "d ${config.users.users.user.home} 0755 root root -"
+    "d ${config.users.users.user.home}/.bin 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg 0755 root root -"
+    "d ${config.users.users.user.home}/dev 0755 root root -"
+    "d ${config.users.users.user.home}/doc 0755 root root -"
+    "d ${config.users.users.user.home}/etc 0755 root root -"
+    "d ${config.users.users.user.home}/med 0755 root root -"
+
+    # config ownership
+    "d ${config.users.users.user.home}/.cfg/zsh 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/sway 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/swaylock 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/waybar 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/opensnitch 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/starship 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/rofi 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/lf 0755 root root -"
+    "d ${config.users.users.user.home}/.cfg/alacritty 0755 root root -"
+
+    # compatibility symlinks
+    # general
+    "L+ ${config.users.users.user.home}/.config - - - - ${config.users.users.user.home}/.cfg"
+    "L+ ${config.users.users.user.home}/.cache - - - - ${config.users.users.user.home}/etc/cache"
+    "L+ ${config.users.users.user.home}/.local - - - - ${config.users.users.user.home}/etc/data"
+    "L+ ${config.users.users.user.home}/etc/share - - - - ${config.users.users.user.home}/etc/data"
+    # program specific
+    "L+ ${config.users.users.user.home}/.icons - - - - ${config.users.users.user.home}/etc/data/icons"
+    "L+ ${config.users.users.user.home}/.npm - - - - ${config.users.users.user.home}/etc/data/npm"
+    "L+ ${config.users.users.user.home}/.jupyter - - - - ${config.users.users.user.home}/etc/data/jupyter"
+    "L+ ${config.users.users.user.home}/.ssh - - - - ${config.users.users.user.home}/.cfg/ssh"
+  ];
 }
