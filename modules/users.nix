@@ -5,87 +5,100 @@
   ...
 }:
 {
-  users.users.user = {
-    isNormalUser = true;
-    uid = 1000;
-    shell = pkgs.zsh;
-    home = "/home/user";
-    createHome = true;
-    group = "user";
-    extraGroups = [
-      "wheel"
-      "video"
-      "audio"
-      "networkmanager"
-      "libvirtd"
-      "qemu-libvirtd"
-    ];
-    # placeholder password
-    initialPassword = "password";
+  options.homePermissions.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "root-owned home permission management";
   };
 
-  users.groups.user.gid = 1000;
+  config = lib.mkIf config.homePermissions.enable {
+    users.users.user = {
+      isNormalUser = true;
+      uid = 1000;
+      shell = pkgs.zsh;
+      home = "/home/user";
+      createHome = true;
+      group = "user";
+      extraGroups = [
+        "wheel"
+        "video"
+        "audio"
+        "networkmanager"
+        "libvirtd"
+        "qemu-libvirtd"
+      ];
+      # placeholder password
+      initialPassword = "password";
+    };
 
-  # zsh as default shell
-  programs.zsh.enable = true;
+    users.groups.user.gid = 1000;
 
-  # root password locked
-  users.users.root.hashedPassword = "!";
+    # zsh as default shell
+    programs.zsh.enable = true;
 
-  # system-wide command logging to /var/log/history.log for zsh and bash
-  programs.zsh.interactiveShellInit = ''
-    precmd() {
-      retrn=$?
-      historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$retrn] $(history -1 | sed 's/^[ ]*[0-9]\+[ ]*//')"
-      echo "$historylog" >> /var/log/history.log
-    }
-  '';
+    # root password locked
+    users.users.root.hashedPassword = "!";
 
-  programs.bash = {
-    enable = true;
-    interactiveShellInit = ''
-      if [[ $UID -eq 0 ]]; then
-        PROMPT_COMMAND='historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$?] $(fc -ln -1)"; echo "$historylog" >> /var/log/history.log'
-      fi
+    # system-wide command logging to /var/log/history.log for zsh and bash
+    programs.zsh.interactiveShellInit = ''
+      precmd() {
+        retrn=$?
+        historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$retrn] $(history -1 | sed 's/^[ ]*[0-9]\+[ ]*//')"
+        echo "$historylog" >> /var/log/history.log
+      }
+    '';
+
+    programs.bash = {
+      enable = true;
+      interactiveShellInit = ''
+        if [[ $UID -eq 0 ]]; then
+          PROMPT_COMMAND='historylog="($(date +%s%N|cut -b1-10)) {$$} $(pwd) [$?] $(fc -ln -1)"; echo "$historylog" >> /var/log/history.log'
+        fi
+      '';
+    };
+
+    # permission management
+    systemd.tmpfiles.rules = [
+      # history files
+      "f /var/log/zsh/histfile 0666 user user -"
+      "f /var/log/history.log 0666 root root -"
+
+      # top level directory ownership
+      "d ${config.users.users.user.home} 0755 root root -"
+      "d ${config.users.users.user.home}/.bin 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg 0755 root root -"
+      "d ${config.users.users.user.home}/dev 0755 root root -"
+      "d ${config.users.users.user.home}/doc 0755 root root -"
+      "d ${config.users.users.user.home}/etc 0755 root root -"
+      "d ${config.users.users.user.home}/med 0755 root root -"
+
+      # config ownership
+      "d ${config.users.users.user.home}/.cfg/zsh 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/sway 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/swaylock 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/waybar 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/opensnitch 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/starship 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/rofi 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/lf 0755 root root -"
+      "d ${config.users.users.user.home}/.cfg/alacritty 0755 root root -"
+
+      # compatibility symlinks
+      # general
+      "L+ ${config.users.users.user.home}/.config - - - - ${config.users.users.user.home}/.cfg"
+      "L+ ${config.users.users.user.home}/.cache - - - - ${config.users.users.user.home}/etc/cache"
+      "L+ ${config.users.users.user.home}/.local - - - - ${config.users.users.user.home}/etc"
+      "L+ ${config.users.users.user.home}/etc/share - - - - ${config.users.users.user.home}/etc/data"
+      # program specific
+      "L+ ${config.users.users.user.home}/.icons - - - - ${config.users.users.user.home}/etc/data/icons"
+      "L+ ${config.users.users.user.home}/.npm - - - - ${config.users.users.user.home}/etc/data/npm"
+      "L+ ${config.users.users.user.home}/.jupyter - - - - ${config.users.users.user.home}/etc/data/jupyter"
+      "L+ ${config.users.users.user.home}/.ssh - - - - ${config.users.users.user.home}/.cfg/ssh"
+    ];
+
+    # re-apply as root so the compat symlinks aren't left user-owned
+    system.activationScripts.homePermissions = lib.stringAfter [ "users" ] ''
+      ${pkgs.systemd}/bin/systemd-tmpfiles --create --prefix=${config.users.users.user.home}
     '';
   };
-
-  # permission management
-  systemd.tmpfiles.rules = [
-    # history files
-    "f /var/log/zsh/histfile 0666 user user -"
-    "f /var/log/history.log 0666 root root -"
-
-    # top level directory ownership
-    "d ${config.users.users.user.home} 0755 root root -"
-    "d ${config.users.users.user.home}/.bin 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg 0755 root root -"
-    "d ${config.users.users.user.home}/dev 0755 root root -"
-    "d ${config.users.users.user.home}/doc 0755 root root -"
-    "d ${config.users.users.user.home}/etc 0755 root root -"
-    "d ${config.users.users.user.home}/med 0755 root root -"
-
-    # config ownership
-    "d ${config.users.users.user.home}/.cfg/zsh 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/sway 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/swaylock 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/waybar 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/opensnitch 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/starship 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/rofi 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/lf 0755 root root -"
-    "d ${config.users.users.user.home}/.cfg/alacritty 0755 root root -"
-
-    # compatibility symlinks
-    # general
-    "L+ ${config.users.users.user.home}/.config - - - - ${config.users.users.user.home}/.cfg"
-    "L+ ${config.users.users.user.home}/.cache - - - - ${config.users.users.user.home}/etc/cache"
-    "L+ ${config.users.users.user.home}/.local - - - - ${config.users.users.user.home}/etc/data"
-    "L+ ${config.users.users.user.home}/etc/share - - - - ${config.users.users.user.home}/etc/data"
-    # program specific
-    "L+ ${config.users.users.user.home}/.icons - - - - ${config.users.users.user.home}/etc/data/icons"
-    "L+ ${config.users.users.user.home}/.npm - - - - ${config.users.users.user.home}/etc/data/npm"
-    "L+ ${config.users.users.user.home}/.jupyter - - - - ${config.users.users.user.home}/etc/data/jupyter"
-    "L+ ${config.users.users.user.home}/.ssh - - - - ${config.users.users.user.home}/.cfg/ssh"
-  ];
 }
