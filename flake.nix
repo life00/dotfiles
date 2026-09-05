@@ -19,9 +19,13 @@
       url = "github:StevenBlack/hosts";
       flake = false;
     };
+    apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, catppuccin, stevenblack-hosts, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, disko, catppuccin, stevenblack-hosts, apple-silicon, ... }@inputs: {
     nixosConfigurations.mb2017 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
@@ -30,6 +34,16 @@
         home-manager.nixosModules.home-manager
         catppuccin.nixosModules.catppuccin
         ./hosts/mb2017
+      ];
+    };
+    nixosConfigurations.mb2020 = nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      specialArgs = { inherit inputs; };
+      modules = [
+        apple-silicon.nixosModules.apple-silicon-support
+        home-manager.nixosModules.home-manager
+        catppuccin.nixosModules.catppuccin
+        ./hosts/mb2020
       ];
     };
   };
