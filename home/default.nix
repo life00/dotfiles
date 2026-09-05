@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  lib,
   ...
 }:
 {
@@ -16,7 +17,7 @@
   ];
 
   home.username = "user";
-  home.homeDirectory = "/home/user";
+  home.homeDirectory = lib.mkForce "/home/user";
   home.stateVersion = "26.05";
 
   # all xdg settings
