@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # systemd-boot on the dedicated NixOS ESP
   # U-Boot handles the OS selection
@@ -34,10 +34,5 @@
     extraModprobeConfig = ''
       options hid_apple iso_layout=0
     '';
-  };
-
-  hardware.apple.touchBar = {
-    enable = true;
-    package = pkgs.tiny-dfr;
   };
 }

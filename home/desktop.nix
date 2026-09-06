@@ -191,20 +191,28 @@
         "Mod4+Shift+e" = null;
 
         # fn keys
-        "f1" = "exec mpc prev && notify-send \"playing previous song in queue\"";
-        "f2" = "exec mpc toggle && notify-send \"toggled current audio stream\"";
-        "f3" = "exec mpc next && notify-send \"playing next song in queue\"";
+        "XF86MonBrightnessDown" =
+          "exec brightnessctl set 1%- && notify-send \"display brightness decreased\"";
+        "XF86MonBrightnessUp" =
+          "exec brightnessctl set 1%+ && notify-send \"display brightness increased\"";
+        "Shift+XF86MonBrightnessDown" =
+          "exec brightnessctl -d kbd_backlight set 2%- && notify-send \"keyboard brightness decreased\"";
+        "Shift+XF86MonBrightnessUp" =
+          "exec brightnessctl -d kbd_backlight set 2%+ && notify-send \"keyboard brightness increased\"";
+        "XF86AudioLowerVolume" =
+          "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-send \"volume decreased\"";
+        "XF86AudioRaiseVolume" =
+          "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ && notify-send \"volume increased\"";
+        "Shift+XF86AudioLowerVolume" =
+          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 && notify-send \"audio output muted\"";
+        "Shift+XF86AudioRaiseVolume" =
+          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 && notify-send \"audio output unmuted\"";
+        "XF86AudioMute" =
+          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-send \"audio output toggled\"";
+        "XF86AudioPrev" = "exec mpc prev && notify-send \"playing previous song in queue\"";
+        "XF86AudioPlay" = "exec mpc toggle && notify-send \"toggled current audio stream\"";
+        "XF86AudioNext" = "exec mpc next && notify-send \"playing next song in queue\"";
         "f4" = "exec /home/user/.bin/scsh";
-        "f5" = "exec brightnessctl set 1%- && notify-send \"display brightness decreased\"";
-        "f6" = "exec brightnessctl set 1%+ && notify-send \"display brightness increased\"";
-        "f5+Shift" =
-          "exec brightnessctl -d kbd_backlight set 1%- && notify-send \"keyboard brightness decreased\"";
-        "f6+Shift" =
-          "exec brightnessctl -d kbd_backlight set 1%+ && notify-send \"keyboard brightness increased\"";
-        "f7" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-send \"volume decreased\"";
-        "f8" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ && notify-send \"volume increased\"";
-        "f7+Shift" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 && notify-send \"audio output muted\"";
-        "f8+Shift" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 && notify-send \"audio output unmuted\"";
         "f9" = "exec swaymsg input \"*\" xkb_switch_layout next && notify-send \"keyboard layout changed\"";
         "f10" = "exec /home/user/.bin/powermenu";
         "f11" = "exec /home/user/.bin/killer";

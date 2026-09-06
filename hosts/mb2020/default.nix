@@ -3,6 +3,7 @@
   imports = [
     ./boot.nix
     ./hardware.nix
+    ./touchbar.nix
     ../../modules/filesystems.nix
     ../../modules/networking.nix
     ../../modules/security.nix
