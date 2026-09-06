@@ -75,6 +75,11 @@
           "f /var/log/zsh/histfile 0666 user user -"
           "f /var/log/history.log 0666 root root -"
 
+          # mount points
+          "d /mnt 0755 root root -"
+          "d /mnt/usb 0755 root root -"
+          "d /mnt/cryptroot 0755 root root -"
+
           # compatibility symlinks
           # general
           "L+ ${config.users.users.user.home}/.config - - - - ${config.users.users.user.home}/.cfg"
