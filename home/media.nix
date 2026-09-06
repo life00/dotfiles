@@ -1,5 +1,7 @@
 {
   config,
+  lib,
+  pkgs,
   ...
 }:
 {
@@ -20,6 +22,12 @@
         enabled "no"
       }
     '';
+  };
+
+  systemd.user.services.mpd = {
+    Service = {
+      ExecStartPost = lib.mkAfter [ "${lib.getExe pkgs.mpc} volume 60" ];
+    };
   };
 
   programs.mpv = {
