@@ -147,6 +147,9 @@
     slurp
     wl-clipboard
 
+    # editor
+    nixfmt
+
     # comment out due to conflicts with program.{delta,neovim}
     # delta
     # neovim
