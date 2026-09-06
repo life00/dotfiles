@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 {
   disko.devices = {
     disk = {
@@ -105,18 +105,11 @@
     };
   };
 
-  # 8 GB swapfile on swap subvolume
   swapDevices = [
     {
       device = "/var/swap/swapfile";
-      size = 8 * 1024;
+      size = 16 * 1024;
     }
   ];
 
-  fileSystems."/snsh/automatic/home" = {
-    fsType = "none";
-    device = "none";
-    options = [ "bind" ];
-    mountPoint = lib.mkForce "/snsh/automatic/home";
-  };
 }

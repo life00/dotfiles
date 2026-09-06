@@ -1,8 +1,8 @@
 { inputs, ... }: {
   imports = [
     ./hardware.nix
-    ../../modules/boot.nix
-    ../../modules/disko.nix
+    ./boot.nix
+    ./disko.nix
     ../../modules/filesystems.nix
     ../../modules/networking.nix
     ../../modules/security.nix
@@ -14,7 +14,7 @@
     ../../modules/browsing.nix
   ];
 
-  networking.hostName = "nixos";
+  networking.hostName = "mb2017";
 
   home-manager = {
     useUserPackages = true;

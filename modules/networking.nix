@@ -7,12 +7,12 @@
   # minimal network manager config
   networking.networkmanager = {
     enable = true;
-    # disable active-scan power saving overrides (wlp2s0 on this host)
+    wifi.backend = "iwd"; # apple silicon networking only works with iwd
     wifi.powersave = false;
-    # randomize the wifi MAC on every connection (native NM, no systemd
-    # macchanger hack needed).
+    # FIXME:
+    # randomize the wifi MAC on every connection
     connectionConfig = {
-      "wifi.cloned-mac-address" = lib.mkForce "random"; # nixpkgs default is "preserve"
+      "wifi.cloned-mac-address" = lib.mkForce "random";
       "wifi.scan-rand-mac-address" = "yes";
     };
   };
@@ -45,4 +45,3 @@
 
   services.resolved.enable = true;
 }
-

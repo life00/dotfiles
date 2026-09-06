@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, ... }:
 {
   imports = [
     ./boot.nix
@@ -15,11 +15,7 @@
   ];
 
   networking.hostName = "mb2020";
-
   hardware.asahi.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
-
-  swapDevices = [ { device = "/var/swap/swapfile"; } ];
 
   home-manager = {
     useUserPackages = true;
