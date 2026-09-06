@@ -421,7 +421,7 @@
         tooltip = true;
         exec = "echo 󰏗 $(cat /home/user/etc/cache/updater/count)";
         on-click-right = "/home/user/.cfg/awecron/updater/update";
-        on-click = "alacritty --class alacritty-float -e bash -c 'if doas nixos-rebuild switch --impure --flake /home/user/dev/src/nix#mb2017; then printf 0 > /home/user/etc/cache/updater/count; read -n1; fi'";
+        on-click = "alacritty --class alacritty-float -e bash -c 'if doas nixos-rebuild switch --impure --flake /home/user/dev/sysadmin/dotfiles#$(hostname); then printf 0 > /home/user/etc/cache/updater/count; fi; read -n1'";
       };
       backlight = {
         format = "{icon} {percent}%";

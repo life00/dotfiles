@@ -1,19 +1,31 @@
 #!/usr/bin/env dash
 
 CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/updater"
+FLAKE="$HOME/dev/sysadmin/dotfiles"
+HOST="$(hostname)"
 export DISPLAY=":0"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
 notify-send -t 10000 "Updater" "Checking for updates..."
 mkdir -p "$CACHE"
 
-cd "$HOME/dev/src/nix"
+cd "$FLAKE"
 nix flake update 2>/dev/null
 
 if git diff --quiet flake.lock 2>/dev/null; then
   package_count=0
 else
-  package_count=1
+  new_path="$(nix build --impure ".#nixosConfigurations.$HOST.config.system.build.toplevel" \
+    --no-link --print-out-paths 2>/dev/null)"
+  if [ -n "$new_path" ]; then
+    # count version-changing packages: lines with " → <digit>"
+    # (filters out removals "→ ∅", configs "→ ε", and size-only noise)
+    package_count="$(nix store diff-closures /run/current-system "$new_path" 2>/dev/null \
+      | grep -c ' → [0-9]' || true)"
+  else
+    # build failed: report that updates exist but can't be counted
+    package_count=1
+  fi
 fi
 
 notify-send -t 10000 "Updater" "${package_count} updates found."
