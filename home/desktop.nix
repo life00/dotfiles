@@ -387,7 +387,7 @@
         on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=net";
       };
       battery = {
-        bat = "BAT0";
+        bat = "macsmc-battery";
         interval = 30;
         states = {
           fine = 80;

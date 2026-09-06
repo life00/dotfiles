@@ -16,7 +16,6 @@
 
   # rofi
   home.file.".cfg/rofi/config".source = ../dotfiles/rofi/config;
-  home.file.".cfg/rofi/bin".source = ../dotfiles/rofi/bin;
 
   # ncmpcpp
   home.file.".cfg/ncmpcpp/config".source = ../dotfiles/ncmpcpp/config;
