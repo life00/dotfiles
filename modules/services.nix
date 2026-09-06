@@ -46,6 +46,11 @@ in
     enable = true;
   };
 
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+  };
+
   # disabled by default
   services.syncthing = {
     enable = false;

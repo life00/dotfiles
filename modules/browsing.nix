@@ -18,6 +18,7 @@
       "BlockThirdPartyCookies" = true;
       "DownloadRestrictions" = 1; # block automatic downloads
       "MetricsReportingEnabled" = false;
+      "ozone-platform-hint" = "auto";
     };
 
     # locked settings

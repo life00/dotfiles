@@ -663,14 +663,4 @@
     events.before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
   };
 
-  # screen sharing
-  systemd.user.services.xdg-desktop-portal-wlr = {
-    Unit.Description = "XDG desktop portal for wlroots (sway)";
-    Service = {
-      ExecStart = "${pkgs.xdg-desktop-portal-wlr}/bin/xdg-desktop-portal-wlr";
-      Restart = "on-failure";
-    };
-    Install.WantedBy = [ "default.target" ];
-  };
-
 }
