@@ -22,11 +22,13 @@ Batch audio downloader built on yt-dlp (`github.com/lrstanley/go-ytdlp`). Usage:
 
 Both use `buildGoModule` with `subPackages = ["."]`.
 
-- `awecron`: src comes from the local dev tree `/home/user/dev/src/awecron`
-  (clone of `life00/awecron`, branch `master`, with `go mod vendor` run
-  inside). `vendorHash = null` makes `buildGoModule` use the on-disk `vendor/`
-  dir. Because this is an absolute (non-repo) path, **every nixos-rebuild must
-  pass `--impure`** — pure mode rejects it.
+- `awecron`: src comes from the local dev tree `/home/user/dev/sysadmin/awecron`
+  (clone of `life00/awecron`, branch `master`). Dependencies are fetched and
+  vendored by buildGoModule itself (non-null `vendorHash`); the source tree has
+  no `vendor/` dir. Regenerate `vendorHash` (build with `lib.fakeHash`, paste
+  the `got:` hash) whenever `go.mod`/`go.sum` change. Because `src` is an
+  absolute (non-repo) path, **every nixos-rebuild must pass `--impure`** — pure
+  mode rejects it.
 - `getmusic`: upstream (`life00/getmusic`) is unreachable (404/private) and no
   module references it, so it stays a `lib.fakeHash` stub that is never built.
   Restore src + hashes (or fetch) when the original repo becomes available.
@@ -41,4 +43,4 @@ Both use `buildGoModule` with `subPackages = ["."]`.
 
 README documents the copy command (`cp -r /path/to/{awecron,getmusic}-src pkgs/*/src`). That old
 `pkgs/*/src` approach no longer works with flakes (see Build mechanics); awecron source instead
-lives at `/home/user/dev/src/awecron`.
+lives at `/home/user/dev/sysadmin/awecron`.

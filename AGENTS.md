@@ -4,14 +4,14 @@ NixOS flake (single host `mb2017`, x86_64) replicating a Fedora Asahi workstatio
 
 ## Verification
 
-- This repo evaluates on the real target (`doas nixos-rebuild switch --impure --flake .#mb2017` as root; Nix 2.34.8, `/nix/store` writable). `--impure` is mandatory because `pkgs/awecron` sources from the absolute path `/home/user/dev/src/awecron`; `nix flake check` will fail in pure mode for the same reason. Both NixOS activation scripts (e.g. `homeSetup` in `modules/users.nix`) and home-manager run on switch — verify `~/.bin` and `~/.cfg/*` afterwards.
+- This repo evaluates on the real target (`doas nixos-rebuild switch --impure --flake .#mb2017` as root; Nix 2.34.8, `/nix/store` writable). `--impure` is mandatory because `pkgs/awecron` sources from the absolute path `/home/user/dev/sysadmin/awecron`; `nix flake check` will fail in pure mode for the same reason. Both NixOS activation scripts (e.g. `homeSetup` in `modules/users.nix`) and home-manager run on switch — verify `~/.bin` and `~/.cfg/*` afterwards.
 
 ## Placeholders that break builds/installs until replaced
 
 - `modules/disko.nix`: disk device is `/dev/nvme0n1` placeholder — must be edited per target machine.
 - `hosts/mb2017/hardware.nix`: synced from `nixos-generate-config` on the real host — regen + merge if hardware changes. Not a placeholder anymore.
 - `modules/users.nix`: `initialPassword = "password"` is the bootstrap password for fresh installs — update via `passwd` post-install, keep the option.
-- `pkgs/awecron/default.nix`: `src` points at the LOCAL dev tree `/home/user/dev/src/awecron` (life00/awecron, vendored). This absolute non-repo path forces **every rebuild/check to pass `--impure`** (pure mode rejects it). Do not reset to the old `fetchFromGitHub`/`pkgs/*/src` dance — flakes reject in-repo gitignored paths too (see `docs/custom-packages.md`).
+- `pkgs/awecron/default.nix`: `src` points at the LOCAL dev tree `/home/user/dev/sysadmin/awecron` (life00/awecron). Deps are fetched/vendored by buildGoModule via `vendorHash` (regenerate hash after go.mod/go.sum changes). This absolute non-repo path forces **every rebuild/check to pass `--impure`** (pure mode rejects it). Do not reset to the old `fetchFromGitHub`/`pkgs/*/src` dance — flakes reject in-repo gitignored paths too (see `docs/custom-packages.md`).
 - `pkgs/getmusic/default.nix`: upstream `life00/getmusic` is unreachable (private) and no module references it — `hash`/`vendorHash` stay `lib.fakeHash` but the package is never built. Keep the `ponytail:` comments.
 
 ## Structure conventions
