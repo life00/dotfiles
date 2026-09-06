@@ -37,5 +37,5 @@ Things from the Fedora setup deliberately not ported, or ported differently.
 | btrfs root at `/`; no nix subvol | **no /nix subvolume** (kept on root) — per decision |
 | GRUB cryptodisk + serial rescue | GRUB cryptodisk; no rescue (generations) |
 | `--sector-size=4096` + hw crypto flags | `allowHardwareCrypto` (no-op on x86) |
-| system-wide `/etc/xdg/waybar`, `/etc/sway` configs | user-level via HM/dotfiles |
+| system-wide `/etc/xdg/waybar`, `/etc/sway` configs | user-level via HM/extra |
 | /usr/local/bin binaries (awecron, getmusic, btm, lf, ollama, quarto, opencode) | nixpkgs packages for btm/lf/ollama/quarto/opencode; custom derivations for awecron/getmusic |

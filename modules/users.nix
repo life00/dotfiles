@@ -60,8 +60,8 @@
     # symlink everything under ~/.bin
     system.activationScripts.homeSetup = lib.stringAfter [ "users" ] ''
       mkdir -p /home/user/.bin
-      # dotfiles/bin
-      for f in ${./../dotfiles/bin}/*; do
+      # extra/bin
+      for f in ${./../extra/bin}/*; do
         [ -e "$f" ] || continue
         ln -sfn "$f" "/home/user/.bin/$(basename "$f")"
       done

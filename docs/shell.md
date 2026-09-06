@@ -1,10 +1,10 @@
 # Shell (zsh)
 
-Implemented in `home/shell.nix`; raw config in `dotfiles/zsh/`.
+Implemented in `home/shell.nix`; raw config in `extra/zsh/`.
 
 ## ZDOTDIR mechanism
 
-Fedora used `/etc/zshenv` → `export ZDOTDIR=$HOME/.cfg/zsh`. NixOS keeps zsh config fully in HM: `programs.zsh` sets `ZDOTDIR` equivalents by writing a small `zshenv` via `home.file`… (see below). In practice, HM writes dotfiles to `~/.cfg/` because `xdg.configHome = ${home}/.cfg`; all `programs.*` config lands there.
+Fedora used `/etc/zshenv` → `export ZDOTDIR=$HOME/.cfg/zsh`. NixOS keeps zsh config fully in HM: `programs.zsh` sets `ZDOTDIR` equivalents by writing a small `zshenv` via `home.file`… (see below). In practice, HM writes extra to `~/.cfg/` because `xdg.configHome = ${home}/.cfg`; all `programs.*` config lands there.
 
 ## History / logging
 
@@ -12,7 +12,7 @@ Fedora used `/etc/zshenv` → `export ZDOTDIR=$HOME/.cfg/zsh`. NixOS keeps zsh c
 - `history.size/save = 5000`.
 - System-wide command logging to `/var/log/history.log` (mode 0666 via tmpfiles), all configured in `modules/users.nix`. Fedora logged root commands via `/root/.bashrc` `PROMPT_COMMAND`; root still runs bash here (the doas wrapper sets `SHELL=/bin/bash`), so `programs.bash.interactiveShellInit` sets `PROMPT_COMMAND` for root (UID 0 only). The user zsh `precmd` hook does the same via `programs.zsh.interactiveShellInit` — the equivalent of the old HM `initExtraFirst` hook (moved to keep all logging in one module).
 
-## Aliases (from dotfiles/zsh/aliases)
+## Aliases (from extra/zsh/aliases)
 
 `..`→cd, `ls`→`eza --icons`, `tree`→exa -T, `delta`, `diff`, `lf`→zlf, `R`, `nmpc`, `lv`, `oc`→opencode, `mv/cp/rm -v`, `e`→exit, `mpi`→mpv --pause, `cd`→z (zoxide), `cdi`→zi, `calc`, `ef`→exiftool, `btop`→bottom, `todo`/`td` (ripgrep over ~/doc).
 
@@ -31,7 +31,7 @@ HM-managed (`programs.zsh.plugins`): `fzf-tab`, `zsh-autosuggestions`, `zsh-vi-m
 
 ## Starship
 
-`dotfiles/starship/starship.toml` → HM `programs.starship.settings` (full port: battery/username/hostname/character, cmd_duration/git_status/git_branch/directory, all colors).
+`extra/starship/starship.toml` → HM `programs.starship.settings` (full port: battery/username/hostname/character, cmd_duration/git_status/git_branch/directory, all colors).
 
 ## doas wrapper
 

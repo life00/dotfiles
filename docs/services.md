@@ -29,5 +29,5 @@
 ## Notes
 
 - MPD state must persist: HM creates `~/.cfg/mpd/` (db, state, pid) — directory exists on first build, daemon auto-creates files.
-- awecron reads config from `/etc/awecron/` (the Go binary's `os.UserConfigDir()` fallback — `/etc/awecron` after it can't find `$XDG_CONFIG_HOME/awecron`). `/etc/awecron` is populated by an activation script (`modules/services.nix`): `cfg`/`run` files symlink to the Nix store (`dotfiles/awecron`), `tmr` files are regular files created fresh on first boot.
+- awecron reads config from `/etc/awecron/` (the Go binary's `os.UserConfigDir()` fallback — `/etc/awecron` after it can't find `$XDG_CONFIG_HOME/awecron`). `/etc/awecron` is populated by an activation script (`modules/services.nix`): `cfg`/`run` files symlink to the Nix store (`extra/awecron`), `tmr` files are regular files created fresh on first boot.
 - virt-manager needs `user` in the `libvirtd` group (done — the docs/users.md group name).

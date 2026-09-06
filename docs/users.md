@@ -47,5 +47,5 @@ d /snsh/static           0755 root root -
 d /opt/user              0755 user user -
 ```
 
-Note: home-manager-managed dotfiles under `~/.cfg` remain user-owned even in
+Note: home-manager-managed extra under `~/.cfg` remain user-owned even in
 that model; only the top-level hierarchy would be chowned.

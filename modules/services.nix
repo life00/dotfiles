@@ -27,7 +27,7 @@ in
 
   # symlink awecron config to /etc/awecron/
   system.activationScripts.awecron = lib.stringAfter [ "users" ] ''
-    cfgsrc="${./../dotfiles/awecron}"
+    cfgsrc="${./../extra/awecron}"
     mkdir -p /etc/awecron
     for f in "$cfgsrc"/*; do
       [ -f "$f" ] && ln -sfn "$f" "/etc/awecron/$(basename "$f")"

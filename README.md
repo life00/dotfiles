@@ -1,6 +1,6 @@
 # NixOS Configuration
 
-NixOS flake-based configuration replicating a Fedora Asahi Linux workstation setup on x86_64 hardware. System-level configuration is declarative via NixOS modules; user-level configuration uses home-manager (as a NixOS module) where practical and raw dotfiles for complex setups.
+NixOS flake-based configuration replicating a Fedora Asahi Linux workstation setup on x86_64 hardware. System-level configuration is declarative via NixOS modules; user-level configuration uses home-manager (as a NixOS module) where practical and raw extra for complex setups.
 
 ## Structure
 
@@ -28,7 +28,7 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 │   ├── shell.nix               # zsh, starship, history logging
 │   ├── git.nix                 # git config, ssh, allowed_signers
 │   ├── terminal.nix            # alacritty
-│   ├── editor.nix              # neovim (dotfiles), bat
+│   ├── editor.nix              # neovim (extra), bat
 │   ├── desktop.nix             # sway (native config), waybar, rofi, swayidle
 │   ├── media.nix               # mpd, ncmpcpp, mpv, cava, obs/gimp placeholders
 │   ├── files.nix               # lf, bottom (btm), dev/bin scripts, qalculate, sioyek
@@ -38,7 +38,7 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 │   ├── awecron/                # custom cron daemon (Go) — src/ is gitignored
 │   └── getmusic/               # custom utility (Go) — src/ is gitignored
 ├── wallpapers/                   # sway wallpapers (tux.png, etc.) — absolute store path in config
-└── dotfiles/                    # raw config files
+└── extra/                    # raw config files
     ├── zsh/                    # startup, aliases, addons, config/
     ├── waybar/                 # config + style.css
     ├── rofi/                   # config.rasi + config/ + bin/

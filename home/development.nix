@@ -17,7 +17,7 @@
       gpg.ssh.allowedSignersFile = "${config.xdg.configHome}/ssh/allowed_signers";
       core.pager = "nvim +Man! -c 'set ft=git'";
       interactive.diffFilter = "delta --color-only";
-      safe.directory = "${config.home.homeDirectory}/dev/src/nix";
+      safe.directory = "${config.home.homeDirectory}/dev/sysadmin/dotfiles";
       delta = {
         navigate = true;
         dark = true;
@@ -43,7 +43,7 @@
 
   programs.neovim = {
     enable = true;
-    # dotfiles are symlinked separately
+    # extra are symlinked separately
   };
 
   programs.bat = {
@@ -95,8 +95,8 @@
       leader_timeout = 5000;
       plugin = [ "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.16.0" ];
     };
-    context = ../dotfiles/opencode/AGENTS.md;
-    skills = ../dotfiles/opencode/skills;
+    context = ../extra/opencode/AGENTS.md;
+    skills = ../extra/opencode/skills;
   };
 
 }

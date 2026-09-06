@@ -13,9 +13,9 @@ Detailed documentation for the NixOS configuration. Each page covers one aspect 
 | [packages.md](packages.md) | Package categorization, custom derivations |
 | [desktop.md](desktop.md) | sway, waybar, rofi, greetd, xkb |
 | [shell.md](shell.md) | zsh, starship, history logging |
-| [home-manager.md](home-manager.md) | HM-native vs dotfiles strategy |
+| [home-manager.md](home-manager.md) | HM-native vs extra strategy |
 | [custom-packages.md](custom-packages.md) | awecron, getmusic build details |
-| [dotfiles.md](dotfiles.md) | Raw config file inventory and rationale |
+| [extra.md](extra.md) | Raw config file inventory and rationale |
 | [services.md](services.md) | Enabled and disabled services |
 | [theming.md](theming.md) | Catppuccin Macchiato implementation |
 | [exclusions.md](exclusions.md) | Components intentionally not ported |

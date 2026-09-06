@@ -4,25 +4,25 @@
 }:
 {
   # lf file manager
-  home.file.".cfg/lf/lfrc".source = ../dotfiles/lf/lfrc;
-  home.file.".cfg/lf/icons".source = ../dotfiles/lf/icons;
-  home.file.".cfg/lf/preview.sh".source = ../dotfiles/lf/preview.sh;
+  home.file.".cfg/lf/lfrc".source = ../extra/lf/lfrc;
+  home.file.".cfg/lf/icons".source = ../extra/lf/icons;
+  home.file.".cfg/lf/preview.sh".source = ../extra/lf/preview.sh;
 
   # nvim
-  home.file.".cfg/nvim".source = ../dotfiles/nvim;
+  home.file.".cfg/nvim".source = ../extra/nvim;
 
   # custom binaries
-  home.file.".cfg/bin".source = ../dotfiles/bin;
+  home.file.".cfg/bin".source = ../extra/bin;
 
   # rofi
-  home.file.".cfg/rofi/config".source = ../dotfiles/rofi/config;
+  home.file.".cfg/rofi/config".source = ../extra/rofi/config;
 
   # ncmpcpp
-  home.file.".cfg/ncmpcpp/config".source = ../dotfiles/ncmpcpp/config;
-  home.file.".cfg/ncmpcpp/bindings".source = ../dotfiles/ncmpcpp/bindings;
+  home.file.".cfg/ncmpcpp/config".source = ../extra/ncmpcpp/config;
+  home.file.".cfg/ncmpcpp/bindings".source = ../extra/ncmpcpp/bindings;
 
   # cava
-  home.file.".cfg/cava/config".source = ../dotfiles/cava/config;
+  home.file.".cfg/cava/config".source = ../extra/cava/config;
 
   # ssh
   home.file."${config.xdg.configHome}/ssh/allowed_signers".text = ''
@@ -31,6 +31,6 @@
   '';
 
   # desktop entries
-  xdg.dataFile."applications/neovim.desktop".source = ../dotfiles/neovim.desktop;
-  xdg.dataFile."applications/lf.desktop".source = ../dotfiles/lf.desktop;
+  xdg.dataFile."applications/neovim.desktop".source = ../extra/neovim.desktop;
+  xdg.dataFile."applications/lf.desktop".source = ../extra/lf.desktop;
 }

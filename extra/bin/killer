@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # process killer
-# originally from https://github.com/tsjazil/dotfiles
+# originally from https://github.com/tsjazil/extra
 
 pid=$(ps -u $USER -o pid,comm | sort -b -k2 -r | sed -n '1!p' | rofi -dmenu -i -l 15 | awk '{print $1}')
 kill $pid
