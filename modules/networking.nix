@@ -9,13 +9,10 @@
     enable = true;
     wifi.backend = "iwd"; # apple silicon networking only works with iwd
     wifi.powersave = false;
-    # FIXME:
-    # randomize the wifi MAC on every connection
-    connectionConfig = {
-      "wifi.cloned-mac-address" = lib.mkForce "random";
-      "wifi.scan-rand-mac-address" = "yes";
-    };
   };
+
+  # MAC randomization is controlled by iwd
+  networking.wireless.iwd.settings.General.AddressRandomization = "network";
 
   networking.firewall = {
     enable = true;

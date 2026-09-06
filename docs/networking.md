@@ -12,7 +12,7 @@ Implemented in `modules/networking.nix`.
 
 ## MAC randomization
 
-Handled natively by NetworkManager (no custom systemd unit): `networking.networkmanager.connectionConfig."wifi.cloned-mac-address" = "random"` (an `lib.mkForce` over nixpkgs' `preserve` default) plus `"wifi.scan-rand-mac-address" = "yes"`, and `wifi.powersave = false` (disables active-scan power saving; NM value 2). Randomizes the MAC on every wifi connection (interface on this host: `wlp2s0`, brcmfmac).
+Handled by iwd (the `wifi.backend = "iwd"` makes NetworkManager delegate Wi-Fi control to iwd, so NM's `connectionConfig."wifi.cloned-mac-address"` is inert here): `networking.wireless.iwd.settings.General.AddressRandomization = "network"` writes `/etc/iwd/main.conf`, giving a stable randomized MAC per SSID that differs across networks. Interface on this host: `wlan0`, brcmfmac.
 
 ## Hosts
 
