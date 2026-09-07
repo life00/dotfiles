@@ -70,7 +70,9 @@
       server = {
         port = 4096;
       };
-      plugin = [ "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.9.0" ];
+      plugin = [
+        "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.9.0"
+      ];
       mcp = {
         consensus = {
           enabled = false;
@@ -104,7 +106,10 @@
     tui = {
       keybinds.leader = "space";
       leader_timeout = 5000;
-      plugin = [ "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.16.0" ];
+      plugin = [
+        "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.18.0"
+        "opencode-bytheway@0.8.1"
+      ];
     };
     context = ../extra/opencode/AGENTS.md;
     skills = ../extra/opencode/skills;
