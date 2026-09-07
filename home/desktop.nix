@@ -653,13 +653,14 @@
     timeouts = [
       {
         timeout = 120;
-        command = "${pkgs.sway}/bin/swaymsg \"output * dpms off\"";
-        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * dpms on\"";
+        command = "${pkgs.sway}/bin/swaymsg \"output * power off\"";
+        # requires disabling/enabling the output
+        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * power on; output * disable; output * enable\"";
       }
       {
         timeout = 130;
         command = "${pkgs.swaylock}/bin/swaylock -f";
-        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * dpms on\"";
+        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * power on; output * disable; output * enable\"";
       }
     ];
     events.before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
