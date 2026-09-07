@@ -23,8 +23,8 @@
 
     # locked settings
     extraOpts = {
-      "DnsOverHttpsMode" = "secure";
-      "DnsOverHttpsTemplates" = "https://dns.quad9.net/dns-query";
+      # "DnsOverHttpsMode" = "secure";
+      # "DnsOverHttpsTemplates" = "https://dns.quad9.net/dns-query";
       "ExtensionInstallForcelist" = [
         # extensions for all profiles
         "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin Lite
