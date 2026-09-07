@@ -37,9 +37,10 @@
   services.usbguard = {
     enable = true;
     package = pkgs.usbguard;
-    rules = ''
-      allow
-    '';
+    ruleFile = "/var/lib/usbguard/rules.conf";
+    implicitPolicyTarget = "block";
+    dbus.enable = true;
+    IPCAllowedGroups = [ "wheel" ];
   };
 
   # application-level firewall

@@ -2,6 +2,9 @@
   pkgs,
   ...
 }:
+let
+  usbguard-gui = pkgs.callPackage ../pkgs/usbguard-gui { };
+in
 {
   # all user packages
   home.packages = with pkgs; [
@@ -133,6 +136,7 @@
     # desktop and daemon apps
     rofi
     usbguard-notifier
+    usbguard-gui
     opensnitch-ui
     khal
     mpd

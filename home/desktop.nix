@@ -95,6 +95,7 @@
           { app_id = "nm-connection-editor"; }
           { app_id = "alacritty-float"; }
           { app_id = "opensnitch_ui"; }
+          { app_id = "python3"; }
           { instance = "r_x11"; }
         ];
       };
@@ -221,6 +222,7 @@
       startup = [
         { command = "swaymsg 'workspace number 1'"; }
         { command = "usbguard-notifier"; }
+        { command = "usbguard_gui"; }
         { command = "nm-applet --indicator"; }
         { command = "mpc volume 50"; }
         { command = "/bin/sh -c \"pkill -15 opensnitch-ui; opensnitch-ui\""; }
