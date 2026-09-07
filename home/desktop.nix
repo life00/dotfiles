@@ -222,7 +222,7 @@
       startup = [
         { command = "swaymsg 'workspace number 1'"; }
         { command = "usbguard-notifier"; }
-        { command = "usbguard_gui"; }
+        { command = "sleep 1 && usbguard_gui"; }
         { command = "nm-applet --indicator"; }
         { command = "mpc volume 50"; }
         { command = "/bin/sh -c \"pkill -15 opensnitch-ui; opensnitch-ui\""; }
