@@ -99,4 +99,5 @@
     skills = ../extra/opencode/skills;
   };
 
+  programs.claude-code.enable = true;
 }
