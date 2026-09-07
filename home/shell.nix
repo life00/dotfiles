@@ -337,9 +337,6 @@
     # jupyter
     JUPYTER_CONFIG_DIR = "${config.home.homeDirectory}/.cfg/jupyter";
 
-    # claude
-    CLAUDE_CONFIG_DIR = "${config.home.homeDirectory}/.cfg/claude";
-
     # texlive
     TEXMFVAR = "/tmp/texlive/texmf-var";
 

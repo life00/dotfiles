@@ -134,7 +134,6 @@ in
     aichat
 
     # desktop and daemon apps
-    rofi
     usbguard-notifier
     usbguard-gui
     opensnitch-ui
@@ -157,5 +156,6 @@ in
     # comment out due to conflicts with program.{delta,neovim}
     # delta
     # neovim
+    # rofi
   ];
 }
