@@ -26,6 +26,16 @@
       merge.conflictstyle = "diff3";
       diff.colorMoved = "default";
     };
+    includes = [
+      {
+        condition = "gitdir:**/marketpsych/**";
+        path = "~/.cfg/git/marketpsych-profile";
+      }
+      {
+        condition = "gitdir:**/muni/**";
+        path = "~/.cfg/git/muni-profile";
+      }
+    ];
   };
 
   # ssh config
