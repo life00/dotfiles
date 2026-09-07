@@ -13,7 +13,7 @@
       pkgs.rofi-calc
       pkgs.rofi-emoji
     ];
-    font = "JetBrainsMono Nerd Font 10";
+    font = "JetBrainsMono Nerd Font 12";
     modes = [
       "run"
       "drun"
