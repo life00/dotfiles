@@ -14,9 +14,6 @@
   # custom binaries
   home.file.".cfg/bin".source = ../extra/bin;
 
-  # rofi
-  home.file.".cfg/rofi/config".source = ../extra/rofi/config;
-
   # ncmpcpp
   home.file.".cfg/ncmpcpp/config".source = ../extra/ncmpcpp/config;
   home.file.".cfg/ncmpcpp/bindings".source = ../extra/ncmpcpp/bindings;

@@ -9,10 +9,17 @@
     enable = true;
     terminal = "alacritty";
     location = "center";
+    plugins = [
+      pkgs.rofi-calc
+      pkgs.rofi-emoji
+    ];
+    font = "JetBrainsMono Nerd Font 10";
     modes = [
       "run"
       "drun"
       "window"
+      "calc"
+      "emoji"
     ];
     extraConfig = {
       icon-theme = "ePapirus-Dark";
@@ -217,6 +224,8 @@
         "f9" = "exec swaymsg input \"*\" xkb_switch_layout next && notify-send \"keyboard layout changed\"";
         "f10" = "exec /home/user/.bin/powermenu";
         "f11" = "exec /home/user/.bin/killer";
+        "Mod4+slash" = "exec rofi -show calc -modi calc";
+        "Mod4+period" = "exec rofi -show emoji -modi emoji";
       };
 
       startup = [
