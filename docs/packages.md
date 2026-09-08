@@ -12,7 +12,7 @@ System-scope packages in `modules/packages.nix` (daemons, infra, root admin, the
 | Dev | cargo, gcc, go, rust, zig, uv, nodejs, npm, yarn, poetry |
 | Media | ffmpeg, mpv, ncmpcpp, mpd (user service), pavucontrol, playerctl |
 | LaTeX | texlivePackages.* — full thesis stack: biblatex(-apa/-iso690), babel-ukrainian/russian, cyrillic, tabularray, pgfplots, glossaries, forest, biber, latexmk |
-| Science | R + rPackages (dplyr, ggplot2, knitr, rmarkdown, readxl, Rcpp, styler, car, vcd, zoo, here, usethis, IRkernel), quarto, jupyterlab, matplotlib/pandas/seaborn/numpy/scipy |
+| Science | R + rPackages (dplyr, ggplot2, knitr, rmarkdown, readxl, Rcpp, styler, car, vcd, zoo, here, usethis, IRkernel), Octave (octaveFull + octave-kernel Jupyter kernel for quarto, registered via `pkgs.jupyter-kernel.create` + `JUPYTER_PATH`), quarto, jupyterlab, matplotlib/pandas/seaborn/numpy/scipy |
 | GUI | chromium, gimp, libreoffice, obs-studio, virt-manager, sioyek, qalculate, Thunar, imv |
 | AI | aichat |
 | Desktop | rofi, waybar, dunst, grim, slurp, wl-clipboard, networkmanagerapplet, xdg-desktop-portal-wlr, brightnessctl (sway F5/F6), usbguard-notifier, opensnitch-ui, bottom |

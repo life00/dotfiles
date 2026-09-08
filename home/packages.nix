@@ -119,6 +119,10 @@ in
     rPackages.usethis
     rPackages.IRkernel
 
+    # octave
+    octaveFull
+    octave-kernel.launcher
+
     # gui apps
     chromium
     gimp

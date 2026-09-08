@@ -336,6 +336,29 @@
 
     # jupyter
     JUPYTER_CONFIG_DIR = "${config.home.homeDirectory}/.cfg/jupyter";
+    JUPYTER_PATH = toString (
+      pkgs.jupyter-kernel.create {
+        definitions = {
+          octave = {
+            displayName = "Octave";
+            argv = [
+              "${pkgs.octave-kernel.launcher.python.interpreter}"
+              "-m"
+              "octave_kernel"
+              "-f"
+              "{connection_file}"
+            ];
+            language = "octave";
+            env = {
+              OCTAVE_EXECUTABLE = "${pkgs.octaveFull}/bin/octave";
+            };
+            logo32 = null;
+            logo64 = null;
+            extraPaths = { };
+          };
+        };
+      }
+    );
 
     # texlive
     TEXMFVAR = "/tmp/texlive/texmf-var";

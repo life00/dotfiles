@@ -79,6 +79,7 @@ return {
     "benlubas/molten-nvim",
     ft = { "quarto" },
     version = "^1.0.0",
+    lazy = false,
     build = ":UpdateRemotePlugins",
     init = function()
       vim.g.molten_auto_image_popup = true

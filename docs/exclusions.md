@@ -7,7 +7,6 @@ Things from the Fedora setup deliberately not ported, or ported differently.
 | Item | Why |
 |------|-----|
 | julia | User-requested exclusion (was only in /usr/local, no config) |
-| octave | User-requested exclusion |
 | piper-tts, privategpt, languagetool | User-requested exclusion; python venv-based installs not reproducible in Nix |
 | lilypond | User-requested exclusion |
 | sioyek custom patch (LINUX_STANDARD_PATHS) | Use stock nixpkgs sioyek — patch only mattered for non-standard install dirs |
