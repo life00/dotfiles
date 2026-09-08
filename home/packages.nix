@@ -46,7 +46,17 @@ in
     rustc
     zig
     uv
-    python3
+    (python3.withPackages (p: [
+      p.jupyterlab
+      p.ipykernel
+      p.matplotlib
+      p.pandas
+      p.seaborn
+      p.numpy
+      p.scipy
+      p.duckdb
+    ]))
+    quarto
     poetry
     nodejs
     pnpm
@@ -108,16 +118,6 @@ in
     rPackages.here
     rPackages.usethis
     rPackages.IRkernel
-
-    # data science
-    quarto
-    python3.pkgs.jupyterlab
-    python3.pkgs.ipykernel
-    python3.pkgs.matplotlib
-    python3.pkgs.pandas
-    python3.pkgs.seaborn
-    python3.pkgs.numpy
-    python3.pkgs.scipy
 
     # gui apps
     chromium
