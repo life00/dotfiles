@@ -6,54 +6,25 @@ reboot="󰜉 Restart"
 lock="󰍁 Lock"
 suspend="󰒲 Sleep"
 
-rdialog () {
-	rofi -dmenu -i -p "Are You Sure? : "
-}
-
-show_msg() {
-	rofi -e "Options : yes / no / y / n"
-}
-
 options="$shutdown\n$reboot\n$suspend\n$lock"
 
 chosen="$(echo -e "$options" | rofi -p "UP - $uptime" -dmenu -selected-row 0)"
 case $chosen in
     $shutdown)
-		ans=$(rdialog)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			/home/user/.bin/ctrlcache get
-			systemctl poweroff
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+	    /home/user/.bin/ctrlcache get
+	    systemctl poweroff
         ;;
     $reboot)
-		ans=$(rdialog)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			/home/user/.bin/ctrlcache get
-			systemctl reboot
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+	    /home/user/.bin/ctrlcache get
+	    systemctl reboot
         ;;
     $lock)
 	    /home/user/.bin/ctrlcache get
 	    swaylock -f
         ;;
     $suspend)
-		ans=$(rdialog)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			mpc -q pause
-		    	/home/user/.bin/ctrlcache get
-			systemctl suspend
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+	    mpc -q pause
+	    /home/user/.bin/ctrlcache get
+	    systemctl suspend
         ;;
 esac
