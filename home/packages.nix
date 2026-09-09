@@ -39,6 +39,8 @@ in
     zoxide
 
     # development
+    docker
+    docker-compose
     cargo
     gcc
     go

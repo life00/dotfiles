@@ -26,6 +26,7 @@
         "networkmanager"
         "libvirtd"
         "qemu-libvirtd"
+        "docker"
       ];
       # placeholder password
       initialPassword = "password";

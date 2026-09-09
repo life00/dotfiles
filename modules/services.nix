@@ -73,6 +73,11 @@ in
   };
 
   # virtualization
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
+  };
+
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
