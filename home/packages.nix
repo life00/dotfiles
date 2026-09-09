@@ -55,7 +55,9 @@ in
       p.numpy
       p.scipy
       p.duckdb
+      p.pytest
     ]))
+    ruff
     quarto
     poetry
     nodejs
