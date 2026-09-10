@@ -14,10 +14,6 @@
   # custom binaries
   home.file.".cfg/bin".source = ../extra/bin;
 
-  # ncmpcpp
-  home.file.".cfg/ncmpcpp/config".source = ../extra/ncmpcpp/config;
-  home.file.".cfg/ncmpcpp/bindings".source = ../extra/ncmpcpp/bindings;
-
   # cava
   home.file.".cfg/cava/config".source = ../extra/cava/config;
 

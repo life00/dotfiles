@@ -42,7 +42,6 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
     ├── zsh/                    # startup, aliases, addons, config/
     ├── waybar/                 # config + style.css
     ├── rofi/                   # config.rasi + config/ + bin/
-    ├── ncmpcpp/                # config + bindings
     ├── cava/                   # config + shaders/
     ├── lf/                     # lfrc, colors, preview.sh, lfrc.cmd
     ├── sioyek/                 # prefs_user.config, keys_user.config
