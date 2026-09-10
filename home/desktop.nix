@@ -151,7 +151,7 @@
 
       output = {
         "*" = {
-          bg = "${../wallpapers}/tux.png fill";
+          bg = "${pkgs.nixos-artwork.wallpapers.catppuccin-macchiato}/share/backgrounds/nixos/nixos-wallpaper-catppuccin-macchiato.png fill";
         };
         "eDP-1" = {
           resolution = "2560x1600";
