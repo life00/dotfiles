@@ -42,6 +42,11 @@
       global = {
         frame_width = 1;
         separator_color = "frame";
+        progress_bar = true;
+        progress_bar_height = 10;
+        progress_bar_frame_width = 1;
+        progress_bar_min_width = 150;
+        progress_bar_max_width = 300;
       };
     };
   };
@@ -223,9 +228,7 @@
         "f4" = "exec /home/user/.bin/scsh";
         "f9" = "exec swaymsg input \"*\" xkb_switch_layout next && notify-send \"keyboard layout changed\"";
         "f10" = "exec /home/user/.bin/powermenu";
-        "f11" = "exec /home/user/.bin/killer";
-        "Mod4+slash" = "exec rofi -show calc -modi calc";
-        "Mod4+period" = "exec rofi -show emoji -modi emoji";
+        "f11" = "exec /home/user/.bin/tools";
       };
 
       startup = [

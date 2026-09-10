@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+chosen=$(printf '%s\n' '󰔛  Timer' '󰃬  Calculator ' '😄  Emoji ' '💀  Killer ' | rofi -dmenu -p ' Utilities ' -selected-row 0)
+case $chosen in
+*Timer*) /home/user/.bin/timer ;;
+*Calculator*) rofi -show calc -modi calc ;;
+*Emoji*) rofi -show emoji -modi emoji ;;
+*Killer*) /home/user/.bin/killer ;;
+esac

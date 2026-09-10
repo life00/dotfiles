@@ -4,6 +4,7 @@
   environment.etc."tiny-dfr/camera.svg".source = ./icons/camera.svg;
   environment.etc."tiny-dfr/input-keyboard.svg".source = ./icons/input-keyboard.svg;
   environment.etc."tiny-dfr/system-shutdown.svg".source = ./icons/system-shutdown.svg;
+  environment.etc."tiny-dfr/system-run.svg".source = ./icons/system-run.svg;
 
   hardware.apple.touchBar = {
     enable = true;
@@ -66,12 +67,12 @@
           Action = "F9";
           Stretch = 2;
         } # layout
-        # killer and power
+        # tools and power
         {
-          Text = "✕";
+          Icon = "system-run";
           Action = "F11";
           Stretch = 2;
-        } # killer
+        } # tools
         {
           Icon = "system-shutdown";
           Action = "F10";
