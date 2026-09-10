@@ -71,6 +71,22 @@
     };
   };
 
+  programs.cava = {
+    enable = true;
+    package = null;
+    settings = {
+      general.bar_width = 1;
+      general.bar_spacing = 2;
+      output.method = "ncurses";
+      output.alacritty_sync = 0;
+      color.gradient = 1;
+      color.gradient_count = 3;
+      color.gradient_color_1 = "'#494d64'";
+      color.gradient_color_2 = "'#f5bde6'";
+      color.gradient_color_3 = "'#f5bde6'";
+    };
+  };
+
   programs.ncmpcpp = {
     enable = true;
     mpdMusicDir = config.services.mpd.musicDirectory;

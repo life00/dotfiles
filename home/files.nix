@@ -14,9 +14,6 @@
   # custom binaries
   home.file.".cfg/bin".source = ../extra/bin;
 
-  # cava
-  home.file.".cfg/cava/config".source = ../extra/cava/config;
-
   # ssh
   home.file."${config.xdg.configHome}/ssh/allowed_signers".text = ''
     # me
