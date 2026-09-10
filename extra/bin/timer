@@ -13,10 +13,8 @@ parse() {
   [[ $s =~ ^[0-9]+$ ]] && t=$((t + s))
   echo "$t"
 }
-p=$(printf '%s\n' 30s 1m 5m 10m 15m 30m 1h 2h custom | rofi -dmenu -p ' Timer ' -selected-row 2)
-[ "$p" ] || exit
-[ "$p" = custom ] && p=$(rofi -dmenu -p ' Duration e.g. 1h 30m 15s ' -mesg ' 󰔛 Timer ')
+p=$(rofi -dmenu -p ' Duration e.g. 1h 30m 15s ' -mesg ' 󰔛 Timer ')
 s=$(parse "$p")
 [ "${s:-0}" -gt 0 ] || exit
 systemd-run --user --on-active=$s --unit=timer-$RANDOM -E LABEL="$p" \
-  bash -c 'notify-send -u critical "Timer" "$LABEL done" && mpv --no-video --no-terminal --volume=80 /run/current-system/sw/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga' &
+  bash -c 'mpv --no-video --no-terminal --loop --volume=80 /run/current-system/sw/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga & m=$!; notify-send -w -t 0 -u critical "Timer" "$LABEL done"; kill "$m"' &
