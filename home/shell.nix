@@ -143,10 +143,9 @@
 
       character = {
         format = " [](fg:crust bg:none)$symbol[](fg:crust bg:none) ";
-        # several cool icons: 󰠥
-        success_symbol = "[🐱](fg:green bg:crust)";
-        error_symbol = "[🐱](fg:red bg:crust)";
-        vicmd_symbol = "[🐱](fg:blue bg:crust)";
+        success_symbol = "[󰠥](fg:green bg:crust)";
+        error_symbol = "[󰠥](fg:red bg:crust)";
+        vicmd_symbol = "[󰠥](fg:blue bg:crust)";
         disabled = false;
       };
 
