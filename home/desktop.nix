@@ -664,12 +664,13 @@
         timeout = 120;
         command = "${pkgs.sway}/bin/swaymsg \"output * power off\"";
         # requires disabling/enabling the output
-        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * power on; output * disable; output * enable\"";
+        # sleep lets the DRM connector finish powering on
+        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.sway}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.sway}/bin/swaymsg \"output * disable; output * enable\"'";
       }
       {
         timeout = 130;
         command = "${pkgs.swaylock}/bin/swaylock -f";
-        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * power on; output * disable; output * enable\"";
+        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.sway}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.sway}/bin/swaymsg \"output * disable; output * enable\"'";
       }
     ];
     events.before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
