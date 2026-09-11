@@ -1,7 +1,7 @@
 #!/usr/bin/env dash
 
 run() {
-  su "user" -s /bin/sh -c '"${1}"' run "/etc/awecron/updater/$1"
+  runuser -u "user" -- /bin/sh -c '"${1}"' run "/etc/awecron/updater/$1"
 }
 
 if ping -c 1 google.com >/dev/null; then

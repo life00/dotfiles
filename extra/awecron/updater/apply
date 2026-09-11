@@ -1,0 +1,12 @@
+#!/usr/bin/env dash
+
+LIST="${XDG_CACHE_HOME:-$HOME/.cache}/updater/list"
+
+cat "$LIST"
+printf '\n%s updates. Proceed? [y/N] ' "$(wc -l <"$LIST")"
+read -r a
+[ "$a" = y ] || exit 0
+
+doas nixos-rebuild switch --impure --flake "$HOME/dev/sysadmin/dotfiles#$(uname -n)" && : >"$LIST"
+printf 'Press enter to close.'
+read -r _

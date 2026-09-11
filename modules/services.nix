@@ -12,10 +12,10 @@ in
   systemd.services.awecron = {
     description = "Awecron cron daemon";
     wantedBy = [ "multi-user.target" ];
-    # scripts require bash
-    path = with pkgs; [
-      bash
-      dash
+    # jobs need the system tools (btrfs, hostname, nix, ...); notify-send is user-profile only
+    path = [
+      "/run/current-system/sw"
+      pkgs.libnotify
     ];
     serviceConfig = {
       ExecStart = "${awecron}/bin/awecron";

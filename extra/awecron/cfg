@@ -7,4 +7,4 @@ max=9999
 # minimum sleep duration limit
 min=5
 
-timeout=200
+timeout=600

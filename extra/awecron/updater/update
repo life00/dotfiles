@@ -1,33 +1,43 @@
 #!/usr/bin/env dash
 
 CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/updater"
+LIST="$CACHE/list"
 FLAKE="$HOME/dev/sysadmin/dotfiles"
-HOST="$(hostname)"
+HOST="$(uname -n)"
 export DISPLAY=":0"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
-notify-send -t 10000 "Updater" "Checking for updates..."
 mkdir -p "$CACHE"
+exec 2>"$CACHE/log"
+notify-send -t 10000 "Updater" "Checking for updates..."
+cd "$FLAKE" || exit 1
 
-cd "$FLAKE"
-nix flake update 2>/dev/null
+nix flake update
 
-if git diff --quiet flake.lock 2>/dev/null; then
-  package_count=0
+if git diff --quiet flake.lock; then
+  : >"$LIST"
 else
-  new_path="$(nix build --impure ".#nixosConfigurations.$HOST.config.system.build.toplevel" \
-    --no-link --print-out-paths 2>/dev/null)"
-  if [ -n "$new_path" ]; then
-    # count version-changing packages: lines with " → <digit>"
-    # (filters out removals "→ ∅", configs "→ ε", and size-only noise)
-    package_count="$(nix store diff-closures /run/current-system "$new_path" 2>/dev/null \
-      | grep -c ' → [0-9]' || true)"
-  else
-    # build failed: report that updates exist but can't be counted
-    package_count=1
+  tmpdir=$(mktemp -d)
+  trap 'rm -rf "$tmpdir"' EXIT
+
+  drvnames() {
+    nix-store -qR "$1" | grep '\.drv$' | sed 's|.*/||; s/\.drv$//; s/^[^-]*-//' | sort -u
+  }
+
+  new_drv=$(nix eval --impure --raw ".#nixosConfigurations.$HOST.config.system.build.toplevel.drvPath")
+  if [ -z "$new_drv" ]; then
+    notify-send -t 10000 "Updater" "Eval failed, see $CACHE/log"
+    exit 0
   fi
+
+  drvnames "$(nix-store -q --deriver "$(readlink -f /run/current-system)")" >"$tmpdir/old"
+  drvnames "$new_drv" >"$tmpdir/new"
+
+  # ponytail: name-based heuristic, swap for `nix store diff-closures` if counts drift
+  comm -13 "$tmpdir/old" "$tmpdir/new" \
+    | grep -v '\.tar\.\|\.patch$\|\.json$\|\.conf$\|\.service$\|\.sh$\|\.xml$\|\.zst$\|^nixos-\|^etc-\|^system-\|^home-\|^user-\|^activation-\|^font-\|^hm-\|^initrd-\|^linux-config\|^lazy-options\|^boot\.\|^copy-\|^install\|^X-Restart\|^firewall-\|^shutdown\|^empty-directory\|-vendor$\|-go-modules$\|-node_modules\|-wrapped$\|-staging$' >"$LIST"
 fi
 
-notify-send -t 10000 "Updater" "${package_count} updates found."
-printf "updater: %s updates found.\n" "${package_count}"
-printf "%s" "${package_count}" >"$CACHE/count"
+count=$(wc -l <"$LIST")
+notify-send -t 10000 "Updater" "${count} updates found."
+printf "updater: %s updates found.\n" "${count}"

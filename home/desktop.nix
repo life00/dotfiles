@@ -433,9 +433,9 @@
       "custom/updater" = {
         interval = 60;
         tooltip = true;
-        exec = "echo 󰏗 $(cat /home/user/etc/cache/updater/count)";
-        on-click-right = "/home/user/.cfg/awecron/updater/update";
-        on-click = "alacritty --class alacritty-float -e bash -c 'if doas nixos-rebuild switch --impure --flake /home/user/dev/sysadmin/dotfiles#$(hostname); then printf 0 > /home/user/etc/cache/updater/count; fi; read -n1'";
+        exec = "echo 󰏗 $(wc -l < /home/user/etc/cache/updater/list 2>/dev/null)";
+        on-click-right = "/etc/awecron/updater/update";
+        on-click = "alacritty --class alacritty-float -e /etc/awecron/updater/apply";
       };
       backlight = {
         format = "{icon} {percent}%";
