@@ -19,10 +19,9 @@ NixOS flake-based configuration replicating a Fedora Asahi Linux workstation set
 │   ├── security.nix            # doas, usbguard, opensnitch, sshd disabled
 │   ├── users.nix               # user account, groups, root-ownership tmpfiles
 │   ├── locale.nix              # timezone, locale, console font, custom-mech xkb
-│   ├── services.nix            # awecron, mpd, syncthing (disabled), ollama (disabled), virt
+│   ├── services.nix            # awecron, mpd, syncthing (disabled), ollama (disabled), virt, ly login manager
 │   ├── packages.nix            # system packages
-│   ├── fonts.nix               # JetBrainsMono NFM, Papirus, Catppuccin cursors
-│   └── greetd.nix              # greetd + regreet (Wayland greeter)
+│   └── theme.nix               # catppuccin (tty, gtk, cursors), JetBrainsMono NFM, Papirus
 ├── home/                        # home-manager modules
 │   ├── default.nix             # entry, imports all
 │   ├── shell.nix               # zsh, starship, history logging
@@ -79,7 +78,7 @@ nixos-install --flake .#mb2017
 
 ### 5. Post-install
 
-Reboot, log in via greetd, and complete the manual steps below.
+Reboot, log in via ly, and complete the manual steps below.
 
 ## Manual post-install exceptions
 

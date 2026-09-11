@@ -92,13 +92,23 @@ in
   ];
 
   # login manager
-  services.greetd = {
-    enable = true;
-    useTextGreeter = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd sway";
-        user = "greeter";
+  services.displayManager = {
+    sessionPackages = [ pkgs.sway ];
+    ly = {
+      enable = true;
+      x11Support = false;
+      settings = {
+        full_color = false;
+        animation = "matrix";
+        cmatrix_fg = 3;
+        cmatrix_head_col = 16777224;
+        bg = 0;
+        fg = 8;
+        border_fg = 5;
+        error_fg = 16777218;
+        bigclock = "en";
+        clock = "%a %d %b  %H:%M";
+        hide_version_string = true;
       };
     };
   };

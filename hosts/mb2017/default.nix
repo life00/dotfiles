@@ -10,7 +10,7 @@
     ../../modules/locale.nix
     ../../modules/services.nix
     ../../modules/packages.nix
-    ../../modules/fonts.nix
+    ../../modules/theme.nix
     ../../modules/browsing.nix
   ];
 

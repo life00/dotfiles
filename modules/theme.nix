@@ -1,5 +1,13 @@
 { pkgs, ... }:
 {
+  # theme
+  catppuccin = {
+    enable = true;
+    flavor = "macchiato";
+    accent = "lavender";
+    tty.enable = true;
+  };
+
   # fonts
 
   fonts.packages = with pkgs; [
