@@ -72,6 +72,7 @@
       };
       plugin = [
         "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.9.0"
+        "opencode-claude-auth@latest"
       ];
       mcp = {
         consensus = {
