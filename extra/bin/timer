@@ -17,4 +17,4 @@ p=$(rofi -dmenu -p ' Duration e.g. 1h 30m 15s ' -mesg ' 󰔛 Timer ')
 s=$(parse "$p")
 [ "${s:-0}" -gt 0 ] || exit
 systemd-run --user --on-active=$s --unit=timer-$RANDOM -E LABEL="$p" \
-  bash -c 'mpv --no-video --no-terminal --loop --volume=80 /run/current-system/sw/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga & m=$!; notify-send -w -t 0 -u critical "Timer" "$LABEL done"; kill "$m"' &
+  bash -c 'mpv --no-video --no-terminal --loop --volume=80 /run/current-system/sw/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga & m=$!; notify-send -i alarm-clock -w -t 0 -u critical "Timer" "$LABEL done"; kill "$m"' &

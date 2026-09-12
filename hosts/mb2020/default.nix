@@ -18,7 +18,7 @@
   networking.hostName = "mb2020";
   hardware.asahi.enable = true;
 
-  homePermissions.enable = true;
+  homePermissions.enable = false;
 
   home-manager = {
     useUserPackages = true;

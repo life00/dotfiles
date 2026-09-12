@@ -13,9 +13,9 @@ chosen=`echo -e "$options" | $rofi_command -p '   Screenshot ' -dmenu -select
 
 case $chosen in
 	$selection)
-		grim -g "$(slurp)" -t png -l 9 $outfile && dunstify "Saved: $name" ;;
+		grim -g "$(slurp)" -t png -l 9 $outfile && dunstify -i camera-photo "Saved: $name" ;;
 	$screen)
-		grim -t png  -l 9 $outfile && dunstify "Saved: $name" ;;
+		grim -t png  -l 9 $outfile && dunstify -i camera-photo "Saved: $name" ;;
 	$window)
-		grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" -t png -l 9 $outfile && dunstify "Saved: $name" ;;
+		grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" -t png -l 9 $outfile && dunstify -i camera-photo "Saved: $name" ;;
 esac

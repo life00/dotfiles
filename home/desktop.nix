@@ -42,6 +42,8 @@
       global = {
         frame_width = 1;
         separator_color = "frame";
+        enable_recursive_icon_lookup = true;
+        icon_theme = "Papirus-Dark";
         progress_bar = true;
         progress_bar_height = 10;
         progress_bar_frame_width = 1;
@@ -205,28 +207,32 @@
 
         # fn keys
         "XF86MonBrightnessDown" =
-          "exec brightnessctl set 1%- && notify-send \"display brightness decreased\"";
+          "exec notify-send -i display-brightness -h string:x-dunst-stack-tag:bl -h int:value:$(brightnessctl set 2%- | grep -o '[0-9]*%' | tr -d %) \"display brightness decreased\"";
         "XF86MonBrightnessUp" =
-          "exec brightnessctl set 1%+ && notify-send \"display brightness increased\"";
+          "exec notify-send -i display-brightness -h string:x-dunst-stack-tag:bl -h int:value:$(brightnessctl set 2%+ | grep -o '[0-9]*%' | tr -d %) \"display brightness increased\"";
         "Shift+XF86MonBrightnessDown" =
-          "exec brightnessctl -d kbd_backlight set 2%- && notify-send \"keyboard brightness decreased\"";
+          "exec notify-send -i input-keyboard -h string:x-dunst-stack-tag:kbl -h int:value:$(brightnessctl -d kbd_backlight set 2%- | grep -o '[0-9]*%' | tr -d %) \"keyboard brightness decreased\"";
         "Shift+XF86MonBrightnessUp" =
-          "exec brightnessctl -d kbd_backlight set 2%+ && notify-send \"keyboard brightness increased\"";
+          "exec notify-send -i input-keyboard -h string:x-dunst-stack-tag:kbl -h int:value:$(brightnessctl -d kbd_backlight set 2%+ | grep -o '[0-9]*%' | tr -d %) \"keyboard brightness increased\"";
         "XF86AudioLowerVolume" =
-          "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-send \"volume decreased\"";
+          "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-send -i audio-volume-high -h string:x-dunst-stack-tag:vol -h int:value:$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}') \"volume decreased\"";
         "XF86AudioRaiseVolume" =
-          "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ && notify-send \"volume increased\"";
+          "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ && notify-send -i audio-volume-high -h string:x-dunst-stack-tag:vol -h int:value:$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}') \"volume increased\"";
         "Shift+XF86AudioLowerVolume" =
-          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 && notify-send \"audio output muted\"";
+          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 && notify-send -i audio-volume-muted -h string:x-dunst-stack-tag:vol \"audio output muted\"";
         "Shift+XF86AudioRaiseVolume" =
-          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 && notify-send \"audio output unmuted\"";
+          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 && notify-send -i audio-volume-high -h string:x-dunst-stack-tag:vol \"audio output unmuted\"";
         "XF86AudioMute" =
-          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-send \"audio output toggled\"";
-        "XF86AudioPrev" = "exec mpc prev && notify-send \"playing previous song in queue\"";
-        "XF86AudioPlay" = "exec mpc toggle && notify-send \"toggled current audio stream\"";
-        "XF86AudioNext" = "exec mpc next && notify-send \"playing next song in queue\"";
+          "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-send -i audio-volume-muted -h string:x-dunst-stack-tag:vol \"audio output toggled\"";
+        "XF86AudioPrev" =
+          "exec mpc prev && notify-send -i media-skip-backward \"playing previous song in queue\"";
+        "XF86AudioPlay" =
+          "exec mpc toggle && notify-send -i media-playback-start \"toggled current audio stream\"";
+        "XF86AudioNext" =
+          "exec mpc next && notify-send -i media-skip-forward \"playing next song in queue\"";
         "f4" = "exec /home/user/.bin/scsh";
-        "f9" = "exec swaymsg input \"*\" xkb_switch_layout next && notify-send \"keyboard layout changed\"";
+        "f9" =
+          "exec swaymsg input \"*\" xkb_switch_layout next && notify-send -i preferences-desktop-keyboard \"keyboard layout changed\"";
         "f10" = "exec /home/user/.bin/powermenu";
         "f11" = "exec /home/user/.bin/tools";
       };

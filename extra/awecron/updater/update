@@ -9,7 +9,7 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
 mkdir -p "$CACHE"
 exec 2>"$CACHE/log"
-notify-send -t 10000 "Updater" "Checking for updates..."
+notify-send -i system-software-update -t 10000 "Updater" "Checking for updates..."
 cd "$FLAKE" || exit 1
 
 nix flake update
@@ -26,7 +26,7 @@ else
 
   new_drv=$(nix eval --impure --raw ".#nixosConfigurations.$HOST.config.system.build.toplevel.drvPath")
   if [ -z "$new_drv" ]; then
-    notify-send -t 10000 "Updater" "Eval failed, see $CACHE/log"
+    notify-send -i system-software-update -t 10000 "Updater" "Eval failed, see $CACHE/log"
     exit 0
   fi
 
@@ -39,5 +39,5 @@ else
 fi
 
 count=$(wc -l <"$LIST")
-notify-send -t 10000 "Updater" "${count} updates found."
+notify-send -i system-software-update -t 10000 "Updater" "${count} updates found."
 printf "updater: %s updates found.\n" "${count}"
