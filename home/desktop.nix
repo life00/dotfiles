@@ -179,6 +179,13 @@
         hide_cursor = "10000";
       };
 
+      workspaceOutputAssign = [
+        {
+          workspace = "1";
+          output = "eDP-1";
+        }
+      ];
+
       keybindings = lib.mkOptionDefault {
         # launcher on space
         "Mod4+space" = "exec ${config.wayland.windowManager.sway.config.menu}";
@@ -238,7 +245,6 @@
       };
 
       startup = [
-        { command = "swaymsg 'workspace number 1'"; }
         { command = "usbguard-notifier"; }
         { command = "sleep 1 && usbguard_gui"; }
         { command = "nm-applet --indicator"; }
