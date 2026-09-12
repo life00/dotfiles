@@ -37,6 +37,7 @@ in
     bat
     starship
     zoxide
+    libqalculate
 
     # development
     docker
@@ -134,7 +135,6 @@ in
     obs-studio
     virt-manager
     sioyek
-    qalculate-gtk
     thunar
     imv
 
