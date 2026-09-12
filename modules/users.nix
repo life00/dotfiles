@@ -6,6 +6,16 @@
 }:
 let
   home = config.users.users.user.home;
+  compatLinks = {
+    ".config" = ".cfg";
+    ".cache" = "etc/cache";
+    ".local" = "etc";
+    "etc/share" = "etc/data";
+    ".icons" = "etc/data/icons";
+    ".npm" = "etc/data/npm";
+    ".jupyter" = "etc/data/jupyter";
+    ".ssh" = ".cfg/ssh";
+  };
   hmDirs =
     let
       targets = map (f: f.target) (
@@ -113,22 +123,13 @@ in
           "d /mnt/usb 0755 root root -"
           "d /mnt/cryptroot 0755 root root -"
 
-          # compatibility symlinks
-          # general
-          "L+ ${config.users.users.user.home}/.config - - - - ${config.users.users.user.home}/.cfg"
-          "L+ ${config.users.users.user.home}/.cache - - - - ${config.users.users.user.home}/etc/cache"
-          "L+ ${config.users.users.user.home}/.local - - - - ${config.users.users.user.home}/etc"
-          "L+ ${config.users.users.user.home}/etc/share - - - - ${config.users.users.user.home}/etc/data"
-          # program specific
-          "d ${config.users.users.user.home}/etc/data/icons 0755 user user -"
-          "L+ ${config.users.users.user.home}/.icons - - - - ${config.users.users.user.home}/etc/data/icons"
-          "d ${config.users.users.user.home}/etc/data/npm 0755 user user -"
-          "L+ ${config.users.users.user.home}/.npm - - - - ${config.users.users.user.home}/etc/data/npm"
-          "d ${config.users.users.user.home}/etc/data/jupyter 0755 user user -"
-          "L+ ${config.users.users.user.home}/.jupyter - - - - ${config.users.users.user.home}/etc/data/jupyter"
-          "d ${config.users.users.user.home}/.cfg/ssh 0755 user user -"
-          "L+ ${config.users.users.user.home}/.ssh - - - - ${config.users.users.user.home}/.cfg/ssh"
+          # compatibility symlink targets
+          "d ${home}/etc/data/icons 0755 user user -"
+          "d ${home}/etc/data/npm 0755 user user -"
+          "d ${home}/etc/data/jupyter 0755 user user -"
+          "d ${home}/.cfg/ssh 0755 user user -"
         ]
+        (lib.mapAttrsToList (l: t: "L+ ${home}/${l} - - - - ${home}/${t}") compatLinks)
         (lib.mkIf config.homePermissions.enable (
           [
             # top level directory ownership
@@ -145,10 +146,11 @@ in
       ]
     );
 
-    # re-apply as root so the compat symlinks aren't left user-owned
+    # tmpfiles never chowns symlinks, so do it here
     system.activationScripts.homePermissions = lib.mkIf config.homePermissions.enable (
       lib.stringAfter [ "users" ] ''
-        ${pkgs.systemd}/bin/systemd-tmpfiles --create --prefix=${config.users.users.user.home}
+        ${pkgs.systemd}/bin/systemd-tmpfiles --create --prefix=${home}
+        chown -h root:root ${lib.concatMapStringsSep " " (l: "${home}/${l}") (lib.attrNames compatLinks)}
       ''
     );
 
