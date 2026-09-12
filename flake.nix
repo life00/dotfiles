@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration replicating Fedora Asahi setup";
+  description = "My custom NixOS configuration with Cattpuccin for macbook pro M1 2020";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -25,26 +25,37 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, catppuccin, stevenblack-hosts, apple-silicon, ... }@inputs: {
-    nixosConfigurations.mb2017 = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        disko.nixosModules.disko
-        home-manager.nixosModules.home-manager
-        catppuccin.nixosModules.catppuccin
-        ./hosts/mb2017
-      ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      disko,
+      catppuccin,
+      stevenblack-hosts,
+      apple-silicon,
+      ...
+    }@inputs:
+    {
+      nixosConfigurations.mb2017 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager
+          catppuccin.nixosModules.catppuccin
+          ./hosts/mb2017
+        ];
+      };
+      nixosConfigurations.mb2020 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          apple-silicon.nixosModules.apple-silicon-support
+          home-manager.nixosModules.home-manager
+          catppuccin.nixosModules.catppuccin
+          ./hosts/mb2020
+        ];
+      };
     };
-    nixosConfigurations.mb2020 = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        apple-silicon.nixosModules.apple-silicon-support
-        home-manager.nixosModules.home-manager
-        catppuccin.nixosModules.catppuccin
-        ./hosts/mb2020
-      ];
-    };
-  };
 }
