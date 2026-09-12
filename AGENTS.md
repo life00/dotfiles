@@ -20,7 +20,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 ## Non-standard home layout
 
 - XDG: `configHome=~/.cfg`, `cacheHome=~/etc/cache`, `dataHome=~/etc/data`, `stateHome=~/etc/state` (`home/default.nix`). Compat symlinks `~/.config -> ~/.cfg`, `~/.cache`, `~/.local`, `~/.ssh -> ~/.cfg/ssh` are tmpfiles rules in `modules/users.nix`.
-- `homePermissions.enable` (on for mb2020) makes `~`, `~/.bin`, `~/.cfg`, and several `~/.cfg/<app>` dirs root-owned. Editing files in place under `~/.cfg` fails or is a store symlink; edit in the repo and rebuild.
+- `homePermissions.enable` (on for mb2020) makes `~`, `~/.bin`, top-level dirs, and every dir home-manager places files in root-owned (derived from `home.file`, fail-closed). Apps that must write into their config dir go in `homePermissions.exclude` (`modules/users.nix`). HM activation still runs as `user`; it gets `CAP_DAC_OVERRIDE` so no toggling/chown is needed to rebuild. tmpfiles never reverts ownership: removing a dir from the set needs a manual `chown`. Editing files in place under `~/.cfg` fails or is a store symlink; edit in the repo and rebuild.
 - `~/.bin/*` are symlinks to the store copy of `extra/bin/`, created by the `homeSetup` activation script, not HM.
 
 ## Gotchas

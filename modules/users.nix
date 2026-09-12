@@ -4,11 +4,43 @@
   config,
   ...
 }:
+let
+  home = config.users.users.user.home;
+  hmDirs =
+    let
+      targets = map (f: f.target) (
+        lib.filter (f: f.enable) (lib.attrValues config.home-manager.users.user.home.file)
+      );
+      ancestors =
+        t:
+        let
+          d = dirOf t;
+        in
+        if d == "." then [ ] else [ d ] ++ ancestors d;
+      excluded = d: lib.any (p: d == p || lib.hasPrefix "${p}/" d) config.homePermissions.exclude;
+    in
+    lib.filter (d: !excluded d) (lib.unique (lib.concatMap ancestors targets));
+in
 {
-  options.homePermissions.enable = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = "root-owned home permission management";
+  options.homePermissions = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "root-owned home permission management";
+    };
+    exclude = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [
+        "etc/cache"
+        "etc/data"
+        "etc/state"
+        ".cfg/ssh"
+        ".cfg/claude"
+        ".icons"
+        ".ssh"
+      ];
+      description = "home-manager dirs (relative to home) left user-owned";
+    };
   };
 
   config = {
@@ -97,28 +129,19 @@
           "d ${config.users.users.user.home}/.cfg/ssh 0755 user user -"
           "L+ ${config.users.users.user.home}/.ssh - - - - ${config.users.users.user.home}/.cfg/ssh"
         ]
-        (lib.mkIf config.homePermissions.enable [
-          # top level directory ownership
-          "d ${config.users.users.user.home} 0755 root root -"
-          "d ${config.users.users.user.home}/.bin 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg 0755 root root -"
-          "d ${config.users.users.user.home}/dev 0755 root root -"
-          "d ${config.users.users.user.home}/doc 0755 root root -"
-          "d ${config.users.users.user.home}/etc 0755 root root -"
-          "d ${config.users.users.user.home}/med 0755 root root -"
-          "d ${config.users.users.user.home}/tmp 0755 user user -"
-
-          # config ownership
-          "d ${config.users.users.user.home}/.cfg/zsh 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/sway 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/swaylock 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/waybar 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/opensnitch 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/starship 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/rofi 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/lf 0755 root root -"
-          "d ${config.users.users.user.home}/.cfg/alacritty 0755 root root -"
-        ])
+        (lib.mkIf config.homePermissions.enable (
+          [
+            # top level directory ownership
+            "d ${home} 0755 root root -"
+            "d ${home}/.bin 0755 root root -"
+            "d ${home}/dev 0755 root root -"
+            "d ${home}/doc 0755 root root -"
+            "d ${home}/med 0755 root root -"
+            "d ${home}/tmp 0755 user user -"
+          ]
+          # every dir home-manager places files in
+          ++ map (d: "d ${home}/${d} 0755 root root -") hmDirs
+        ))
       ]
     );
 
