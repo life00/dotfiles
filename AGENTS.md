@@ -29,7 +29,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 - awecron runs as root; jobs get `PATH=/run/current-system/sw` + `libnotify` only. Restart the service after changing jobs (dynamic sleep won't pick them up until the next wake).
 - `modules/users.nix`: `initialPassword = "password"` is a bootstrap value, intentional.
 - `hosts/mb2017/disko.nix` device `/dev/nvme0n1` and `hosts/mb2017/hardware.nix` are placeholders for that host. `hosts/mb2020/hardware.nix` has real UUIDs; don't touch them.
-- `mb2020` boot: `canTouchEfiVariables = false` is required (U-Boot owns EFI). Manual btrfs mounts, no disko.
+- `mb2020` boot: `canTouchEfiVariables = false` is required (U-Boot owns EFI). Manual btrfs mounts, no disko. `/boot` is the ~480M ESP created by the asahi installer (`asahi,efi-system-partition` in the device tree): m1n1 stage 1 chainloads `m1n1/boot.bin` from there, so it must hold systemd-boot, kernels, `m1n1/` and `vendorfw/`. Hence `configurationLimit = 2`. Firmware refresh (`os-fw-version`) = delete stub + that ESP, rerun the asahi installer, update the UUID in `hardware.nix`.
 - `services.syncthing` and `services.ollama` are `enable = false` stubs. Keep them.
 - Secrets never live here: no ssh keys, no tokens (`.gitignore` blocks `*credentials*`, `*token*`). `allowed_signers` content is inline in `home/files.nix`.
 

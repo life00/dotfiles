@@ -1,12 +1,16 @@
 { ... }:
 {
-  # systemd-boot on the dedicated NixOS ESP
+  # systemd-boot on the ESP created by the asahi installer
   # U-Boot handles the OS selection
   # NixOS must not touch EFI variables
   boot = {
 
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        # limit due to size of ESP
+        configurationLimit = 3;
+      };
       efi = {
         canTouchEfiVariables = false;
         efiSysMountPoint = "/boot";

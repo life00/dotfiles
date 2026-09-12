@@ -72,7 +72,7 @@
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/41EE-3266";
+      device = "/dev/disk/by-uuid/44F1-1BFE";
       fsType = "vfat";
       options = [
         "fmask=0022"
