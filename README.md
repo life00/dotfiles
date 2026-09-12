@@ -1,104 +1,74 @@
-# NixOS Configuration
+# dotfiles
 
-NixOS flake-based configuration replicating a Fedora Asahi Linux workstation setup on x86_64 hardware. System-level configuration is declarative via NixOS modules; user-level configuration uses home-manager (as a NixOS module) where practical and raw extra for complex setups.
+NixOS flake for two macbooks: `mb2020` and `mb2017`. System config is NixOS modules; user config is home-manager as a NixOS module. Sway + waybar + rofi desktop, Catppuccin Macchiato everywhere, LUKS + btrfs with snapshots, doas / usbguard / opensnitch security hardening.
 
 ## Structure
 
 ```
 .
-├── flake.nix                    # flake entry: nixpkgs, home-manager, disko, catppuccin, stevenblack-hosts
+├── flake.nix        # inputs
 ├── hosts/
-│   └── mb2017/               # host entry (hostname: nixos)
-│       ├── default.nix          # imports all modules + home-manager
-│       └── hardware.nix          # kernel modules, platform (placeholder — regenerate on target)
-├── modules/                     # system-level NixOS modules
-│   ├── boot.nix                # GRUB EFI, LUKS, kernel hardening, sysctl yama
-│   ├── disko.nix               # declarative disk layout (LUKS + btrfs subvolumes)
-│   ├── filesystems.nix         # btrfs mount options, swap
-│   ├── networking.nix          # NetworkManager, firewalld (drop), MAC randomization, hosts
-│   ├── security.nix            # doas, usbguard, opensnitch, sshd disabled
-│   ├── users.nix               # user account, groups, root-ownership tmpfiles
-│   ├── locale.nix              # timezone, locale, console font, custom-mech xkb
-│   ├── services.nix            # awecron, mpd, syncthing (disabled), ollama (disabled), virt, ly login manager
-│   ├── packages.nix            # system packages
-│   └── theme.nix               # catppuccin (tty, gtk, cursors), JetBrainsMono NFM, Papirus
-├── home/                        # home-manager modules
-│   ├── default.nix             # entry, imports all
-│   ├── shell.nix               # zsh, starship, history logging
-│   ├── git.nix                 # git config, ssh, allowed_signers
-│   ├── terminal.nix            # alacritty
-│   ├── editor.nix              # neovim (extra), bat
-│   ├── desktop.nix             # sway (native config), waybar, rofi, swayidle
-│   ├── media.nix               # mpd, ncmpcpp, mpv, cava, obs/gimp placeholders
-│   ├── files.nix               # lf, bottom (btm), dev/bin scripts, qalculate, sioyek
-│   ├── theme.nix               # Catppuccin (GTK, cursors, fsh), dconf
-│   └── packages.nix            # user packages + chromium/syncthing/opensnitch placeholders
-├── pkgs/                         # custom derivations
-│   ├── awecron/                # custom cron daemon (Go) — src/ is gitignored
-│   └── getmusic/               # custom utility (Go) — src/ is gitignored
-├── wallpapers/                   # sway wallpapers (tux.png, etc.) — absolute store path in config
-└── extra/                    # raw config files
-    ├── zsh/                    # startup, aliases, addons, config/
-    ├── waybar/                 # config + style.css
-    ├── rofi/                   # config.rasi + config/ + bin/
-    ├── cava/                   # config + shaders/
-    ├── lf/                     # lfrc, colors, preview.sh, lfrc.cmd
-    ├── sioyek/                 # prefs_user.config, keys_user.config
-    ├── khal/                   # config
-    ├── nvim/                   # LazyVim config (external, HM installs neovim)
-    ├── ssh/                    # config, allowed_signers (no keys)
-    ├── bin/                    # custom scripts (fetch, zlf, todoi, etc.)
-    └── awecron/                # cfg, tphome scripts, updater
+│   ├── mb2017/      # boot, hardware, disko
+│   └── mb2020/      # boot, hardware, touchbar
+├── modules/         # system configs
+├── home/            # home-manager configs
+├── pkgs/            # custom packages
+│   ├── awecron/
+│   └── usbguard-gui/
+├── extra/           # raw configs
+│   ├── nvim/        # LazyVim
+│   ├── lf/
+│   ├── bin/         # scripts symlinked to ~/.bin
+│   ├── awecron/     # croon jobs
+│   └── opencode/    # agent skills
+└── wallpapers/
 ```
 
-## Installation
+## Usage
 
-### 1. Prepare the disk device
-
-Edit `modules/disko.nix` and replace the placeholder disk device (`/dev/nvme0n1`) with your target disk.
-
-### 2. Build and apply the disk layout
+### Rebuild
 
 ```sh
-nix run github:nix-community/disko -- --mode destroy,format,mount ./modules/disko.nix
+doas nixos-rebuild switch --impure --flake .#mb2020
 ```
 
-### 3. Generate hardware config (optional but recommended)
+`--impure` is required: `pkgs/awecron` builds from the local path `/home/user/dev/sysadmin/awecron`, which must exist.
 
-```sh
-nixos-generate-config --no-filesystems --root /mnt
-# Merge any detected kernel modules into hosts/mb2017/hardware.nix
-```
+### Install: mb2020 (Apple Silicon)
 
-### 4. Install
+1. Follow the [nixos-apple-silicon](https://github.com/nix-community/nixos-apple-silicon/blob/main/docs/uefi-standalone.md) guide to install m1n1 + U-Boot and boot the NixOS installer.
+2. Partition manually: ESP (vfat) + one LUKS partition. Inside LUKS, btrfs with subvolumes `root`, `home`, `snapshots`, `swap`, `opt` (mounted at `/`, `/home`, `/snsh`, `/var/swap`, `/opt/user`). Disko is not used on this host.
+3. Update the UUIDs in `hosts/mb2020/boot.nix` (LUKS) and `hosts/mb2020/hardware.nix` (ESP).
+4. `nixos-install --impure --flake .#mb2020`
 
-```sh
-nixos-install --flake .#mb2017
-```
+### Install: mb2017 (x86_64)
 
-### 5. Post-install
+1. Set the target disk in `hosts/mb2017/disko.nix`.
+2. `nix run github:nix-community/disko -- --mode destroy,format,mount ./hosts/mb2017/disko.nix`
+3. `nixos-generate-config --no-filesystems --root /mnt` and merge kernel modules into `hosts/mb2017/hardware.nix`.
+4. `nixos-install --impure --flake .#mb2017`
 
-Reboot, log in via ly, and complete the manual steps below.
+### Post-install
 
-## Manual post-install exceptions
-
-Some things cannot (or should not) be included in the declarative config:
-
-- **Disk device name**: Replace the placeholder in `modules/disko.nix` before install.
-- **SSH private keys**: Copy to `~/etc/sec/ssh/` (e.g. `key-r0.sec`).
-- **NetworkManager connections**: ~45 WiFi networks with passwords — import manually via `nmcli connection import`.
-- **Syncthing config**: Device IDs and shared folders — configure via the Syncthing Web UI after enabling the service.
-- **Chromium profile**: Extensions, bookmarks, Vimium config — managed externally; `home/packages.nix` has a placeholder for future HM management.
-- **Custom package sources**: `pkgs/awecron/src/` and `pkgs/getmusic/src/` are gitignored. Copy the source from the original dev tree before building:
-  ```sh
-  cp -r /path/to/awecron-src pkgs/awecron/src
-  cp -r /path/to/getmusic-src pkgs/getmusic/src
-  ```
+- Login and change user password via `passwd`.
+- Import ssh and other credentials.
+- Import WiFi connections.
+- Initialize awecron for snapshots and updates.
+- Generate usbguard policy: `usbguard generate-policy > /var/lib/usbguard/rules.conf`.
+- Answer opensnitch prompts (default deny).
+- Optionally enable syncthing / ollama in `modules/services.nix`.
 
 ## Notes
 
-- `syncthing` and `ollama` services are defined but **disabled** by default. Enable in `modules/services.nix` when ready.
-- Root snapshotting (awecron `tproot` jobs) was removed; only `tphome` snapshot jobs are kept. NixOS handles root rollback via generations.
-- The custom `custom-mech` xkb layout (mechanical keyboard remap) is installed system-wide.
-- Catppuccin themes are sourced via the `catppuccin/nix` flake input (not hardcoded).
-- StevenBlack hosts (fakenews+gambling+porn) are fetched at build time via the flake input.
+- XDG config is `~/.cfg`; cache/data/state under `~/etc/`. `~/.config`, `~/.cache`, `~/.local`, `~/.ssh` are compat symlinks.
+- On `mb2020`, `~`, `~/.bin`, `~/.cfg` are root-owned. Edit in the repo and rebuild, not in place.
+- `~/.bin` and `/etc/awecron` are symlinks to `extra/`, created by activation scripts.
+- awecron runs as root: `tphome*` snapshot `/home` to `/snsh`, `updater` runs daily `nix flake update` (apply via `extra/awecron/updater/apply`). Restart the service after changing jobs.
+- Root is not snapshotted; use NixOS generations.
+- Shell commands are logged to `/var/log/history.log`.
+- `mb2020`: `canTouchEfiVariables = false` (U-Boot owns EFI); `hid_apple iso_layout=0` fixes the swapped `` ` `` / `<` keys.
+- `custom-mech` xkb layout for external mechanical keyboards.
+- StevenBlack hosts baked into `/etc/hosts`.
+- Chromium policies in `modules/browsing.nix`; profile and extensions unmanaged.
+- No secrets in the repo.
+- `nixfmt` everything except the generated `hosts/mb2017/hardware.nix`.
