@@ -160,9 +160,14 @@
         "*" = {
           bg = "${pkgs.nixos-artwork.wallpapers.catppuccin-macchiato}/share/backgrounds/nixos/nixos-wallpaper-catppuccin-macchiato.png fill";
         };
+        "DP-1" = {
+          resolution = "1920x1080";
+          position = "0,0";
+        };
         "eDP-1" = {
           resolution = "2560x1600";
-          position = "0,0";
+          scale = "2";
+          position = "320,1080";
         };
       };
 
@@ -179,14 +184,10 @@
         hide_cursor = "10000";
       };
 
-      workspaceOutputAssign = [
-        {
-          workspace = "1";
-          output = "eDP-1";
-        }
-      ];
-
       keybindings = lib.mkOptionDefault {
+        # emitted last in extraConfig so Mod4+1 is the first workspace bindsym:
+        # sway names a new output's initial workspace from the first one
+        "Mod4+0" = null;
         # launcher on space
         "Mod4+space" = "exec ${config.wayland.windowManager.sway.config.menu}";
         "Mod4+d" = null;
@@ -204,6 +205,10 @@
         # workspace prev/next
         "Mod4+p" = "workspace prev";
         "Mod4+n" = "workspace next";
+        "Mod4+Tab" = "workspace back_and_forth";
+        # move workspace to monitor above/below
+        "Mod4+Ctrl+k" = "move workspace to output up";
+        "Mod4+Ctrl+j" = "move workspace to output down";
         # reload
         "Mod4+Shift+r" = "reload";
         "Mod4+Shift+c" = null;
@@ -268,6 +273,8 @@
       titlebar_border_thickness 1
       titlebar_padding 1
 
+      bindsym Mod4+0 workspace number 10
+
       # gesture bindings
       bindgesture swipe:right workspace prev
       bindgesture swipe:left workspace next
@@ -310,7 +317,7 @@
 
       "sway/workspaces" = {
         disable-scroll = false;
-        all-outputs = true;
+        all-outputs = false;
         format = "{icon}";
         format-icons = {
           "1" = "󱓞";
@@ -328,6 +335,7 @@
           ];
           urgent = "";
           focused = "";
+          visible = "";
           default = "";
         };
       };
@@ -534,7 +542,7 @@
         background-color: @mantle;
       }
 
-      #workspaces button.focused {
+      #workspaces button.visible {
         color: @sapphire;
       }
 
