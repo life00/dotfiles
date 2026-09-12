@@ -3,6 +3,7 @@
   python3Packages,
   fetchFromGitHub,
   perl,
+  qt6,
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -27,6 +28,8 @@ python3Packages.buildPythonApplication rec {
     hatchling
     perl
   ];
+
+  makeWrapperArgs = [ "--prefix QT_PLUGIN_PATH : ${qt6.qtsvg}/lib/qt-6/plugins" ];
 
   # relax the ScreenSaver lock-availability gate for Sway, which has no
   # org.freedesktop.ScreenSaver D-Bus service. Kept in package so upstream bumps
