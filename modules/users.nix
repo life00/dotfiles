@@ -128,5 +128,10 @@
         ${pkgs.systemd}/bin/systemd-tmpfiles --create --prefix=${config.users.users.user.home}
       ''
     );
+
+    # let home-manager (runs as user) write into root-owned dirs
+    systemd.services.home-manager-user.serviceConfig.AmbientCapabilities =
+      lib.mkIf config.homePermissions.enable
+        [ "CAP_DAC_OVERRIDE" ];
   };
 }
