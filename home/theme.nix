@@ -25,6 +25,8 @@
     dunst.enable = true;
     swaylock.enable = true;
     waybar.enable = true;
+    # custom catppuccin theme for cava
+    cava.enable = false;
   };
 
   home.pointerCursor.enable = true;
