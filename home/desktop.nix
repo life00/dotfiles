@@ -683,6 +683,9 @@
 
   services.swayidle = {
     enable = true;
+    # graphical-session.target is reached by the xsession wrapper before sway
+    # exports WAYLAND_DISPLAY; sway-session.target starts after import-environment
+    systemdTargets = [ "sway-session.target" ];
     timeouts = [
       {
         timeout = 120;
