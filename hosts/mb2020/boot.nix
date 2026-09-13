@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # fairydust branch (asahi-7.1.13-1 + dp-altmode hacks), t8103 subset only.
   # DP out on the front-left USB-C port. Drop when dcpext lands in the asahi branch.
@@ -26,16 +31,76 @@ in
   # U-Boot handles the OS selection
   # NixOS must not touch EFI variables
   boot = {
-    kernelPatches = map (
-      { sha, hash }:
-      {
-        name = "fairydust-${builtins.substring 0 12 sha}";
-        patch = pkgs.fetchpatch {
-          url = "https://github.com/AsahiLinux/linux/commit/${sha}.patch";
-          inherit hash;
-        };
-      }
-    ) fairydust;
+    # kconfig defaults + asahi.config instead of all nixpkgs default unnecessary modules
+    kernelPackages = lib.mkForce (
+      pkgs.linuxPackagesFor (
+        (pkgs.linux-asahi.override { _kernelPatches = config.boot.kernelPatches; }).kernel.override {
+          buildLinux =
+            args:
+            pkgs.buildLinux (
+              args
+              // {
+                autoModules = false;
+                defconfig = "defconfig asahi.config";
+                # nixpkgs common-config answers for subsystems that are now off
+                ignoreConfigErrors = true;
+              }
+            );
+        }
+      )
+    );
+
+    kernelPatches =
+      map (
+        { sha, hash }:
+        {
+          name = "fairydust-${builtins.substring 0 12 sha}";
+          patch = pkgs.fetchpatch {
+            url = "https://github.com/AsahiLinux/linux/commit/${sha}.patch";
+            inherit hash;
+          };
+        }
+      ) fairydust
+      ++ [
+        {
+          # what arm64 defconfig leaves off but this system loads
+          name = "mb2020 config";
+          patch = null;
+          structuredExtraConfig = with lib.kernel; {
+            # luks root
+            DM_CRYPT = module;
+            CRYPTO_USER_API_SKCIPHER = module;
+            CRYPTO_USER_API_HASH = module;
+            CRYPTO_USER_API_AEAD = module;
+            # firewall (iptables-nft), docker, libvirt
+            NF_TABLES = module;
+            NFT_COMPAT = module;
+            NFT_CT = module;
+            NFT_NAT = module;
+            NFT_QUEUE = module;
+            NF_NAT = module;
+            NF_CT_NETLINK = module;
+            NETFILTER_NETLINK_QUEUE = module;
+            NETFILTER_XT_NAT = module;
+            NETFILTER_XT_TARGET_MASQUERADE = module;
+            NETFILTER_XT_MATCH_PKTTYPE = module;
+            IP_NF_MATCH_RPFILTER = module;
+            IP6_NF_MATCH_RPFILTER = module;
+            IP_SET = module;
+            NETFILTER_XT_SET = module;
+            # systemd default qdisc, networkmanager
+            NET_SCH_FQ_CODEL = module;
+            XFRM_USER = module;
+            # tiny-dfr, pipewire midi
+            INPUT_UINPUT = module;
+            SND_SEQUENCER = module;
+            SND_HRTIMER = module;
+          };
+        }
+      ];
+
+    # nixpkgs default initrd list names drivers this kernel no longer builds
+    initrd.allowMissingModules = true;
 
     loader = {
       systemd-boot = {
