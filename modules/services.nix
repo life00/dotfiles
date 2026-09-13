@@ -91,6 +91,14 @@ in
     "L+ /usr/bin/qemu-system-x86_64 - - - - ${pkgs.qemu_kvm}/bin/qemu-system-x86_64"
   ];
 
+  # disable btrfs compression under /var/lib/docker
+  # otherwise fs-verify says containers are corrupted
+  # which is likely caused by combination of 16k page and btrfs compression
+  systemd.services.docker.preStart = ''
+    mkdir -p -m 0710 /var/lib/docker
+    ${pkgs.e2fsprogs}/bin/chattr +m /var/lib/docker
+  '';
+
   # login manager
   services.displayManager = {
     sessionPackages = [ pkgs.sway ];
