@@ -15,6 +15,7 @@
 
     # admin utils
     btrfs-progs
+    e2fsprogs
     cryptsetup
     duperemove
     lsof
