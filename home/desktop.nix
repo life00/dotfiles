@@ -40,6 +40,7 @@
     enable = true;
     settings = {
       global = {
+        follow = "keyboard";
         frame_width = 1;
         separator_color = "frame";
         enable_recursive_icon_lookup = true;
