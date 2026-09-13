@@ -4,6 +4,7 @@
 }:
 let
   usbguard-gui = pkgs.callPackage ../pkgs/usbguard-gui { };
+  mindustry = pkgs.callPackage ../pkgs/mindustry { };
 in
 {
   # all user packages
@@ -137,6 +138,7 @@ in
     sioyek
     thunar
     imv
+    mindustry
 
     # ai
     aichat
