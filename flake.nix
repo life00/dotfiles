@@ -15,10 +15,6 @@
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stevenblack-hosts = {
-      url = "github:StevenBlack/hosts";
-      flake = false;
-    };
     apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +28,6 @@
       home-manager,
       disko,
       catppuccin,
-      stevenblack-hosts,
       apple-silicon,
       ...
     }@inputs:

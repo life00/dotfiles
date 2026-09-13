@@ -118,24 +118,7 @@
         "catppuccin": "catppuccin",
         "disko": "disko",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "stevenblack-hosts": "stevenblack-hosts"
-      }
-    },
-    "stevenblack-hosts": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1788994729,
-        "narHash": "sha256-4XxaSGWKmG3AM89H3mnNpQQWfsnjOubURZbnlrth9iI=",
-        "owner": "StevenBlack",
-        "repo": "hosts",
-        "rev": "83dd698bbcdcb8c11a7796af7188d7ab4ccd02f1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "StevenBlack",
-        "repo": "hosts",
-        "type": "github"
+        "nixpkgs": "nixpkgs"
       }
     }
   },

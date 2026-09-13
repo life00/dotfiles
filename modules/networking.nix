@@ -1,8 +1,4 @@
-{
-  inputs,
-  lib,
-  ...
-}:
+{ ... }:
 {
   # minimal network manager config
   networking.networkmanager = {
@@ -23,17 +19,7 @@
     trustedInterfaces = [ "virbr0" ];
   };
 
-  # stevenblack hosts
-  networking.hosts = lib.pipe (inputs.stevenblack-hosts.outPath + "/hosts") [
-    builtins.readFile
-    (lib.splitString "\n")
-    (lib.filter (line: lib.hasPrefix "0.0.0.0 " line))
-    (map (line: lib.substring 8 (lib.stringLength line - 8) line))
-    (map (host: {
-      "${host}" = [ "0.0.0.0" ];
-    }))
-    lib.mkMerge
-  ];
+  networking.stevenblack.enable = true;
 
   services.chrony = {
     enable = true;
