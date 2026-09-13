@@ -319,6 +319,9 @@
     STARSHIP_CONFIG = "${config.home.homeDirectory}/.cfg/starship.toml";
     STARSHIP_CACHE = "${config.home.homeDirectory}/etc/cache/starship/cache";
 
+    # docker
+    DOCKER_CONFIG = "${config.home.homeDirectory}/.cfg/docker";
+
     # go
     GOPATH = "${config.home.homeDirectory}/etc/data/go";
 
