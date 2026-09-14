@@ -49,19 +49,7 @@ in
     rustc
     zig
     uv
-    (python3.withPackages (p: [
-      p.jupyterlab
-      p.ipykernel
-      p.matplotlib
-      p.pandas
-      p.seaborn
-      p.numpy
-      p.scipy
-      p.duckdb
-      p.pytest
-    ]))
     ruff
-    quarto
     poetry
     nodejs
     pnpm
@@ -108,25 +96,7 @@ in
     texlivePackages.todonotes
     texlivePackages.xindy
 
-    # R packages
-    R
-    rPackages.dplyr
-    rPackages.ggplot2
-    rPackages.knitr
-    rPackages.rmarkdown
-    rPackages.readxl
-    rPackages.Rcpp
-    rPackages.styler
-    rPackages.car
-    rPackages.vcd
-    rPackages.zoo
-    rPackages.here
-    rPackages.usethis
-    rPackages.IRkernel
-
-    # octave
-    (octaveFull.withPackages (ps: [ ps.symbolic ]))
-    octave-kernel.launcher
+    # python/R/octave/quarto envs: notebooks.nix
 
     # gui apps
     chromium

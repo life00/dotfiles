@@ -13,7 +13,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 
 ## Layout
 
-- `modules/` system NixOS modules. `home/` home-manager modules (`shell`, `development`, `desktop`, `media`, `files`, `theme`, `packages`). `pkgs/` custom derivations (`awecron`, `usbguard-gui`). `hosts/<name>/` boot, hardware, disko/touchbar.
+- `modules/` system NixOS modules. `home/` home-manager modules (`shell`, `development`, `desktop`, `media`, `files`, `theme`, `packages`, `notebooks`). `pkgs/` custom derivations (`awecron`, `usbguard-gui`, `quarto`). `hosts/<name>/` boot, hardware, disko/touchbar.
 - `extra/` raw configs, only for what HM can't express cleanly: `nvim` (LazyVim), `lf`, `bin` scripts, `awecron` jobs, `opencode` (AGENTS.md + skills). Wired in `home/files.nix` (`home.file.".cfg/<name>".source`), `modules/users.nix` (`~/.bin`), `modules/services.nix` (`/etc/awecron`), `home/development.nix` (`programs.opencode.context/skills`).
 - Direction of travel is `extra/` -> native HM options (recent commits migrated cava, ncmpcpp). Prefer `programs.<x>` over new raw files.
 

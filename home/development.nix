@@ -55,6 +55,17 @@
   programs.neovim = {
     enable = true;
     # extra are symlinked separately
+    # pass the generated init via --cmd
+    sideloadInitLua = true;
+    # python provider for molten
+    withPython3 = true;
+    extraPython3Packages = ps: [
+      ps.jupyter-client
+      ps.pillow
+      ps.nbformat
+      ps.cairosvg
+      ps.pnglatex
+    ];
   };
 
   programs.bat = {

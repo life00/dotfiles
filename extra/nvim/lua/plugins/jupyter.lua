@@ -4,7 +4,16 @@ return {
   {
     "quarto-dev/quarto-nvim",
     dependencies = {
-      "jmbuhr/otter.nvim",
+      {
+        "jmbuhr/otter.nvim",
+        opts = {
+          -- octave chunks
+          extensions = {
+            matlab = "m",
+            octave = "m",
+          },
+        },
+      },
       "nvim-treesitter/nvim-treesitter",
     },
     lazy = false,
@@ -36,15 +45,6 @@ return {
     },
     opts = {
       closePreviewOnExit = false,
-      lsp_features = {
-        languages = { "python", "r", "bash", "sql" },
-        chunks = "all",
-        diagnostics = {
-          enabled = true,
-          triggers = { "BufWritePost" },
-        },
-        completion = { enabled = true },
-      },
       codeRunner = {
         enabled = true,
         default_method = "molten",
@@ -70,6 +70,16 @@ return {
           style = "quarto",
           force_ft = "quarto",
         },
+        octave = {
+          extension = "qmd",
+          style = "quarto",
+          force_ft = "quarto",
+        },
+        R = {
+          extension = "qmd",
+          style = "quarto",
+          force_ft = "quarto",
+        },
       },
     },
   },
@@ -88,6 +98,7 @@ return {
       vim.g.molten_image_provider = "none"
       vim.g.molten_wrap_output = true
       vim.g.molten_output_win_max_height = 32
+      vim.g.molten_tick_rate = 200
       vim.g.molten_virt_text_max_lines = 8
       vim.g.molten_virt_text_output = true
 

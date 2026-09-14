@@ -14,6 +14,7 @@
     ./files.nix
     ./theme.nix
     ./packages.nix
+    ./notebooks.nix
   ];
 
   home.username = "user";
