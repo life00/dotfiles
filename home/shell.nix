@@ -353,7 +353,7 @@
             ];
             language = "octave";
             env = {
-              OCTAVE_EXECUTABLE = "${pkgs.octaveFull}/bin/octave";
+              OCTAVE_EXECUTABLE = "${pkgs.octaveFull.withPackages (ps: [ ps.symbolic ])}/bin/octave";
             };
             logo32 = null;
             logo64 = null;

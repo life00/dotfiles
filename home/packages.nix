@@ -125,7 +125,7 @@ in
     rPackages.IRkernel
 
     # octave
-    octaveFull
+    (octaveFull.withPackages (ps: [ ps.symbolic ]))
     octave-kernel.launcher
 
     # gui apps
