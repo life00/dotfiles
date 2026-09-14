@@ -3,7 +3,7 @@
   # minimal network manager config
   networking.networkmanager = {
     enable = true;
-    wifi.backend = "iwd"; # apple silicon networking only works with iwd
+    wifi.backend = "wpa_supplicant";
     wifi.powersave = false;
   };
 
