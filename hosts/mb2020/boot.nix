@@ -91,6 +91,8 @@ in
             # systemd default qdisc, networkmanager
             NET_SCH_FQ_CODEL = module;
             XFRM_USER = module;
+            # wireguard vpn
+            WIREGUARD = module;
             # tiny-dfr, pipewire midi
             INPUT_UINPUT = module;
             SND_SEQUENCER = module;
