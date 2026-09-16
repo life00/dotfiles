@@ -12,14 +12,16 @@ exec 2>"$CACHE/log"
 notify-send -i system-software-update -t 10000 "Updater" "Checking for updates..."
 cd "$FLAKE" || exit 1
 
+tmpdir=$(mktemp -d)
+cp flake.lock "$tmpdir/lock"
+trap 'mv "$tmpdir/lock" "$FLAKE/flake.lock"; rm -rf "$tmpdir"' EXIT
+trap 'exit 1' INT TERM
+
 nix flake update
 
 if git diff --quiet flake.lock; then
   : >"$LIST"
 else
-  tmpdir=$(mktemp -d)
-  trap 'rm -rf "$tmpdir"' EXIT
-
   drvnames() {
     nix-store -qR "$1" | grep '\.drv$' | sed 's|.*/||; s/\.drv$//; s/^[^-]*-//' | sort -u
   }

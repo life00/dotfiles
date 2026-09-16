@@ -25,7 +25,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 
 ## Gotchas
 
-- The awecron `updater` job (`extra/awecron/updater/run`, every 86400s, runs as `user`) does `nix flake update` in this repo. A dirty `flake.lock` in `git status` may be from cron, not from you. Don't revert it blindly.
+- The awecron `updater` job (`extra/awecron/updater/run`, every 86400s, runs as `user`) does `nix flake update` in this repo only to count pending updates, then restores the old `flake.lock` from a tmpdir via an `EXIT` trap. It leaves the worktree clean. The real update happens in `extra/awecron/updater/apply` (waybar click): `nix flake update` -> `nixos-rebuild switch` -> commits `flake.lock` itself.
 - awecron runs as root; jobs get `PATH=/run/current-system/sw` + `libnotify` only. Restart the service after changing jobs (dynamic sleep won't pick them up until the next wake).
 - `modules/users.nix`: `initialPassword = "password"` is a bootstrap value, intentional.
 - `hosts/mb2017/disko.nix` device `/dev/nvme0n1` and `hosts/mb2017/hardware.nix` are placeholders for that host. `hosts/mb2020/hardware.nix` has real UUIDs; don't touch them.
