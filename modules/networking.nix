@@ -5,11 +5,9 @@
     enable = true;
     wifi.backend = "wpa_supplicant";
     wifi.powersave = false;
+    # mac randomization for wifi
+    wifi.macAddress = "stable-ssid";
   };
-
-  # FIXME: implement for wpa_supplicant
-  # MAC randomization is controlled by iwd
-  networking.wireless.iwd.settings.General.AddressRandomization = "network";
 
   networking.firewall = {
     enable = true;
