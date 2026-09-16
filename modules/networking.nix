@@ -7,6 +7,7 @@
     wifi.powersave = false;
   };
 
+  # FIXME: implement for wpa_supplicant
   # MAC randomization is controlled by iwd
   networking.wireless.iwd.settings.General.AddressRandomization = "network";
 
