@@ -63,8 +63,6 @@
       ps.jupyter-client
       ps.pillow
       ps.nbformat
-      ps.cairosvg
-      ps.pnglatex
     ];
   };
 
