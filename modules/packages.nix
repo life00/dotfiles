@@ -23,6 +23,7 @@
     libargon2
     file
     curl
+    git
 
     # shells
     zsh

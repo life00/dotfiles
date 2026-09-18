@@ -130,6 +130,8 @@ in
 
     # editor
     nixfmt
+    statix
+    nil
 
     # comment out due to conflicts with program.{delta,neovim}
     # delta
