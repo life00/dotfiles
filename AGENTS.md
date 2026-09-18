@@ -7,6 +7,8 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 ## Commands
 
 - Rebuild: `doas nixos-rebuild switch --impure --flake .#mb2020`. `--impure` is mandatory: `pkgs/awecron/default.nix` has `src = /home/user/dev/sysadmin/awecron` (absolute local path). `nix flake check` fails in pure mode for the same reason.
+- General update: waybar updater click, or `nix flake update nixpkgs home-manager catppuccin disko` + rebuild. Never plain `nix flake update`: it moves the kernel inputs too.
+- Kernel update: `nix flake update apple-silicon` + rebuild. The only thing that should bump the kernel, and it always costs a full local compile.
 - Eval only: `nix eval --impure --raw .#nixosConfigurations.mb2020.config.system.build.toplevel.drvPath`.
 - Format: `nixfmt <file>`. All tracked `.nix` files are nixfmt-clean except `hosts/mb2017/hardware.nix` (generated, leave it).
 - After switch: `~/.bin/*` and `~/.cfg/*` should be populated.
@@ -25,7 +27,9 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 
 ## Gotchas
 
-- The awecron `updater` job (`extra/awecron/updater/run`, every 86400s, runs as `user`) does `nix flake update` in this repo only to count pending updates, then restores the old `flake.lock` from a tmpdir via an `EXIT` trap. It leaves the worktree clean. The real update happens in `extra/awecron/updater/apply` (waybar click): `nix flake update` -> `nixos-rebuild switch` -> commits `flake.lock` itself.
+- No binary cache exists for `linux-asahi` anywhere (upstream ships none, nixpkgs has no asahi kernel at all), so any change to its derivation is a full local compile. `hosts/mb2020/boot.nix` therefore builds it from `nixpkgs-kernel`, a second nixpkgs input pinned by `flake.lock`, so nixpkgs toolchain churn cannot trigger one. Check with `...config.boot.kernelPackages.kernel` (outPath; `drvPath` churns harmlessly whenever a fixed-output input is re-derived).
+- The awecron `updater` job (`extra/awecron/updater/run`, every 86400s, runs as `user`) updates the lock in this repo only to count pending updates, then restores the old `flake.lock` from a tmpdir via an `EXIT` trap. It leaves the worktree clean. The real update happens in `extra/awecron/updater/apply` (waybar click): `nix flake update $INPUTS` -> `nixos-rebuild switch` -> commits `flake.lock` itself. `$INPUTS` is duplicated in `update` and `apply`; a new flake input must be added to both or it never updates.
+- `updater/update` checks the kernel separately (`nix flake update apple-silicon`, then compares the kernel outPath to `/run/current-system/kernel`) and appends one line to the list. Its name-based closure diff cannot see kernel updates: `asahi-7.1.13-2` -> `-3` is `linux-asahi-7.1.13` on both sides. A kernel line in the list is informational; `apply` will not act on it.
 - awecron runs as root; jobs get `PATH=/run/current-system/sw` + `libnotify` only. Restart the service after changing jobs (dynamic sleep won't pick them up until the next wake).
 - `modules/users.nix`: `initialPassword = "password"` is a bootstrap value, intentional.
 - `hosts/mb2017/disko.nix` device `/dev/nvme0n1` and `hosts/mb2017/hardware.nix` are placeholders for that host. `hosts/mb2020/hardware.nix` has real UUIDs; don't touch them.

@@ -4,6 +4,8 @@ CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/updater"
 LIST="$CACHE/list"
 FLAKE="$HOME/dev/sysadmin/dotfiles"
 HOST="$(uname -n)"
+# kernel inputs (apple-silicon, nixpkgs-kernel) are bumped by hand, see AGENTS.md
+INPUTS="nixpkgs home-manager catppuccin disko"
 export DISPLAY=":0"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
@@ -17,7 +19,7 @@ cp flake.lock "$tmpdir/lock"
 trap 'mv "$tmpdir/lock" "$FLAKE/flake.lock"; rm -rf "$tmpdir"' EXIT
 trap 'exit 1' INT TERM
 
-nix flake update
+nix flake update $INPUTS
 
 if git diff --quiet flake.lock; then
   : >"$LIST"
@@ -38,6 +40,14 @@ else
   # ponytail: name-based heuristic, swap for `nix store diff-closures` if counts drift
   comm -13 "$tmpdir/old" "$tmpdir/new" \
     | grep -v '\.tar\.\|\.patch$\|\.json$\|\.conf$\|\.service$\|\.sh$\|\.xml$\|\.zst$\|^nixos-\|^etc-\|^system-\|^home-\|^user-\|^activation-\|^font-\|^hm-\|^initrd-\|^linux-config\|^lazy-options\|^boot\.\|^copy-\|^install\|^X-Restart\|^firewall-\|^shutdown\|^empty-directory\|-vendor$\|-go-modules$\|-node_modules\|-wrapped$\|-staging$' >"$LIST"
+fi
+
+# kernel is pinned, so it needs its own check: name-based diffing above cannot see
+# it anyway (asahi-7.1.13-2 -> -3 is `linux-asahi-7.1.13` on both sides)
+nix flake update apple-silicon
+new_kernel=$(nix eval --impure --raw ".#nixosConfigurations.$HOST.config.boot.kernelPackages.kernel" 2>/dev/null)
+if [ -n "$new_kernel" ] && [ "$new_kernel" != "$(dirname "$(readlink -f /run/current-system/kernel)")" ]; then
+  printf 'linux-asahi (kernel, bump with: nix flake update apple-silicon)\n' >>"$LIST"
 fi
 
 count=$(wc -l <"$LIST")

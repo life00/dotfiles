@@ -34,6 +34,16 @@ doas nixos-rebuild switch --impure --flake .#mb2020
 
 `--impure` is required: `pkgs/awecron` builds from the local path `/home/user/dev/sysadmin/awecron`, which must exist.
 
+### Update
+
+```sh
+nix flake update nixpkgs home-manager catppuccin disko   # general, or click the waybar updater
+nix flake update apple-silicon                           # kernel only, always a local compile
+```
+
+Never plain `nix flake update`: the kernel inputs are pinned on purpose, since no binary cache
+for `linux-asahi` exists and every change to it is compiled locally.
+
 ### Install: mb2020 (Apple Silicon)
 
 1. Follow the [nixos-apple-silicon](https://github.com/nix-community/nixos-apple-silicon/blob/main/docs/uefi-standalone.md) guide to install m1n1 + U-Boot and boot the NixOS installer.
@@ -63,7 +73,7 @@ doas nixos-rebuild switch --impure --flake .#mb2020
 - XDG config is `~/.cfg`; cache/data/state under `~/etc/`. `~/.config`, `~/.cache`, `~/.local`, `~/.ssh` are compat symlinks.
 - On `mb2020`, `~`, `~/.bin`, `~/.cfg` are root-owned. Edit in the repo and rebuild, not in place.
 - `~/.bin` and `/etc/awecron` are symlinks to `extra/`, created by activation scripts.
-- awecron runs as root: `tphome*` snapshot `/home` to `/snsh`, `updater` runs daily `nix flake update` (apply via `extra/awecron/updater/apply`). Restart the service after changing jobs.
+- awecron runs as root: `tphome*` snapshot `/home` to `/snsh`, `updater` checks daily for updates (apply via `extra/awecron/updater/apply`). A `linux-asahi` line in its list means a kernel update is available; `apply` will not take it. Restart the service after changing jobs.
 - Root is not snapshotted; use NixOS generations.
 - Shell commands are logged to `/var/log/history.log`.
 - `mb2020`: `canTouchEfiVariables = false` (U-Boot owns EFI); `hid_apple iso_layout=0` fixes the swapped `` ` `` / `<` keys.

@@ -2,9 +2,16 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
+  # kernel builds from a pinned nixpkgs so toolchain churn can't force a recompile
+  kpkgs = import inputs.nixpkgs-kernel {
+    system = "aarch64-linux";
+    overlays = [ inputs.apple-silicon.overlays.default ];
+  };
+
   # fairydust branch (asahi-7.1.13-1 + dp-altmode hacks), t8103 subset only.
   # DP out on the front-left USB-C port. Drop when dcpext lands in the asahi branch.
   fairydust = [
@@ -33,11 +40,11 @@ in
   boot = {
     # kconfig defaults + asahi.config instead of all nixpkgs default unnecessary modules
     kernelPackages = lib.mkForce (
-      pkgs.linuxPackagesFor (
-        (pkgs.linux-asahi.override { _kernelPatches = config.boot.kernelPatches; }).kernel.override {
+      kpkgs.linuxPackagesFor (
+        (kpkgs.linux-asahi.override { _kernelPatches = config.boot.kernelPatches; }).kernel.override {
           buildLinux =
             args:
-            pkgs.buildLinux (
+            kpkgs.buildLinux (
               args
               // {
                 autoModules = false;

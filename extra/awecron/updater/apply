@@ -2,6 +2,8 @@
 
 LIST="${XDG_CACHE_HOME:-$HOME/.cache}/updater/list"
 FLAKE="$HOME/dev/sysadmin/dotfiles"
+# kernel inputs (apple-silicon, nixpkgs-kernel) are bumped by hand, see AGENTS.md
+INPUTS="nixpkgs home-manager catppuccin disko"
 
 cat "$LIST"
 printf '\n%s updates. Proceed? [y/N] ' "$(wc -l <"$LIST")"
@@ -9,7 +11,7 @@ read -r a
 [ "$a" = y ] || exit 0
 
 cd "$FLAKE" || exit 1
-nix flake update \
+nix flake update $INPUTS \
   && doas nixos-rebuild switch --impure --flake ".#$(uname -n)" \
   && : >"$LIST" \
   && git commit -q -m "chore: flake update" flake.lock
