@@ -56,6 +56,7 @@ in
     opencode
     alacritty
     git
+    nixfmt
 
     # media
     ffmpeg
