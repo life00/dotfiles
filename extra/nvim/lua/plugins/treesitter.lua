@@ -5,14 +5,6 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    init = function()
-      -- octave as an alias for matlab
-      vim.treesitter.language.register("matlab", "octave")
-      local parser = vim.api.nvim_get_runtime_file("parser/matlab.so", false)[1]
-      if parser then
-        vim.treesitter.language.add("octave", { path = parser, symbol_name = "matlab" })
-      end
-    end,
     opts = {
       ensure_installed = {
         "bash",
@@ -32,7 +24,6 @@ return {
         "bibtex",
         "go",
         "c",
-        "matlab",
       },
       highlight = {
         enable = true, -- false will disable the whole extension

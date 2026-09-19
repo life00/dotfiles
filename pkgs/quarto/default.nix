@@ -4,7 +4,6 @@
   zlib,
   gmp,
   quarto,
-  writeText,
   extraRPackages ? [ ],
 }:
 let
@@ -27,20 +26,8 @@ let
     '';
     meta.mainProgram = "pandoc";
   };
-  # quarto ships a jupyter setup cell for python and julia only; for any other
-  # kernel language it falls back to reading kernelspec.path, which notebooks
-  # don't carry, and `quarto preview` dies with a bare "path" (KeyError)
-  octaveSetupCell = writeText "setup.m" ''
-    run_path = char(base64_decode('{run_path}'));
-    if ~isempty(run_path), cd(run_path); end
-  '';
 in
-(quarto.override {
+quarto.override {
   pandoc = pandocQuarto;
   inherit extraRPackages;
-}).overrideAttrs
-  (old: {
-    postInstall = (old.postInstall or "") + ''
-      install -Dm444 ${octaveSetupCell} $out/share/jupyter/lang/octave/setup.m
-    '';
-  })
+}

@@ -4,16 +4,7 @@ return {
   {
     "quarto-dev/quarto-nvim",
     dependencies = {
-      {
-        "jmbuhr/otter.nvim",
-        opts = {
-          -- octave chunks
-          extensions = {
-            matlab = "m",
-            octave = "m",
-          },
-        },
-      },
+      "jmbuhr/otter.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
     lazy = false,
@@ -66,11 +57,6 @@ return {
     opts = {
       custom_language_formatting = {
         python = {
-          extension = "qmd",
-          style = "quarto",
-          force_ft = "quarto",
-        },
-        octave = {
           extension = "qmd",
           style = "quarto",
           force_ft = "quarto",

@@ -96,7 +96,7 @@ in
     texlivePackages.todonotes
     texlivePackages.xindy
 
-    # python/R/octave/quarto envs: notebooks.nix
+    # python/R/quarto envs: notebooks.nix
 
     # gui apps
     chromium

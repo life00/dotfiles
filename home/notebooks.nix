@@ -17,9 +17,6 @@ let
     ps.pytest
   ]);
 
-  # octave packages
-  octaveEnv = pkgs.octaveFull.withPackages (ps: [ ps.symbolic ]);
-
   # R packages
   rPkgs = with pkgs.rPackages; [
     dplyr
@@ -45,7 +42,6 @@ in
     pythonEnv
     quartoEnv
     rEnv
-    octaveEnv
   ];
 
   # kernels for every jupyter client
@@ -63,25 +59,6 @@ in
           ];
           language = "python";
           env = { };
-          logo32 = null;
-          logo64 = null;
-          extraPaths = { };
-        };
-        octave = {
-          displayName = "Octave";
-          argv = [
-            "${pkgs.octave-kernel.launcher.python.interpreter}"
-            "-m"
-            "octave_kernel"
-            "-f"
-            "{connection_file}"
-          ];
-          language = "octave";
-          env = {
-            OCTAVE_EXECUTABLE = "${octaveEnv}/bin/octave";
-            # fix readline issue
-            OCTAVE_CLI_OPTIONS = "--no-line-editing";
-          };
           logo32 = null;
           logo64 = null;
           extraPaths = { };
