@@ -34,6 +34,10 @@
       display-Network = " 󰤨  Network";
       sidebar-mode = false;
     };
+    theme.window = {
+      border-radius = 10;
+      border-color = config.lib.formats.rasi.mkLiteral "#b7bdf8";
+    };
   };
 
   services.dunst = {
@@ -50,9 +54,18 @@
         progress_bar_frame_width = 1;
         progress_bar_min_width = 150;
         progress_bar_max_width = 300;
+        corner_radius = 10;
+        gap_size = 5;
+        icon_corner_radius = 8;
+        progress_bar_corner_radius = 5;
       };
     };
   };
+
+  xdg.configFile."dunst/dunstrc.d/10-frame.conf".text = ''
+    [global]
+    frame_color = "#b7bdf8"
+  '';
 
   wayland.windowManager.sway = {
     enable = true;
@@ -286,7 +299,6 @@
       smart_corner_radius enable
       default_dim_inactive 0.15
 
-      shadows enable
       shadow_blur_radius 5
       shadow_offset 0 5
       shadow_color #181926
@@ -294,6 +306,14 @@
       blur enable
       blur_radius 6
       blur_passes 2
+
+      layer_effects "rofi" {
+        corner_radius 10;
+      }
+
+      layer_effects "notifications" {
+        corner_radius 10;
+      }
 
       animation_duration_ms 200
 
