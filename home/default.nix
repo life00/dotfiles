@@ -50,6 +50,7 @@
         "video/webm" = "mpv.desktop";
         "audio/mp3" = "mpv.desktop";
         "audio/ogg" = "mpv.desktop";
+        "audio/x-opus+ogg" = "mpv.desktop";
 
         "application/pdf" = "sioyek.desktop";
 
