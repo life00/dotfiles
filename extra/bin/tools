@@ -3,6 +3,6 @@ chosen=$(printf '%s\n' '⏳  timer' '🖩  calculator ' '😄  emoji ' '💀  ki
 case $chosen in
 *timer*) /home/user/.bin/timer ;;
 *calculator*) rofi -show calc -modi calc ;;
-*emoji*) rofi -show emoji -modi emoji ;;
+*emoji*) /home/user/.bin/emoji ;;
 *killer*) /home/user/.bin/killer ;;
 esac

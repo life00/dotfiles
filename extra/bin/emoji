@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+app=$(swaymsg -t get_tree | jq -r '.. | objects | select(.focused == true) | .app_id // empty')
+emoji=$(rofi -show emoji -modi emoji -emoji-mode stdout) || exit
+[ -n "$emoji" ] || exit
+printf %s "$emoji" | wl-copy
+case $app in
+chromium* | chrome* | brave*) wtype -M ctrl v -m ctrl ;;
+*) wtype "$emoji" ;;
+esac

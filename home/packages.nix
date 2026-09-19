@@ -127,6 +127,7 @@ in
     grim
     slurp
     wl-clipboard
+    wtype
 
     # comment out due to conflicts with program.{delta,neovim}
     # delta
