@@ -8,8 +8,9 @@
   home.file.".cfg/lf/icons".source = ../extra/lf/icons;
   home.file.".cfg/lf/preview.sh".source = ../extra/lf/preview.sh;
 
-  # nvim
-  home.file.".cfg/nvim".source = ../extra/nvim;
+  # nvim, live link so lazy.nvim can write lazy-lock.json back
+  home.file.".cfg/nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/sysadmin/dotfiles/extra/nvim";
 
   # custom binaries
   home.file.".cfg/bin".source = ../extra/bin;

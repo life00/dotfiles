@@ -13,7 +13,8 @@
     };
     cursors.enable = true;
     fzf.enable = true;
-    nvim.enable = true;
+    # colorscheme comes from lazy.nvim, see extra/nvim/lua/plugins/ui.lua
+    nvim.enable = false;
     alacritty.enable = true;
     bat.enable = true;
     delta.enable = true;

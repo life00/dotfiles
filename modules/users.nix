@@ -46,6 +46,7 @@ in
         "etc/state"
         ".cfg/ssh"
         ".cfg/claude"
+        ".cfg/nvim"
         ".icons"
         ".ssh"
       ];

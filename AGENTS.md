@@ -16,13 +16,13 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 ## Layout
 
 - `modules/` system NixOS modules. `home/` home-manager modules (`shell`, `development`, `desktop`, `media`, `files`, `theme`, `packages`, `notebooks`). `pkgs/` custom derivations (`awecron`, `usbguard-gui`, `quarto`). `hosts/<name>/` boot, hardware, disko/touchbar.
-- `extra/` raw configs, only for what HM can't express cleanly: `nvim` (LazyVim), `lf`, `bin` scripts, `awecron` jobs, `opencode` (AGENTS.md + skills). Wired in `home/files.nix` (`home.file.".cfg/<name>".source`), `modules/users.nix` (`~/.bin`), `modules/services.nix` (`/etc/awecron`), `home/development.nix` (`programs.opencode.context/skills`).
+- `extra/` raw configs, only for what HM can't express cleanly: `nvim` (LazyVim), `lf`, `bin` scripts, `awecron` jobs, `opencode` (AGENTS.md + skills). Wired in `home/files.nix` (`home.file.".cfg/<name>".source`; `nvim` uses `mkOutOfStoreSymlink`, a live link to the worktree so `lazy.nvim` can write `lazy-lock.json` back), `modules/users.nix` (`~/.bin`), `modules/services.nix` (`/etc/awecron`), `home/development.nix` (`programs.opencode.context/skills`).
 - Direction of travel is `extra/` -> native HM options (recent commits migrated cava, ncmpcpp). Prefer `programs.<x>` over new raw files.
 
 ## Non-standard home layout
 
 - XDG: `configHome=~/.cfg`, `cacheHome=~/etc/cache`, `dataHome=~/etc/data`, `stateHome=~/etc/state` (`home/default.nix`). Compat symlinks `~/.config -> ~/.cfg`, `~/.cache`, `~/.local`, `~/.ssh -> ~/.cfg/ssh` are tmpfiles rules in `modules/users.nix`.
-- `homePermissions.enable` (on for mb2020) makes `~`, `~/.bin`, top-level dirs, and every dir home-manager places files in root-owned (derived from `home.file`, fail-closed). Apps that must write into their config dir go in `homePermissions.exclude` (`modules/users.nix`). HM activation still runs as `user`; it gets `CAP_DAC_OVERRIDE` so no toggling/chown is needed to rebuild. tmpfiles never reverts ownership: removing a dir from the set needs a manual `chown`. Editing files in place under `~/.cfg` fails or is a store symlink; edit in the repo and rebuild.
+- `homePermissions.enable` (on for mb2020) makes `~`, `~/.bin`, top-level dirs, and every dir home-manager places files in root-owned (derived from `home.file`, fail-closed). Apps that must write into their config dir go in `homePermissions.exclude` (`modules/users.nix`). HM activation still runs as `user`; it gets `CAP_DAC_OVERRIDE` so no toggling/chown is needed to rebuild. tmpfiles never reverts ownership: removing a dir from the set needs a manual `chown`. Editing files in place under `~/.cfg` fails or is a store symlink; edit in the repo and rebuild. Exception: `~/.cfg/nvim` is a live link to `extra/nvim` (`home/files.nix`), so `:Lazy update` writes `lazy-lock.json` straight into the worktree; commit it.
 - `~/.bin/*` are symlinks to the store copy of `extra/bin/`, created by the `homeSetup` activation script, not HM.
 
 ## Gotchas
