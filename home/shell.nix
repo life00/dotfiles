@@ -251,7 +251,7 @@
       window-decoration = false;
       window-padding-x = 0;
       window-padding-y = 0;
-      mouse-scroll-multiplier = "precision:0.05";
+      mouse-scroll-multiplier = "precision:0.3";
       keybind = [
         "shift+enter=csi:13;2u"
         "ctrl+enter=csi:13;5u"
