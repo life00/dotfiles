@@ -325,7 +325,7 @@ return {
             },
           },
         },
-        extensions = { "lazy", "mason" },
+        extensions = { "lazy" },
       }
     end,
   },

@@ -64,6 +64,41 @@
       ps.pillow
       ps.nbformat
     ];
+    extraPackages = with pkgs; [
+      # lsp servers
+      bash-language-server
+      gopls
+      lua-language-server
+      nil
+      pyright
+      ruff
+      taplo
+      texlab
+      vscode-json-languageserver
+      yaml-language-server
+
+      # formatters
+      bibtex-tidy
+      gofumpt
+      gotools
+      nixfmt
+      prettier
+      shfmt
+      stylua
+      tex-fmt
+
+      # linters
+      golangci-lint
+      shellcheck
+      statix
+
+      # debug adapters
+      delve
+      python3Packages.debugpy
+
+      # treesitter parser builds
+      tree-sitter
+    ];
   };
 
   programs.bat = {

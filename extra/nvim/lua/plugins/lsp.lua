@@ -1,25 +1,8 @@
 return {
-  --------------------------------------------------
-  --                  mason
-  --------------------------------------------------
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "prettier",
-        "bibtex-tidy",
-        "bash-language-server",
-        "shfmt",
-        "shellcheck",
-        "goimports",
-        "gofumpt",
-        "texlab",
-        "tex-fmt",
-        -- doesn't compile in nixos and I don't use it anyways
-        -- "r-languageserver",
-      },
-    },
-  },
+  { "mason.nvim", enabled = false },
+  { "mason-lspconfig.nvim", enabled = false },
+  { "mason-nvim-dap.nvim", enabled = false },
+
   --------------------------------------------------
   --                  lsp config
   --------------------------------------------------

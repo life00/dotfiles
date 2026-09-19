@@ -49,7 +49,6 @@ in
     rustc
     zig
     uv
-    ruff
     poetry
     nodejs
     pnpm
@@ -127,11 +126,6 @@ in
     grim
     slurp
     wl-clipboard
-
-    # editor
-    nixfmt
-    statix
-    nil
 
     # comment out due to conflicts with program.{delta,neovim}
     # delta
