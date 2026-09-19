@@ -78,7 +78,6 @@
       general.bar_width = 1;
       general.bar_spacing = 2;
       output.method = "ncurses";
-      output.alacritty_sync = 0;
       color.gradient = 1;
       color.gradient_count = 3;
       color.gradient_color_1 = "'#494d64'";

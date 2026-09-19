@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Neovim
-Exec=alacritty -e nvim %F
+Exec=ghostty -e nvim %F
 Type=Application
 Terminal=false
 Categories=TextEditor;

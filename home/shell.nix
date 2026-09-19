@@ -236,48 +236,22 @@
     };
   };
 
-  programs.alacritty = {
+  programs.ghostty = {
     enable = true;
+    enableZshIntegration = true;
     settings = {
-      font = {
-        normal = {
-          family = "JetBrainsMono NFM";
-          style = "Regular";
-        };
-        bold = {
-          family = "JetBrainsMono NFM";
-          style = "Bold";
-        };
-        italic = {
-          family = "JetBrainsMono NFM";
-          style = "Italic";
-        };
-        bold_italic = {
-          family = "JetBrainsMono NFM";
-          style = "Bold Italic";
-        };
-        size = 11;
-      };
-      cursor = {
-        style = {
-          shape = "Beam";
-          blinking = "On";
-        };
-        vi_mode_style = {
-          shape = "Block";
-        };
-      };
-      keyboard.bindings = [
-        {
-          key = "Return";
-          mods = "Shift";
-          chars = "\\u001B[13;2u";
-        }
-        {
-          key = "Return";
-          mods = "Control";
-          chars = "\\u001B[13;5u";
-        }
+      font-family = "JetBrainsMono NFM";
+      font-size = 11;
+      cursor-style = "bar";
+      cursor-style-blink = true;
+      confirm-close-surface = false;
+      window-decoration = false;
+      window-padding-x = 0;
+      window-padding-y = 0;
+      mouse-scroll-multiplier = "precision:0.05";
+      keybind = [
+        "shift+enter=csi:13;2u"
+        "ctrl+enter=csi:13;5u"
       ];
     };
   };
@@ -310,10 +284,6 @@
     PAGER = "nvim +Man!";
     EDITOR = "nvim";
     MANPAGER = "nvim +Man!";
-
-    # GPU fixes
-    MESA_GL_VERSION_OVERRIDE = "3.3";
-    MESA_GLSL_VERSION_OVERRIDE = "330";
 
     # starship
     STARSHIP_CONFIG = "${config.home.homeDirectory}/.cfg/starship.toml";

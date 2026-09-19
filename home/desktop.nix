@@ -7,7 +7,7 @@
 {
   programs.rofi = {
     enable = true;
-    terminal = "alacritty";
+    terminal = "ghostty";
     location = "center";
     plugins = [
       pkgs.rofi-calc
@@ -64,9 +64,9 @@
 
     config = {
       modifier = "Mod4";
-      terminal = "alacritty";
+      terminal = "ghostty";
       # FIXME: doesn't open the right menu
-      menu = "rofi -terminal alacritty -show combi -combi-modes drun"; # run -modes combi
+      menu = "rofi -terminal ghostty -show combi -combi-modes drun"; # run -modes combi
       fonts = {
         names = [ "JetBrainsMono NFM" ];
         size = 11.0;
@@ -92,13 +92,13 @@
           {
             command = "move scratchpad";
             criteria = {
-              app_id = "alacritty-float";
+              app_id = "ghostty.float";
             };
           }
           {
             command = "scratchpad show";
             criteria = {
-              app_id = "alacritty-float";
+              app_id = "ghostty.float";
             };
           }
           {
@@ -114,7 +114,7 @@
         criteria = [
           { app_id = "pavucontrol"; }
           { app_id = "nm-connection-editor"; }
-          { app_id = "alacritty-float"; }
+          { app_id = "ghostty.float"; }
           { app_id = "opensnitch_ui"; }
           { app_id = "python3"; }
           { instance = "r_x11"; }
@@ -203,7 +203,7 @@
         "Mod1+Shift+space" = "floating toggle";
         "Mod4+Shift+space" = null;
         # floating terminal
-        "Mod4+Shift+Return" = "exec alacritty --class alacritty-float";
+        "Mod4+Shift+Return" = "exec ghostty --class=ghostty.float";
         # scratchpad
         "Mod4+m" = "scratchpad show";
         "Mod4+Shift+m" = "move scratchpad";
@@ -362,7 +362,7 @@
         format-disconnected = "󰝛";
         format-stopped = "󰝛";
         on-click = "mpc toggle";
-        on-click-right = "alacritty --class alacritty-float -e ncmpcpp";
+        on-click-right = "ghostty --class=ghostty.float -e ncmpcpp";
         smooth-scrolling-threshold = "0.1";
         on-scroll-down = "mpc seek +1%";
         on-scroll-up = "mpc seek -1%";
@@ -401,12 +401,12 @@
       disk = {
         interval = 60;
         format = "󰋊 {percentage_used}%";
-        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=disk";
+        on-click = "ghostty --class=ghostty.float -e btm -e --default_widget_type=disk";
       };
       memory = {
         interval = 5;
         format = " {}%";
-        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=mem";
+        on-click = "ghostty --class=ghostty.float -e btm -e --default_widget_type=mem";
       };
       temperature = {
         interval = 10;
@@ -417,14 +417,14 @@
           ""
           ""
         ];
-        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=temp";
+        on-click = "ghostty --class=ghostty.float -e btm -e --default_widget_type=temp";
       };
       cpu = {
         interval = 5;
         format = "󰍛 {usage}%";
         tooltip = false;
-        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=cpu";
-        on-click-right = "alacritty --class alacritty-float -e btm -e --default_widget_type=proc";
+        on-click = "ghostty --class=ghostty.float -e btm -e --default_widget_type=cpu";
+        on-click-right = "ghostty --class=ghostty.float -e btm -e --default_widget_type=proc";
       };
       network = {
         # interface = "wlp2*";
@@ -433,7 +433,7 @@
         tooltip-format = "Connected";
         tooltip-format-disconnected = "Disconnected";
         interval = 5;
-        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=net";
+        on-click = "ghostty --class=ghostty.float -e btm -e --default_widget_type=net";
       };
       battery = {
         bat = "macsmc-battery";
@@ -455,14 +455,14 @@
         format-full = "󰉁";
         format-charging = "󰛕 {capacity}%";
         tooltip-format-full = "Plugged";
-        on-click = "alacritty --class alacritty-float -e btm -e --default_widget_type=battery";
+        on-click = "ghostty --class=ghostty.float -e btm -e --default_widget_type=battery";
       };
       "custom/updater" = {
         interval = 60;
         tooltip = true;
         exec = "echo 󰏗 $(wc -l < /home/user/etc/cache/updater/list 2>/dev/null)";
         on-click-right = "/etc/awecron/updater/update";
-        on-click = "alacritty --class alacritty-float -e /etc/awecron/updater/apply";
+        on-click = "ghostty --class=ghostty.float -e /etc/awecron/updater/apply";
       };
       backlight = {
         format = "{icon} {percent}%";
@@ -485,7 +485,7 @@
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         format = " {:%H:%M}";
         format-alt = "󰃰 {:%A, %B %d}";
-        on-click-right = "alacritty --class alacritty-float -e khal interactive";
+        on-click-right = "ghostty --class=ghostty.float -e khal interactive";
       };
     };
 

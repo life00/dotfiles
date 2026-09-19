@@ -54,7 +54,6 @@ in
     pnpm
     yarn
     opencode
-    alacritty
     git
     nixfmt
 

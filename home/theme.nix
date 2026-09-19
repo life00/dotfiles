@@ -15,7 +15,7 @@
     fzf.enable = true;
     # colorscheme comes from lazy.nvim, see extra/nvim/lua/plugins/ui.lua
     nvim.enable = false;
-    alacritty.enable = true;
+    ghostty.enable = true;
     bat.enable = true;
     delta.enable = true;
     sioyek.enable = true;
