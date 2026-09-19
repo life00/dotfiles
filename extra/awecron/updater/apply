@@ -3,7 +3,7 @@
 LIST="${XDG_CACHE_HOME:-$HOME/.cache}/updater/list"
 FLAKE="$HOME/dev/sysadmin/dotfiles"
 # kernel inputs (apple-silicon, nixpkgs-kernel) are bumped by hand, see AGENTS.md
-INPUTS="nixpkgs home-manager catppuccin disko"
+INPUTS="nixpkgs nixpkgs-stable home-manager catppuccin disko"
 
 cat "$LIST"
 printf '\n%s updates. Proceed? [y/N] ' "$(wc -l <"$LIST")"
