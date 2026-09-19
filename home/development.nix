@@ -114,7 +114,13 @@
       };
     };
     tui = {
-      keybinds.leader = "space";
+      keybinds = {
+        leader = "space";
+        session_child_first = "ctrl+shift+down";
+        session_child_cycle = "ctrl+shift+right";
+        session_child_cycle_reverse = "ctrl+shift+left";
+        session_parent = "ctrl+shift+up";
+      };
       leader_timeout = 5000;
       plugin = [
         "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.18.1"
