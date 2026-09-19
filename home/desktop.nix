@@ -155,12 +155,13 @@
       };
 
       gaps = {
-        inner = 0;
+        inner = 5;
         left = 0;
         right = 0;
         top = 0;
         bottom = 0;
         smartBorders = "on";
+        smartGaps = "on";
       };
 
       output = {
@@ -279,6 +280,22 @@
     extraConfig = ''
       titlebar_border_thickness 1
       titlebar_padding 1
+
+      # swayfx
+      corner_radius 10
+      smart_corner_radius enable
+      default_dim_inactive 0.15
+
+      shadows enable
+      shadow_blur_radius 5
+      shadow_offset 0 5
+      shadow_color #181926
+
+      blur enable
+      blur_radius 6
+      blur_passes 2
+
+      animation_duration_ms 200
 
       bindsym Mod4+0 workspace number 10
 
@@ -695,15 +712,15 @@
     timeouts = [
       {
         timeout = 120;
-        command = "${pkgs.sway}/bin/swaymsg \"output * power off\"";
+        command = "${pkgs.swayfx}/bin/swaymsg \"output * power off\"";
         # requires disabling/enabling the output
         # sleep lets the DRM connector finish powering on
-        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.sway}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.sway}/bin/swaymsg \"output * disable; output * enable\"'";
+        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.swayfx}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.swayfx}/bin/swaymsg \"output * disable; output * enable\"'";
       }
       {
         timeout = 130;
         command = "${pkgs.swaylock}/bin/swaylock -f";
-        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.sway}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.sway}/bin/swaymsg \"output * disable; output * enable\"'";
+        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.swayfx}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.swayfx}/bin/swaymsg \"output * disable; output * enable\"'";
       }
     ];
     events.before-sleep = "${pkgs.swaylock}/bin/swaylock -f";

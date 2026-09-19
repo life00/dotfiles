@@ -30,7 +30,7 @@
     dash
 
     # WM
-    sway
+    swayfx
     swaylock
     swayidle
     ly

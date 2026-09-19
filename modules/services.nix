@@ -96,7 +96,7 @@ in
 
   # login manager
   services.displayManager = {
-    sessionPackages = [ pkgs.sway ];
+    sessionPackages = [ pkgs.swayfx ];
     ly = {
       enable = true;
       x11Support = false;
