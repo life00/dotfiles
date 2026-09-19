@@ -1,10 +1,8 @@
 {
   pkgs,
-  inputs,
   ...
 }:
 let
-  stable = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   usbguard-gui = pkgs.callPackage ../pkgs/usbguard-gui { };
 in
 {
@@ -102,8 +100,7 @@ in
     # gui apps
     chromium
     gimp
-    # FIXME: later remove from stable
-    stable.libreoffice
+    libreoffice
     obs-studio
     virt-manager
     sioyek

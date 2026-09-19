@@ -5,7 +5,7 @@ LIST="$CACHE/list"
 FLAKE="$HOME/dev/sysadmin/dotfiles"
 HOST="$(uname -n)"
 # kernel inputs (apple-silicon, nixpkgs-kernel) are bumped by hand, see AGENTS.md
-INPUTS="nixpkgs nixpkgs-stable home-manager catppuccin disko"
+INPUTS="nixpkgs home-manager catppuccin disko"
 export DISPLAY=":0"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
