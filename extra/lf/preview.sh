@@ -21,11 +21,38 @@ FILE_PATH="${1}"
 # If $2 is set (i.e., lf called it for the side pane), use $2.
 PREVIEW_WIDTH="${2:-$(tput cols)}"
 PREVIEW_HEIGHT="${3:-}" # We can still default height as it's not strictly needed for bat width.
+PREVIEW_X="${4:-}"      # Horizontal position of the preview pane (kitty placements).
+PREVIEW_Y="${5:-}"      # Vertical position of the preview pane.
+PV_MODE="${6:-preview}" # "preview" or "preload".
 
 # Guard clause to ensure path is not empty
 if [ -z "$FILE_PATH" ]; then
   exit 1
 fi
+
+# Draw an image in the preview pane via the kitty graphics protocol, with the
+# exiftool metadata for FILE_PATH below it. $1 is the image to draw.
+draw_media() {
+  local img="${1}"
+  [ -n "${PREVIEW_X}" ] && [ -n "${PREVIEW_Y}" ] && [ -n "${PREVIEW_HEIGHT}" ] && [ "${PV_MODE}" != "preload" ] || return 1
+
+  local meta_max=$((PREVIEW_HEIGHT / 2))
+  [ "${meta_max}" -lt 5 ] && meta_max=5
+  local meta
+  meta="$(exiftool "${FILE_PATH}" | bat -l yaml --color=always --paging=never --style=plain | head -n "${meta_max}")"
+  local meta_lines
+  meta_lines="$(printf '%s\n' "${meta}" | wc -l | tr -d ' ')"
+  local image_rows=$((PREVIEW_HEIGHT - meta_lines - 1))
+  [ "${image_rows}" -ge 1 ] || return 1
+  kitten icat --stdin no --transfer-mode memory --place "${PREVIEW_WIDTH}x${image_rows}@${PREVIEW_X}x${PREVIEW_Y}" "${img}" </dev/null >/dev/tty || return 1
+
+  local i=0
+  while [ "${i}" -lt "${image_rows}" ]; do
+    printf '\n'
+    i=$((i + 1))
+  done
+  printf '\n%s\n' "${meta}"
+}
 
 handle_extension() {
   case "${FILE_EXTENSION_LOWER}" in
@@ -155,13 +182,32 @@ handle_mime() {
 
     ## Image
   image/*)
+    draw_media "${FILE_PATH}" && exit 1
     ## Preview as text conversion
     printf "\n" && exiftool "${FILE_PATH}" | bat -l yaml --color=always --paging=never --style=plain && exit 0
     exit 1
     ;;
 
-    ## Video and audio
-  video/* | audio/*)
+    ## Audio (embedded cover art, if any)
+  audio/*)
+    TMP_IMG="$(mktemp "${TMPDIR:-/tmp}/lf-cover-XXXXXX.png")"
+    trap 'rm -f "${TMP_IMG}"' EXIT
+    if ffmpeg -v error -i "${FILE_PATH}" -map 0:v:0 -frames:v 1 -f image2pipe -vcodec png -an -sn -dn - >|"${TMP_IMG}" 2>/dev/null &&
+      [ -s "${TMP_IMG}" ] && draw_media "${TMP_IMG}"; then
+      exit 1
+    fi
+    exiftool "${FILE_PATH}" | bat -l yaml --color=always --paging=never --style=plain && exit 0
+    exit 1
+    ;;
+
+    ## Video (first frame)
+  video/*)
+    TMP_IMG="$(mktemp "${TMPDIR:-/tmp}/lf-frame-XXXXXX.png")"
+    trap 'rm -f "${TMP_IMG}"' EXIT
+    if ffmpeg -v error -ss 0 -i "${FILE_PATH}" -frames:v 1 -f image2pipe -vcodec png -an -sn -dn - >|"${TMP_IMG}" 2>/dev/null &&
+      [ -s "${TMP_IMG}" ] && draw_media "${TMP_IMG}"; then
+      exit 1
+    fi
     exiftool "${FILE_PATH}" | bat -l yaml --color=always --paging=never --style=plain && exit 0
     exit 1
     ;;

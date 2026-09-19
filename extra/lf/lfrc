@@ -111,6 +111,7 @@ cmd zip ${{
 
 set icons true
 set previewer /home/user/.cfg/lf/preview.sh
+set cleaner /home/user/.cfg/lf/cleaner.sh
 
 ### keybindings
 

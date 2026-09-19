@@ -7,6 +7,7 @@
   home.file.".cfg/lf/lfrc".source = ../extra/lf/lfrc;
   home.file.".cfg/lf/icons".source = ../extra/lf/icons;
   home.file.".cfg/lf/preview.sh".source = ../extra/lf/preview.sh;
+  home.file.".cfg/lf/cleaner.sh".source = ../extra/lf/cleaner.sh;
 
   # nvim, live link so lazy.nvim can write lazy-lock.json back
   home.file.".cfg/nvim".source =

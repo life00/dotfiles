@@ -118,6 +118,7 @@ in
     mpd
     bottom
     lf
+    kitty.kitten
     networkmanagerapplet
     xdg-desktop-portal-wlr
 
