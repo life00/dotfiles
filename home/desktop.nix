@@ -78,9 +78,15 @@
         hideEdgeBorders = "smart";
         commands = [
           {
-            command = "fullscreen toggle";
+            command = "floating enable, resize set 50 ppt 50 ppt, move position center";
             criteria = {
               app_id = "mpv";
+            };
+          }
+          {
+            command = "floating enable, resize set 50 ppt 50 ppt, move position center";
+            criteria = {
+              app_id = "imv";
             };
           }
           {
