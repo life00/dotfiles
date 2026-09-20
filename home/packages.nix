@@ -22,6 +22,7 @@ in
     imagemagick
     mpc
     fastfetch
+    ufetch
     opus-tools
     pandoc
     plantuml
