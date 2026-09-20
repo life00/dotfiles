@@ -242,6 +242,7 @@
     settings = {
       font-family = "JetBrainsMono NFM";
       font-size = 11;
+      gtk-single-instance = true;
       window-inherit-working-directory = false;
       tab-inherit-working-directory = false;
       split-inherit-working-directory = false;
