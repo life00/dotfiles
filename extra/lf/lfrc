@@ -139,6 +139,7 @@ map ?
 
 ## copying, pasting
 map yp ${{ printf '%s' "$f" | wl-copy }}
+map yf ${{ python3 -c 'import os,sys,pathlib;print("\n".join(pathlib.Path(os.path.abspath(p)).as_uri() for p in sys.argv[1:]))' $fx | wl-copy --type text/uri-list }}
 map yy copy
 map pp paste
 map dd cut
