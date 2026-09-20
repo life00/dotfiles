@@ -297,15 +297,7 @@
       # swayfx
       corner_radius 10
       smart_corner_radius enable
-      default_dim_inactive 0.15
-
-      shadow_blur_radius 5
-      shadow_offset 0 5
-      shadow_color #181926
-
-      blur enable
-      blur_radius 6
-      blur_passes 2
+      default_dim_inactive 0.1
 
       layer_effects "rofi" {
         corner_radius 10;
@@ -315,7 +307,7 @@
         corner_radius 10;
       }
 
-      animation_duration_ms 200
+      animation_duration_ms 100
 
       bindsym Mod4+0 workspace number 10
 
