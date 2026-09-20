@@ -58,6 +58,9 @@
         gap_size = 5;
         icon_corner_radius = 8;
         progress_bar_corner_radius = 5;
+        script = "${pkgs.writeShellScript "dunst-sound" ''
+          exec ${pkgs.pipewire}/bin/pw-play ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/dialog-information.oga
+        ''}";
       };
     };
   };
