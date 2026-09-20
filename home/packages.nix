@@ -65,35 +65,40 @@ in
     playerctl
 
     # latex
-    texlivePackages.biblatex
-    texlivePackages.biblatex-apa
-    texlivePackages.biblatex-iso690
-    texlivePackages.babel-ukrainian
-    texlivePackages.babel-russian
-    texlivePackages.blindtext
-    texlivePackages.biber
-    texlivePackages.chngcntr
-    texlivePackages.csvsimple
-    texlivePackages.cyrillic
-    texlivePackages.fbox
-    texlivePackages.floatrow
-    texlivePackages.forest
-    texlivePackages.glossaries
-    texlivePackages.gobble
-    texlivePackages.inlinedef
-    texlivePackages.lh
-    texlivePackages.makecell
-    texlivePackages.ninecolors
-    texlivePackages.paratype
-    texlivePackages.pgf-pie
-    texlivePackages.pgfplots
-    texlivePackages.preprint
-    texlivePackages.standalone
-    texlivePackages.tabularray
-    texlivePackages.tex-gyre
-    texlivePackages.texcount
-    texlivePackages.todonotes
-    texlivePackages.xindy
+    (texliveSmall.withPackages (
+      ps: with ps; [
+        babel-russian
+        babel-ukrainian
+        biber
+        biblatex
+        biblatex-apa
+        biblatex-iso690
+        blindtext
+        chngcntr
+        csvsimple
+        cyrillic
+        fbox
+        floatrow
+        forest
+        glossaries
+        gobble
+        inlinedef
+        latexmk
+        lh
+        makecell
+        ninecolors
+        paratype
+        pgf-pie
+        pgfplots
+        preprint
+        standalone
+        tabularray
+        tex-gyre
+        texcount
+        todonotes
+        xindy
+      ]
+    ))
 
     # python/R/quarto envs: notebooks.nix
 
