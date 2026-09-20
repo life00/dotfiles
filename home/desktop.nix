@@ -78,7 +78,6 @@
     config = {
       modifier = "Mod4";
       terminal = "ghostty";
-      # FIXME: doesn't open the right menu
       menu = "rofi -terminal ghostty -show combi -combi-modes drun"; # run -modes combi
       fonts = {
         names = [ "JetBrainsMono NFM" ];
