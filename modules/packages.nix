@@ -2,6 +2,22 @@
 {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
 
+  # FIXME: remove workaround once swayfx updates
+  # https://github.com/wlrfx/swayfx/issues/569
+  # fixed in https://github.com/wlrfx/swayfx/commit/663cf66f92c2d4c99b9c2c4c79ce3538d37470ac
+  nixpkgs.overlays = [
+    (final: prev: {
+      swayfx-unwrapped = prev.swayfx-unwrapped.overrideAttrs {
+        src = final.fetchFromGitHub {
+          owner = "wlrfx";
+          repo = "swayfx";
+          rev = "663cf66f92c2d4c99b9c2c4c79ce3538d37470ac";
+          hash = "sha256-BYeQAEh47T02mBAModeIL4XNQKftfphN3I9segEb4CM=";
+        };
+      };
+    })
+  ];
+
   # system-scope packages only
   environment.systemPackages = with pkgs; [
     # daemons
