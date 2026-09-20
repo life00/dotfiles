@@ -4,3 +4,4 @@ Exec=ghostty -e lf %F
 Type=Application
 Terminal=false
 Categories=FileManager;
+MimeType=inode/directory;

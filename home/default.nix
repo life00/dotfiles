@@ -59,6 +59,7 @@
         "image/gif" = "imv.desktop";
 
         "inode/directory" = "lf.desktop";
+        "inode/mount-point" = "lf.desktop";
 
         "text/plain" = "neovim.desktop";
       };

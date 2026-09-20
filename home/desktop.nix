@@ -67,6 +67,14 @@
     frame_color = "#b7bdf8"
   '';
 
+  xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
+    [filechooser]
+    cmd=lf-wrapper.sh
+    env=TERMCMD=ghostty -e
+    default_dir=${config.xdg.userDirs.download}
+    save_mode=default
+  '';
+
   wayland.windowManager.sway = {
     enable = true;
     package = lib.mkForce null;
