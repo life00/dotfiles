@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=lf
-Exec=ghostty -e lf %F
+Exec=ghostty --class=lf.float -e lf %F
 Type=Application
 Terminal=false
 Categories=FileManager;

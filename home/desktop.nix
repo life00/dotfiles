@@ -70,7 +70,7 @@
   xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
     [filechooser]
     cmd=lf-wrapper.sh
-    env=TERMCMD=ghostty -e
+    env=TERMCMD=ghostty --class=lf.float -e
     default_dir=${config.xdg.userDirs.download}
     save_mode=default
   '';
@@ -107,6 +107,12 @@
             command = "floating enable, resize set 50 ppt 50 ppt, move position center";
             criteria = {
               app_id = "imv";
+            };
+          }
+          {
+            command = "floating enable, resize set 50 ppt 50 ppt, move position center";
+            criteria = {
+              app_id = "lf.float";
             };
           }
           {
