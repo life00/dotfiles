@@ -271,7 +271,7 @@
       };
       processes = {
         default_tree = true;
-        process_command = true;
+        process_command = false;
       };
       network_graph.interface_filter = {
         is_list_ignored = true;
