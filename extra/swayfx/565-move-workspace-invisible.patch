@@ -1,0 +1,27 @@
+--- a/sway/desktop/transaction.c
++++ b/sway/desktop/transaction.c
+@@ -887,15 +887,21 @@
+ 	struct sway_workspace *new_active = output->current.active_workspace;
+ 	struct sway_workspace *old_active = output->prev_active_workspace;
+ 
+-	bool is_ws_switch = old_active && old_active != new_active
++	// A workspace moved to another output still lingers here as
++	// prev_active_workspace, but it belongs to the destination now: fading it
++	// out would overwrite the destination's fade-in when this output is
++	// arranged last (root->outputs order), pinning it at alpha 0.
++	bool old_moved_away = old_active && old_active->current.output != output;
++
++	bool is_ws_switch = old_active && new_active && old_active != new_active
+ 		&& output->wlr_output->enabled && config->animation_duration_ms > 0 &&
+ 		!(old_active->current.fullscreen || new_active->current.fullscreen);
+ 
+ 	if (is_ws_switch) {
+ 		new_active->animation_state.from_alpha = 0.0f;
+ 
+-		if (old_active->current.tiling->length == 0
+-				&& old_active->current.floating->length == 0) {
++		if (old_moved_away || (old_active->current.tiling->length == 0
++				&& old_active->current.floating->length == 0)) {
+ 			new_active->animation_state.to_alpha = 1.0f;
+ 			add_animation(&new_active->animation_state.animation,
+ 				workspace_fade_update_callback, NULL);
