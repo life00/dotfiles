@@ -208,6 +208,17 @@
         };
       };
 
+      workspaceOutputAssign = [
+        {
+          workspace = "1";
+          output = "DP-1";
+        }
+        {
+          workspace = "2";
+          output = "DP-1";
+        }
+      ];
+
       input = {
         "*" = {
           tap = "enabled";
