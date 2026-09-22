@@ -5,6 +5,11 @@
   ...
 }:
 {
+  programs.chromium = {
+    enable = true;
+    # localhost CDP port for chrome-devtools-mcp
+    commandLineArgs = [ "--remote-debugging-port=9222" ];
+  };
   programs.rofi = {
     enable = true;
     terminal = "ghostty";

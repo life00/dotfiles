@@ -119,6 +119,18 @@
         "opencode-claude-auth@latest"
       ];
       mcp = {
+        chrome-devtools = {
+          enabled = false;
+          type = "local";
+          command = [
+            "npx"
+            "-y"
+            "chrome-devtools-mcp@latest"
+            "--browser-url=http://127.0.0.1:9222"
+            "--no-usage-statistics"
+            "--no-performance-crux"
+          ];
+        };
         consensus = {
           enabled = false;
           type = "remote";
