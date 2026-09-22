@@ -134,6 +134,8 @@ in
 
     # hardening parameters
     kernelParams = [
+      # disable problematic broadcom driver issue (brcmfmac) because of wpa_supplicant
+      "brcmfmac.feature_disable=0x82000"
       "init_on_free=1"
       "panic_on_oops=1"
       "randomize_kstack_offset=1"
