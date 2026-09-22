@@ -104,7 +104,6 @@ in
     # python/R/quarto envs: notebooks.nix
 
     # gui apps
-    chromium
     gimp
     libreoffice
     obs-studio
@@ -139,5 +138,6 @@ in
     # delta
     # neovim
     # rofi
+    # chromium
   ];
 }
