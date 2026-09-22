@@ -2,6 +2,7 @@
 {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
 
+  # these fixes are applied to swayfx v0.6
   # FIXME: remove pinned rev once swayfx updates
   # https://github.com/wlrfx/swayfx/issues/569
   # fixed in https://github.com/wlrfx/swayfx/commit/663cf66f92c2d4c99b9c2c4c79ce3538d37470ac
