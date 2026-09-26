@@ -19,6 +19,15 @@
         };
         patches = old.patches ++ [ ../extra/swayfx/565-move-workspace-invisible.patch ];
       });
+      # FIXME: remove once https://github.com/NixOS/nixpkgs/pull/567010 is merged
+      wpa_supplicant = prev.wpa_supplicant.overrideAttrs (old: {
+        patches = old.patches ++ [
+          (final.fetchurl {
+            url = "https://raw.githubusercontent.com/NixOS/nixpkgs/26a4e338bdce972680c460b032a4cb0a8fc88982/pkgs/by-name/wp/wpa_supplicant/revert-change-breaking-auth-broadcom.patch";
+            hash = "sha256-eYQgzPhvJ36lM11MkrlCAtKGXJHf8NsjYseIkkRFuyc=";
+          })
+        ];
+      });
     })
   ];
 

@@ -134,9 +134,6 @@ in
 
     # hardening parameters
     kernelParams = [
-      # FIXME: disable problematic broadcom driver issue (brcmfmac) because of wpa_supplicant
-      # remove once https://github.com/NixOS/nixpkgs/pull/561106 is addressed
-      "brcmfmac.feature_disable=0x82000"
       "init_on_free=1"
       "panic_on_oops=1"
       "randomize_kstack_offset=1"
