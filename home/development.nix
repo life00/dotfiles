@@ -67,6 +67,7 @@
     extraPackages = with pkgs; [
       # lsp servers
       bash-language-server
+      clang-tools
       gopls
       lua-language-server
       nil

@@ -44,7 +44,8 @@ in
     docker
     docker-compose
     cargo
-    gcc
+    clang
+    (hiPrio gcc)
     go
     gnumake
     rustc
