@@ -20,6 +20,11 @@ return {
             tags = { "build", "make" },
           },
           {
+            name = "C compile and run",
+            cmd = "clang -Wall -Wextra -g ${file} -o ${file:r} && ${file:r}",
+            tags = { "c", "build", "run" },
+          },
+          {
             name = "Go build",
             cmd = "go build ./**.go",
             tags = { "go", "build" },
@@ -50,7 +55,7 @@ return {
             end
             if exit_code == 0 then
               vim.notify("Task successful: " .. task.config.name, vim.log.levels.INFO)
-              task:shutdown()
+              -- task:shutdown()
             else
               vim.notify("Task failed: " .. task.config.name, vim.log.levels.ERROR)
             end
