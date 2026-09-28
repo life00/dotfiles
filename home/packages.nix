@@ -39,6 +39,7 @@ in
     starship
     zoxide
     libqalculate
+    poppler-utils
 
     # development
     docker
