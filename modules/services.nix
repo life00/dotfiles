@@ -46,6 +46,9 @@ in
     enable = true;
   };
 
+  # wireplumber hangs at shutdown
+  systemd.user.services.wireplumber.serviceConfig.TimeoutStopSec = "5s";
+
   xdg.portal = {
     enable = true;
     wlr = {
