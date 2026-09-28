@@ -222,6 +222,14 @@
           workspace = "2";
           output = "DP-1";
         }
+        {
+          workspace = "3";
+          output = "eDP-1";
+        }
+        {
+          workspace = "4";
+          output = "eDP-1";
+        }
       ];
 
       input = {
@@ -390,16 +398,15 @@
         format-icons = {
           "1" = "󱓞";
           "2" = "";
-          "3" = "";
-          "4" = "󰚇";
+          "3" = "󱌣";
+          "4" = "";
+          "5" = "";
           "high-priority-named" = [
             "1"
             "2"
             "3"
             "4"
-            "8"
-            "9"
-            "10"
+            "5"
           ];
           urgent = "";
           focused = "";
