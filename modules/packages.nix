@@ -19,6 +19,16 @@
         };
         patches = old.patches ++ [ ../extra/swayfx/565-move-workspace-invisible.patch ];
       });
+      # FIXME: remove once opensnitch-ui > 1.8.0
+      # prompt crashes when the cursor is outside every screen (wayland), daemon then denies all
+      # fixed upstream in ui/opensnitch/dialogs/prompt/dialog.py move_popup()
+      opensnitch-ui = prev.opensnitch-ui.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace opensnitch/dialogs/prompt/__init__.py \
+            --replace-fail "self.screen().virtualSiblingAt(QtGui.QCursor.pos()).availableGeometry()" \
+                           "(self.screen().virtualSiblingAt(QtGui.QCursor.pos()) or self.screen()).availableGeometry()"
+        '';
+      });
     })
   ];
 
