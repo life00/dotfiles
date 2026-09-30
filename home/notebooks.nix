@@ -32,6 +32,8 @@ let
     here
     usethis
     IRkernel
+    vrtest
+    cointReg
   ];
   rEnv = pkgs.rWrapper.override { packages = rPkgs; };
 
