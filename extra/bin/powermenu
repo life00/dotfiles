@@ -20,7 +20,7 @@ case $chosen in
         ;;
     $lock)
 	    /home/user/.bin/ctrlcache get
-	    swaylock -f
+	    /home/user/.bin/screenctl lock
         ;;
     $suspend)
 	    mpc -q pause

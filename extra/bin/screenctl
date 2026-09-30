@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+PATH=/run/current-system/sw/bin:$PATH
+case $1 in
+off) swaymsg "output * power off" ;;
+on)
+  # sleep lets the DRM connector finish powering on, then re-enable the output
+  swaymsg "output * power on"
+  sleep 0.5
+  swaymsg "output * disable; output * enable"
+  ;;
+lock)
+  # the lock fd is inherited by swaylock, so it is held until unlock
+  exec 9>"${XDG_RUNTIME_DIR:-/run/user/$UID}/screenctl.lock"
+  flock -n 9 || exit 0
+  swayidle timeout 5 "$0 off" resume "$0 on" 9>&- &
+  idle=$!
+  # return once swaylock reports the screen is locked (-R), like -f
+  read -r -t 10 < <(swaylock -R 3 3>&1 >/dev/null; kill "$idle")
+  ;;
+*)
+  echo "usage: ${0##*/} on|off|lock" >&2
+  exit 1
+  ;;
+esac

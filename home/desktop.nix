@@ -354,7 +354,7 @@
       # gesture bindings
       bindgesture swipe:right workspace prev
       bindgesture swipe:left workspace next
-      bindgesture swipe:down exec swaylock -f
+      bindgesture swipe:down exec /home/user/.bin/screenctl lock
       bindgesture swipe:up exec ${config.wayland.windowManager.sway.config.menu}
     '';
   };
@@ -763,18 +763,16 @@
     timeouts = [
       {
         timeout = 120;
-        command = "${pkgs.swayfx}/bin/swaymsg \"output * power off\"";
-        # requires disabling/enabling the output
-        # sleep lets the DRM connector finish powering on
-        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.swayfx}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.swayfx}/bin/swaymsg \"output * disable; output * enable\"'";
+        command = "/home/user/.bin/screenctl off";
+        resumeCommand = "/home/user/.bin/screenctl on";
       }
       {
         timeout = 130;
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-        resumeCommand = "${pkgs.bash}/bin/bash -c '${pkgs.swayfx}/bin/swaymsg \"output * power on\"; sleep 0.5; ${pkgs.swayfx}/bin/swaymsg \"output * disable; output * enable\"'";
+        command = "/home/user/.bin/screenctl lock";
+        resumeCommand = "/home/user/.bin/screenctl on";
       }
     ];
-    events.before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
+    events.before-sleep = "/home/user/.bin/screenctl lock";
   };
 
 }
