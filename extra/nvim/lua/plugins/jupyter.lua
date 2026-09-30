@@ -144,6 +144,18 @@ return {
       { "<leader>cjne", ":MoltenExportOutput<CR>", desc = "Export notebook output" },
     },
   },
+  -- aerial
+  {
+    "stevearc/aerial.nvim",
+    opts = {
+      backends = {
+        _ = { "lsp", "treesitter", "markdown", "man" },
+        -- skip lsp for quarto: otter-ls request() returns nil, so aerial warns
+        -- "Error requesting document symbols" on every refresh
+        quarto = { "treesitter", "markdown" },
+      },
+    },
+  },
   -- venv selector
   -- configure keybinding to also appear in quarto
   {
