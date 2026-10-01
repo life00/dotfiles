@@ -315,7 +315,6 @@
         { command = "sleep 1 && usbguard_gui"; }
         { command = "nm-applet --indicator"; }
         { command = "mpc volume 50"; }
-        { command = "/bin/sh -c \"pkill -15 opensnitch-ui; opensnitch-ui\""; }
       ];
 
       bars = [
@@ -773,6 +772,13 @@
       }
     ];
     events.before-sleep = "/home/user/.bin/screenctl lock";
+  };
+
+  services.opensnitch-ui.enable = true;
+  systemd.user.services.opensnitch-ui = {
+    Unit.After = lib.mkForce [ "sway-session.target" ];
+    Unit.PartOf = lib.mkForce [ "sway-session.target" ];
+    Install.WantedBy = lib.mkForce [ "sway-session.target" ];
   };
 
 }
