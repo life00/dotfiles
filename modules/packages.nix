@@ -29,6 +29,12 @@
                            "(self.screen().virtualSiblingAt(QtGui.QCursor.pos()) or self.screen()).availableGeometry()"
         '';
       });
+      # FIXME: remove once nixpkgs usbguard builds with C++20 (abseil >= 20260817 needs <compare>)
+      usbguard = prev.usbguard.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace configure.ac --replace-fail "-std=c++17" "-std=c++20"
+        '';
+      });
     })
   ];
 
