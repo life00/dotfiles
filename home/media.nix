@@ -63,6 +63,7 @@
       ui_font = "JetBrainsMono Nerd Font";
       status_bar_font_size = "16";
       page_separator_width = "3";
+      should_launch_new_window = "1";
 
       startup_commands = [
         "toggle_horizontal_scroll_lock"

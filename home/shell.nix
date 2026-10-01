@@ -40,7 +40,6 @@
       ls = "eza --icons always";
       tree = "eza --icons always -T";
       delta = "delta --pager less";
-      sioyek = "sioyek-open";
       diff = "delta";
       lf = "zlf";
       R = "R --quiet --no-save";

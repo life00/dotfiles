@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-# this workaround exists because of https://github.com/ahrm/sioyek/issues/1065
-if [ -e "${1}" ]; then
-  sioyek --new-window $(realpath -s "${1}")
-else
-  printf "File does not exist\n" 
-  exit 1
-fi
