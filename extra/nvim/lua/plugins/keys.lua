@@ -65,7 +65,10 @@ return {
     "chrisgrieser/nvim-origami",
     lazy = true,
     event = "BufReadPost", -- later or on keypress would prevent saving folds
-    opts = true, -- needed even when using default config
+    opts = {
+      -- re-enables folds in windows that disable them (e.g. lazy.nvim float)
+      pauseFoldsOnSearch = false,
+    },
   },
   --------------------------------------------------
   --                 mini surround
