@@ -7,29 +7,30 @@
 {
   programs.zsh = {
     enable = true;
-    # vim mode
-    defaultKeymap = "viins";
+
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    historySubstringSearch = {
+      enable = true;
+      searchUpKey = [ "^[[A" ];
+      searchDownKey = [ "^[[B" ];
+    };
 
     setOptions = [
       "interactive_comments"
+      # /var/log/zsh is root-owned, write the histfile in place
+      "no_hist_save_by_copy"
     ];
 
-    # fast compinit
-    completionInit = ''
-      # regenrate compinit only if older than 24h
-      autoload -U compinit
-      for dumpfile in "''${ZDOTDIR:-$HOME}/.zcompdump"(N.mh+24); do
-        compinit -d "''${ZDOTDIR:-$HOME}/.zcompdump"
-      done
-      [[ -n ''${dumpfile} ]] || compinit -C -d "''${ZDOTDIR:-$HOME}/.zcompdump"
-      unset dumpfile
-    '';
+    completionInit = "autoload -U compinit && compinit -d ${config.xdg.cacheHome}/zcompdump";
 
     history = {
       path = "/var/log/zsh/histfile";
-      size = 5000;
-      save = 5000;
-      ignoreDups = true;
+      size = 100000;
+      save = 100000;
+      extended = true;
+      ignoreAllDups = true;
+      expireDuplicatesFirst = true;
     };
 
     shellAliases = {
@@ -37,8 +38,7 @@
       "..." = "cd ../..";
       "...." = "cd ../../..";
       ai = "aichat";
-      ls = "eza --icons always";
-      tree = "eza --icons always -T";
+      tree = "eza -T";
       delta = "delta --pager less";
       diff = "delta";
       lf = "zlf";
@@ -51,7 +51,6 @@
       rm = "rm -v";
       e = "exit";
       mpi = "mpv --pause";
-      cd = "z";
       calc = "qalc";
       ef = "exiftool";
       todo = "rg '\\- \\[ \\] ' --sortr 'modified' --glob '*.md' '/home/user/doc/'";
@@ -60,6 +59,8 @@
     # some ugly legacy zsh configs
     initContent = lib.mkMerge [
       (lib.mkBefore ''
+        # init zsh-vi-mode at source time, so fzf's ^R/^T bindings load after it
+        ZVM_INIT_MODE=sourcing
         # zsh-vi-mode highlight colors (set before the plugin loads).
         ZVM_VI_HIGHLIGHT_BACKGROUND=#494d64
         ZVM_VI_HIGHLIGHT_FOREGROUND=text
@@ -71,21 +72,21 @@
           curl cheat.sh/"$@"
         }
 
-        # fzf-tab Catppuccin Macchiato theme
-        zstyle ':fzf-tab:*' fzf-flags --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
-          --color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
-          --color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
-          --color=selected-bg:#494D64 \
-          --color=border:#363A4F,label:#CAD3F5
+        # zsh-autosuggestions: zsh-vi-mode's A should accept the suggestion too
+        ZSH_AUTOSUGGEST_ACCEPT_WIDGETS+=(zvm_append_eol)
 
-        # zsh-history-substring-search bindkeys + highlight colors
-        bindkey '^[[A' history-substring-search-up
-        bindkey '^[[B' history-substring-search-down
+        # zsh-history-substring-search: match like autosuggestions (prefix, case-sensitive)
+        HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+        HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS=
+        HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+        HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#494d64,bg=#c6a0f6"
+        HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#494d64,bg=#ed8796"
+      ''
+      # after HM sources history-substring-search (mkOrder 1250)
+      (lib.mkOrder 1300 ''
         bindkey -M vicmd 'k' history-substring-search-up
         bindkey -M vicmd 'j' history-substring-search-down
-        export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#494d64,bg=#c6a0f6"
-        export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#494d64,bg=#ed8796"
-      ''
+      '')
     ];
   };
 
@@ -97,24 +98,9 @@
       file = "share/fzf-tab/fzf-tab.plugin.zsh";
     }
     {
-      name = "zsh-autosuggestions";
-      src = pkgs.zsh-autosuggestions;
-      file = "share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh";
-    }
-    {
       name = "zsh-vi-mode";
       src = pkgs.zsh-vi-mode;
       file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-    }
-    {
-      name = "zsh-history-substring-search";
-      src = pkgs.zsh-history-substring-search;
-      file = "share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh";
-    }
-    {
-      name = "fast-syntax-highlighting";
-      src = pkgs.zsh-fast-syntax-highlighting;
-      file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
     }
     {
       name = "git";
@@ -130,6 +116,16 @@
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
+    options = [
+      "--cmd"
+      "cd"
+    ];
+  };
+
+  programs.eza = {
+    enable = true;
+    icons = "always";
+    git = true;
   };
 
   # starship

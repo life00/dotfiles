@@ -80,6 +80,8 @@ in
 
     # zsh as default shell
     programs.zsh.enable = true;
+    # home-manager runs compinit with a cached dump
+    programs.zsh.enableGlobalCompInit = false;
 
     # root password locked
     users.users.root.hashedPassword = "!";
