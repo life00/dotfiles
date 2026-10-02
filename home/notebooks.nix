@@ -22,6 +22,7 @@ let
     dplyr
     ggplot2
     knitr
+    languageserver
     rmarkdown
     readxl
     Rcpp
