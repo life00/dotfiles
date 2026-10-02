@@ -34,6 +34,9 @@ let
     IRkernel
     vrtest
     cointReg
+    moments
+    sandwich
+    MCS
   ];
   rEnv = pkgs.rWrapper.override { packages = rPkgs; };
 
