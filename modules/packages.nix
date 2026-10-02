@@ -29,6 +29,16 @@
                            "(self.screen().virtualSiblingAt(QtGui.QCursor.pos()) or self.screen()).availableGeometry()"
         '';
       });
+      # FIXME: remove once https://todo.sr.ht/~exec64/imv/48 is fixed
+      imv = prev.imv.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          (final.fetchpatch {
+            url = "https://git.sr.ht/~exec64/imv/commit/7d575ebb32855a494ee791a71cecc522cd9d02a2.patch";
+            hash = "sha256-3OoNOpu/LoGp2D1rqmkoImq4ZdjvcHmkuZRwiEd1ov4=";
+          })
+          ../extra/imv/scale-race.patch
+        ];
+      });
     })
   ];
 

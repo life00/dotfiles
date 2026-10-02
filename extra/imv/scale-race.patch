@@ -1,0 +1,10 @@
+--- a/src/wl_window.c
++++ b/src/wl_window.c
+@@ -758,7 +758,6 @@
+   xdg_surface_ack_configure(surface, serial);
+   window->xdg_configured = true;
+   update_scale(data);
+-  wl_surface_commit(window->wl_surface);
+ }
+ 
+ static const struct xdg_surface_listener shell_surface_listener = {
