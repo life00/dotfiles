@@ -83,8 +83,8 @@ return {
       vim.g.molten_enter_output_behavior = "open_and_enter"
       vim.g.molten_image_provider = "none"
       vim.g.molten_wrap_output = true
+      vim.g.molten_output_show_exec_time = false
       vim.g.molten_output_win_max_height = 32
-      vim.g.molten_tick_rate = 200
       vim.g.molten_virt_text_max_lines = 8
       vim.g.molten_virt_text_output = true
 
