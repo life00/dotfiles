@@ -171,7 +171,7 @@
       };
       leader_timeout = 5000;
       plugin = [
-        "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.18.1"
+        "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.19.0"
         "opencode-bytheway@0.8.1"
       ];
     };
