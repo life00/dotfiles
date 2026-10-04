@@ -87,6 +87,7 @@ in
         forest
         glossaries
         gobble
+        helvetic
         inlinedef
         latexmk
         lh
