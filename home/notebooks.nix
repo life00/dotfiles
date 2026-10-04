@@ -4,18 +4,28 @@
 }:
 let
   # python packages
-  pythonEnv = pkgs.python3.withPackages (ps: [
-    ps.jupyterlab
-    ps.ipykernel
-    ps.jupytext
-    ps.matplotlib
-    ps.pandas
-    ps.seaborn
-    ps.numpy
-    ps.scipy
-    ps.duckdb
-    ps.pytest
-  ]);
+  pythonEnv = pkgs.python3.buildEnv.override {
+    ignoreCollisions = true;
+    extraLibs = with pkgs.python3Packages; [
+      pip
+      jupyterlab
+      ipykernel
+      jupytext
+      matplotlib
+      pandas
+      seaborn
+      numpy
+      scipy
+      duckdb
+      pytest
+      mlflow
+      pyarrow
+      python-dotenv
+      pyyaml
+      scikit-learn
+      yfinance
+    ];
+  };
 
   # R packages
   rPkgs = with pkgs.rPackages; [
