@@ -59,6 +59,8 @@ in
     opencode
     git
     nixfmt
+    ruff
+    pyright
 
     # media
     ffmpeg
