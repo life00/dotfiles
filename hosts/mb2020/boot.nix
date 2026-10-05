@@ -34,6 +34,14 @@ let
   ];
 in
 {
+  # FIXME: compile flags issue
+  # drop once https://github.com/nix-community/nixos-apple-silicon/pull/559 is merged
+  nixpkgs.overlays = [
+    (final: prev: {
+      uboot-asahi = prev.uboot-asahi.overrideAttrs { postPatch = "patchShebangs tools scripts"; };
+    })
+  ];
+
   # systemd-boot on the dedicated NixOS ESP
   # U-Boot handles the OS selection
   # NixOS must not touch EFI variables
