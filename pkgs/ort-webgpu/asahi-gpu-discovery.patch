@@ -1,0 +1,45 @@
+--- a/onnxruntime/core/platform/linux/device_discovery.cc
++++ b/onnxruntime/core/platform/linux/device_discovery.cc
+@@ -143,18 +143,26 @@
+   OrtHardwareDevice gpu_device{};
+   const auto& sysfs_path = path_info.path;
+ 
++  // Apple Silicon GPU (asahi DRM driver) is a platform device without PCI vendor/device attributes.
++  std::error_code driver_ec{};
++  const bool is_asahi = fs::canonical(sysfs_path / "device" / "driver", driver_ec).filename() == "asahi";
++
+   // vendor id
+-  uint16_t vendor_id{};
+-  const auto vendor_id_path = sysfs_path / "device" / "vendor";
+-  ORT_RETURN_IF_ERROR(ReadValueFromFile(vendor_id_path, vendor_id));
++  uint16_t vendor_id{0x106b};
++  if (!is_asahi) {
++    const auto vendor_id_path = sysfs_path / "device" / "vendor";
++    ORT_RETURN_IF_ERROR(ReadValueFromFile(vendor_id_path, vendor_id));
++  }
+   gpu_device.vendor_id = vendor_id;
+ 
+   // TODO vendor name
+ 
+   // device id
+   uint16_t device_id{};
+-  const auto device_id_path = sysfs_path / "device" / "device";
+-  ORT_RETURN_IF_ERROR(ReadValueFromFile(device_id_path, device_id));
++  if (!is_asahi) {
++    const auto device_id_path = sysfs_path / "device" / "device";
++    ORT_RETURN_IF_ERROR(ReadValueFromFile(device_id_path, device_id));
++  }
+   gpu_device.device_id = device_id;
+ 
+   // metadata
+@@ -166,7 +174,9 @@
+   }
+ 
+   std::optional<std::string> pci_bus_id;
+-  ORT_RETURN_IF_ERROR(GetPciBusId(sysfs_path, pci_bus_id));
++  if (!is_asahi) {
++    ORT_RETURN_IF_ERROR(GetPciBusId(sysfs_path, pci_bus_id));
++  }
+   if (pci_bus_id) {
+     gpu_device.metadata.Add("pci_bus_id", std::move(*pci_bus_id));
+   }

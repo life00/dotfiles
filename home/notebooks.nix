@@ -5,12 +5,13 @@
 }:
 let
   python = pkgs.python3.override {
-    packageOverrides =
+    packageOverrides = lib.composeExtensions (pkgs.callPackage ../pkgs/ort-webgpu { }) (
       _: super:
       # doclang tests need saxonche, whose GraalVM image requires 4k pages (Asahi uses 16k)
       lib.genAttrs [ "doclang" "docling-core" "docling-slim" "docling" ] (
         n: super.${n}.overridePythonAttrs { doCheck = false; }
-      );
+      )
+    );
   };
 
   # python packages
@@ -28,6 +29,7 @@ let
       scipy
       duckdb
       docling
+      onnxruntime-ep-webgpu
       pytest
       mlflow
       pyarrow
