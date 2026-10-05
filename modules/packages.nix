@@ -1,6 +1,11 @@
 { pkgs, lib, ... }:
 {
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "claude-code"
+      "saxonche"
+    ];
 
   # these fixes are applied to swayfx v0.6
   # FIXME: remove pinned rev once swayfx updates

@@ -1,12 +1,22 @@
 {
   pkgs,
+  lib,
   ...
 }:
 let
+  python = pkgs.python3.override {
+    packageOverrides =
+      _: super:
+      # doclang tests need saxonche, whose GraalVM image requires 4k pages (Asahi uses 16k)
+      lib.genAttrs [ "doclang" "docling-core" "docling-slim" "docling" ] (
+        n: super.${n}.overridePythonAttrs { doCheck = false; }
+      );
+  };
+
   # python packages
-  pythonEnv = pkgs.python3.buildEnv.override {
+  pythonEnv = python.buildEnv.override {
     ignoreCollisions = true;
-    extraLibs = with pkgs.python3Packages; [
+    extraLibs = with python.pkgs; [
       pip
       jupyterlab
       ipykernel
@@ -17,6 +27,7 @@ let
       numpy
       scipy
       duckdb
+      docling
       pytest
       mlflow
       pyarrow
