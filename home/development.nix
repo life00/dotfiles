@@ -108,16 +108,11 @@
 
   programs.opencode = {
     enable = true;
+    package = pkgs.callPackage ../pkgs/opencode { };
     settings = {
       formatter = true;
-      lsp = true;
-      logLevel = "WARN";
-      server = {
-        port = 4096;
-      };
-      plugin = [
+      plugins = [
         "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.13.0"
-        "opencode-claude-auth@latest"
       ];
       mcp = {
         chrome-devtools = {
@@ -161,22 +156,40 @@
         };
       };
     };
-    tui = {
-      keybinds = {
-        leader = "space";
-        session_child_first = "ctrl+shift+down";
-        session_child_cycle = "ctrl+shift+right";
-        session_child_cycle_reverse = "ctrl+shift+left";
-        session_parent = "ctrl+shift+up";
-      };
-      leader_timeout = 5000;
-      plugin = [
-        "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.19.0"
-        "opencode-bytheway@0.8.1"
-      ];
-    };
     context = ../extra/opencode/AGENTS.md;
     skills = ../extra/opencode/skills;
+  };
+
+  # FIXME: opencode v2 reads cli.json, not tui.json; HM has no option for it yet
+  xdg.configFile."opencode/cli.json".force = true;
+  xdg.configFile."opencode/cli.json".text = builtins.toJSON {
+    "$schema" = "https://opencode.ai/v2/cli.json";
+    theme = {
+      name = "catppuccin-macchiato";
+      mode = "dark";
+    };
+    keybinds = {
+      leader = "space";
+      "agent.cycle" = "tab";
+      "session.tab.next" = "ctrl+tab,alt+down,shift+l";
+      "session.tab.previous" = "ctrl+shift+tab,alt+up,shift+h";
+      "session.child.first" = "ctrl+shift+down";
+      "session.child.next" = "ctrl+shift+right";
+      "session.child.previous" = "ctrl+shift+left";
+      "session.parent" = "ctrl+shift+up";
+    };
+    leader.timeout = 5000;
+    tabs = {
+      mode = "on";
+      indicators = "status";
+    };
+    plugins = [
+      {
+        package = "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.19.1";
+        options.experimentalV2Leader = "space";
+      }
+      "opencode-bytheway@0.8.1"
+    ];
   };
 
   programs.claude-code = {

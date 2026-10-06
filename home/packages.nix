@@ -56,7 +56,6 @@ in
     nodejs
     pnpm
     yarn
-    opencode
     git
     nixfmt
     ruff

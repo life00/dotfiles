@@ -15,7 +15,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 
 ## Layout
 
-- `modules/` system NixOS modules. `home/` home-manager modules (`shell`, `development`, `desktop`, `media`, `files`, `theme`, `packages`, `notebooks`). `pkgs/` custom derivations (`awecron`, `usbguard-gui`, `quarto`). `hosts/<name>/` boot, hardware, disko/touchbar.
+- `modules/` system NixOS modules. `home/` home-manager modules (`shell`, `development`, `desktop`, `media`, `files`, `theme`, `packages`, `notebooks`). `pkgs/` custom derivations (`awecron`, `usbguard-gui`, `quarto`, `ort-webgpu`, `opencode`). `hosts/<name>/` boot, hardware, disko/touchbar.
 - `extra/` raw configs, only for what HM can't express cleanly: `nvim` (LazyVim), `lf`, `bin` scripts, `awecron` jobs, `opencode` (AGENTS.md + skills). Wired in `home/files.nix` (`home.file.".cfg/<name>".source`; `nvim` uses `mkOutOfStoreSymlink`, a live link to the worktree so `lazy.nvim` can write `lazy-lock.json` back), `modules/users.nix` (`~/.bin`), `modules/services.nix` (`/etc/awecron`), `home/development.nix` (`programs.opencode.context/skills`).
 - Direction of travel is `extra/` -> native HM options (recent commits migrated cava, ncmpcpp). Prefer `programs.<x>` over new raw files.
 
@@ -34,6 +34,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 - `modules/users.nix`: `initialPassword = "password"` is a bootstrap value, intentional.
 - `hosts/mb2017/disko.nix` device `/dev/nvme0n1` and `hosts/mb2017/hardware.nix` are placeholders for that host. `hosts/mb2020/hardware.nix` has real UUIDs; don't touch them.
 - `mb2020` boot: `canTouchEfiVariables = false` is required (U-Boot owns EFI). Manual btrfs mounts, no disko. `/boot` is the ~480M ESP created by the asahi installer (`asahi,efi-system-partition` in the device tree): m1n1 stage 1 chainloads `m1n1/boot.bin` from there, so it must hold systemd-boot, kernels, `m1n1/` and `vendorfw/`. Hence `configurationLimit = 2`. Firmware refresh (`os-fw-version`) = delete stub + that ESP, rerun the asahi installer, update the UUID in `hardware.nix`.
+- opencode is v2 from `pkgs/opencode` (prebuilt npm `@opencode/cli-linux-arm64`, run via nix-ld), not nixpkgs (still v1). The updater never bumps it: edit `version` + `hash` (npm `dist.integrity`) by hand. Terminal config is `~/.cfg/opencode/cli.json`, written raw in `home/development.nix`; `programs.opencode.tui` (v1 `tui.json`) is unused.
 - `services.syncthing` and `services.ollama` are `enable = false` stubs. Keep them.
 - Secrets never live here: no ssh keys, no tokens (`.gitignore` blocks `*credentials*`, `*token*`). `allowed_signers` content is inline in `home/files.nix`.
 

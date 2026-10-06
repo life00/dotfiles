@@ -45,7 +45,7 @@
       R = "R --quiet --no-save";
       nmpc = "ncmpcpp";
       lv = "nvim";
-      oc = "opencode --port";
+      oc = "opencode";
       mv = "mv -v";
       cp = "cp -v";
       rm = "rm -v";
