@@ -195,6 +195,13 @@
   programs.claude-code = {
     enable = true;
     configDir = "${config.home.homeDirectory}/.cfg/claude";
+    settings = {
+      editorMode = "vim";
+      model = "opus";
+      modelSettings.claude-opus-5.effortLevel = "high";
+      theme = "dark-ansi";
+      autoContinueAtUsageLimit = false;
+    };
     plugins = {
       ponytail = pkgs.fetchFromGitHub {
         owner = "DietrichGebert";
