@@ -60,6 +60,8 @@ in
     nixfmt
     ruff
     pyright
+    opentofu
+    google-cloud-sdk
 
     # media
     ffmpeg
