@@ -116,7 +116,7 @@
         port = 4096;
       };
       plugin = [
-        "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.9.0"
+        "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.13.0"
         "opencode-claude-auth@latest"
       ];
       mcp = {
