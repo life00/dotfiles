@@ -171,18 +171,13 @@
     keybinds = {
       leader = "space";
       "agent.cycle" = "tab";
-      "session.tab.next" = "ctrl+tab,alt+down,shift+l";
-      "session.tab.previous" = "ctrl+shift+tab,alt+up,shift+h";
       "session.child.first" = "ctrl+shift+down";
       "session.child.next" = "ctrl+shift+right";
       "session.child.previous" = "ctrl+shift+left";
       "session.parent" = "ctrl+shift+up";
     };
     leader.timeout = 5000;
-    tabs = {
-      mode = "on";
-      indicators = "status";
-    };
+    tabs.mode = "off";
     plugins = [
       {
         package = "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.19.1";
