@@ -117,6 +117,7 @@ in
     sioyek
     thunar
     imv
+    wlvncc
 
     # ai
     aichat
