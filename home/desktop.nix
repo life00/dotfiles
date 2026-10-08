@@ -355,6 +355,8 @@
       bindgesture swipe:left workspace next
       bindgesture swipe:down exec /home/user/.bin/screenctl lock
       bindgesture swipe:up exec ${config.wayland.windowManager.sway.config.menu}
+
+      bindswitch --locked lid:on exec /home/user/.bin/screenctl lock
     '';
   };
 
@@ -772,6 +774,16 @@
       }
     ];
     events.before-sleep = "/home/user/.bin/screenctl lock";
+  };
+
+  systemd.user.services.lid-awake = {
+    Unit.Description = "Lock instead of suspend on lid close";
+    # the notification lives as long as the inhibitor; SIGINT makes notify-send
+    # close it on stop, and dismissing it stops the service
+    Service = {
+      ExecStart = "${pkgs.systemd}/bin/systemd-inhibit --what=handle-lid-switch --who=lid-awake --why=lock-only ${pkgs.libnotify}/bin/notify-send -w -t 0 -i system-lock-screen 'lid close: lock only' 'sleep on lid close is disabled'";
+      KillSignal = "SIGINT";
+    };
   };
 
   services.opensnitch-ui.enable = true;

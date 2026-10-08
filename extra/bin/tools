@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
-chosen=$(printf '%s\n' '⏳  timer' '🖩  calculator ' '😄  emoji ' '💀  killer ' | rofi -dmenu -p ' utilities ' -selected-row 0)
+chosen=$(printf '%s\n' '⏳  timer' '🖩  calculator ' '😄  emoji ' '💀  killer ' '🔒  lid lock-only ' | rofi -dmenu -p ' utilities ' -selected-row 0)
 case $chosen in
 *timer*) /home/user/.bin/timer ;;
 *calculator*) rofi -show calc -modi calc ;;
 *emoji*) /home/user/.bin/emoji ;;
 *killer*) /home/user/.bin/killer ;;
+*lid*)
+  if systemctl --user is-active -q lid-awake; then
+    systemctl --user stop lid-awake
+  else
+    systemctl --user start lid-awake
+  fi
+  ;;
 esac
