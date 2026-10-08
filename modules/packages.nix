@@ -69,6 +69,7 @@
     file
     curl
     git
+    zip
 
     # shells
     zsh
