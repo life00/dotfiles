@@ -18,7 +18,6 @@ return {
           },
         },
       },
-      inlay_hints = { enabled = true },
     },
   },
   --------------------------------------------------
@@ -27,13 +26,8 @@ return {
   {
     "mfussenegger/nvim-lint",
     opts = {
-      -- Event to trigger linters
-      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
-        shellcheck = { "sh" },
-      },
-      linters = {
-        shellcheck = {},
+        sh = { "shellcheck" },
       },
     },
   },

@@ -6,30 +6,16 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
+      -- additional to LazyVim's defaults
       ensure_installed = {
-        "bash",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "vim",
-        "yaml",
         "r",
         "latex",
         "bibtex",
         "go",
-        "c",
       },
       highlight = {
         enable = true, -- false will disable the whole extension
         -- disable = { "markdown", "latex" }, -- list of language that will be disabled
-        -- have treesitter enabled but allow vim-markdown to only overwrite
-        additional_vim_regex_highlighting = { "markdown", "latex" },
       },
     },
   },

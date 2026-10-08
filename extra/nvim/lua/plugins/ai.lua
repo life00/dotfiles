@@ -29,8 +29,6 @@ return {
       vim.g.opencode_opts = {
         server = {
           start = false,
-          stop = false,
-          toggle = false,
         },
       }
       vim.o.autoread = true
@@ -39,17 +37,13 @@ return {
       local cmd = require("opencode").command
       local op = require("opencode").operator
       local select = require("opencode").select
-      local toggle = require("opencode").toggle
 
       vim.keymap.set({ "n", "x" }, "<leader>aa", function()
-        ask("@this: ", { submit = true })
+        ask("@this: ")
       end, { desc = "Ask opencode" })
       vim.keymap.set({ "n", "x" }, "<leader>as", function()
         select()
       end, { desc = "Select opencode" })
-      vim.keymap.set({ "n", "t" }, "<leader>at", function()
-        toggle()
-      end, { desc = "Toggle opencode" })
       vim.keymap.set({ "n", "x" }, "<leader>ao", function()
         return op("@this ")
       end, { desc = "Add range to opencode", expr = true })
@@ -58,25 +52,25 @@ return {
       end, { desc = "Add line to opencode", expr = true })
 
       vim.keymap.set({ "n", "x" }, "<leader>ae", function()
-        ask("Explain @this and its context", { submit = true })
+        ask("Explain @this and its context")
       end, { desc = "Explain code" })
       vim.keymap.set({ "n", "x" }, "<leader>af", function()
-        ask("Fix @diagnostics", { submit = true })
+        ask("Fix @diagnostics")
       end, { desc = "Fix diagnostics" })
       vim.keymap.set({ "n", "x" }, "<leader>ad", function()
-        ask("Add comments documenting @this", { submit = true })
+        ask("Add comments documenting @this")
       end, { desc = "Document code" })
       vim.keymap.set({ "n", "x" }, "<leader>ar", function()
-        ask("Review @this for correctness and readability", { submit = true })
+        ask("Review @this for correctness and readability")
       end, { desc = "Review code" })
       vim.keymap.set({ "n", "x" }, "<leader>ai", function()
-        ask("Implement @this", { submit = true })
+        ask("Implement @this")
       end, { desc = "Implement code" })
       vim.keymap.set({ "n", "x" }, "<leader>az", function()
-        ask("Optimize @this for performance and readability", { submit = true })
+        ask("Optimize @this for performance and readability")
       end, { desc = "Optimize code" })
       vim.keymap.set({ "n", "x" }, "<leader>aT", function()
-        ask("Add tests for @this", { submit = true })
+        ask("Add tests for @this")
       end, { desc = "Test code" })
 
       vim.keymap.set("n", "<leader>a[", function()

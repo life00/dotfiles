@@ -11,7 +11,7 @@ return {
         tasks = {
           {
             name = "Make default target with entr",
-            cmd = "ls makefile && ls * | entr make",
+            cmd = "ls [Mm]akefile && ls * | entr make",
             tags = { "build", "make", "entr" },
           },
           {
@@ -26,7 +26,7 @@ return {
           },
           {
             name = "Go build",
-            cmd = "go build ./**.go",
+            cmd = "go build ./...",
             tags = { "go", "build" },
           },
           {

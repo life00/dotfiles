@@ -28,33 +28,10 @@ vim.keymap.set({ "n" }, "gx", function()
 end, { noremap = true, silent = true, desc = "Open file under cursor" })
 
 -- bufferline.nvim alt+num keymaps
-vim.keymap.set(
-  { "n", "v" },
-  "<A-1>",
-  "<Cmd>BufferLineGoToBuffer 1<CR>",
-  { noremap = true, silent = true, desc = "Go to buffer 1" }
-)
-vim.keymap.set(
-  { "n", "v" },
-  "<A-2>",
-  "<Cmd>BufferLineGoToBuffer 2<CR>",
-  { noremap = true, silent = true, desc = "Go to buffer 2" }
-)
-vim.keymap.set(
-  { "n", "v" },
-  "<A-3>",
-  "<Cmd>BufferLineGoToBuffer 3<CR>",
-  { noremap = true, silent = true, desc = "Go to buffer 3" }
-)
-vim.keymap.set(
-  { "n", "v" },
-  "<A-4>",
-  "<Cmd>BufferLineGoToBuffer 4<CR>",
-  { noremap = true, silent = true, desc = "Go to buffer 4" }
-)
-vim.keymap.set(
-  { "n", "v" },
-  "<A-5>",
-  "<Cmd>BufferLineGoToBuffer 5<CR>",
-  { noremap = true, silent = true, desc = "Go to buffer 5" }
-)
+for i = 1, 5 do
+  vim.keymap.set({ "n", "v" }, "<A-" .. i .. ">", "<Cmd>BufferLineGoToBuffer " .. i .. "<CR>", {
+    noremap = true,
+    silent = true,
+    desc = "Go to buffer " .. i,
+  })
+end

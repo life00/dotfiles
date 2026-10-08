@@ -25,17 +25,7 @@ return {
       vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
     end,
     keys = {
-      { "<localLeader>l", "", desc = "+vimtext" },
+      { "<localLeader>l", "", desc = "+vimtex" },
     },
   },
-  --------------------------------------------------
-  --                 latex.nvim
-  --------------------------------------------------
-  -- NOTE: provides LaTeX syntax concealment for markdown and LaTeX files
-  -- FIXME: https://github.com/robbielyman/latex.nvim/issues/15
-  -- {
-  --   "https://github.com/ryleelyman/latex.nvim",
-  --   ft = { "markdown", "rmd", "latex", "tex" },
-  --   opts = {},
-  -- },
 }

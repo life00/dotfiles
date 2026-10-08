@@ -10,15 +10,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- disable spellchecking in terminal buffers (alternative code)
--- vim.api.nvim_create_autocmd("TermOpen", {
---   pattern = { "*" },
---   callback = function()
---     vim.opt_local.spell = false
---   end,
--- })
-
--- -- autocmd to automatically create lists in markdown
+-- autocmd to automatically create lists in markdown
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
@@ -32,12 +24,5 @@ vim.api.nvim_create_autocmd("FileType", {
       "b:+",
       "b:1.", -- numbers
     }
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "Avante",
-  callback = function()
-    vim.opt_local.foldmethod = "manual"
   end,
 })

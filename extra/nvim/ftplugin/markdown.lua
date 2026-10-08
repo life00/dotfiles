@@ -1,4 +1,2 @@
--- set folding to 1 for markdown
+-- open the first fold level when entering markdown
 vim.opt.foldlevel = 1
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "MarkdownFold()" -- function provided probably by chrisgrieser/nvim-origami plugin

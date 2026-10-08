@@ -76,19 +76,6 @@ return {
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠛⠂⠒⠒⠐⠒⠒⠒⠒⠒⠒⠒⠒⠐⠓⠒⠓⠚⠓⠒⠐⠐⠒⠒⠓⠒⠲⠒⠓⠐⠛⠓⠒⠒⠀⠀⠀⠀⠀
 ]],
-          --     ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
-          --     ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z
-          --     ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z
-          --     ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z
-          --     ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║
-          --     ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝
-          -- ⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣶⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-          -- ⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣄⣀⡀⣠⣾⡇⠀⠀⠀⠀
-          -- ⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀
-          -- ⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⡇⠀⠀⠀⠀
-          -- ⣶⣿⣦⣜⣿⣿⣿⡟⠻⣿⣿⣿⣿⣿⣿⣿⡿⢿⡏⣴⣺⣦⣙⣿⣷⣄⠀⠀⠀
-          -- ⣯⡇⣻⣿⣿⣿⣿⣷⣾⣿⣬⣥⣭⣽⣿⣿⣧⣼⡇⣯⣇⣹⣿⣿⣿⣿⣧⠀⠀
-          -- ⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠸⣿⣿⣿⣿⣿⣿⣿⣷⠀
         },
         sections = {
           { section = "header" },
@@ -112,68 +99,29 @@ return {
 
       vim.o.laststatus = vim.g.lualine_laststatus
 
+      local theme = {}
+      for mode, fg in pairs({
+        normal = colors.blue,
+        insert = colors.green,
+        visual = colors.mauve,
+        command = colors.peach,
+        replace = colors.red,
+        terminal = colors.overlay2,
+        inactive = colors.overlay2,
+      }) do
+        theme[mode] = {
+          a = { fg = fg, bg = colors.crust },
+          b = { fg = colors.text, bg = colors.crust },
+          c = { fg = colors.text, bg = colors.mantle },
+          x = { fg = fg, bg = colors.mantle },
+          y = { fg = fg, bg = colors.crust },
+          z = { fg = fg, bg = colors.crust },
+        }
+      end
+
       return {
         options = {
-          theme = {
-            normal = {
-              -- a = { fg = colors.blue, bg = colors.crust, gui = "bold" },
-              a = { fg = colors.blue, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.blue, bg = colors.mantle },
-              y = { fg = colors.blue, bg = colors.crust },
-              z = { fg = colors.blue, bg = colors.crust },
-            },
-            insert = {
-              a = { fg = colors.green, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.green, bg = colors.mantle },
-              y = { fg = colors.green, bg = colors.crust },
-              z = { fg = colors.green, bg = colors.crust },
-            },
-            visual = {
-              a = { fg = colors.mauve, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.mauve, bg = colors.mantle },
-              y = { fg = colors.mauve, bg = colors.crust },
-              z = { fg = colors.mauve, bg = colors.crust },
-            },
-            command = {
-              a = { fg = colors.peach, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.peach, bg = colors.mantle },
-              y = { fg = colors.peach, bg = colors.crust },
-              z = { fg = colors.peach, bg = colors.crust },
-            },
-            replace = {
-              a = { fg = colors.red, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.red, bg = colors.mantle },
-              y = { fg = colors.red, bg = colors.crust },
-              z = { fg = colors.red, bg = colors.crust },
-            },
-            terminal = {
-              a = { fg = colors.overlay2, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.overlay2, bg = colors.mantle },
-              y = { fg = colors.overlay2, bg = colors.crust },
-              z = { fg = colors.overlay2, bg = colors.crust },
-            },
-            -- -- idk what this is
-            inactive = {
-              a = { fg = colors.overlay2, bg = colors.crust },
-              b = { fg = colors.text, bg = colors.crust },
-              c = { fg = colors.text, bg = colors.mantle },
-              x = { fg = colors.overlay2, bg = colors.mantle },
-              y = { fg = colors.overlay2, bg = colors.crust },
-              z = { fg = colors.overlay2, bg = colors.crust },
-            },
-          },
+          theme = theme,
           section_separators = { left = "", right = "" },
           component_separators = { left = "", right = "" },
           globalstatus = true,

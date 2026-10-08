@@ -8,7 +8,6 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     lazy = false,
-    ft = { "quarto" },
     keys = {
       {
         -- preview with automatic cleanup of artifacts
@@ -52,7 +51,6 @@ return {
   -- related discussion: <https://github.com/jmbuhr/otter.nvim/issues/154#issuecomment-2211434551>
   {
     "GCBallesteros/jupytext.nvim",
-    event = "BufReadCmd *.ipynb",
     lazy = false,
     opts = {
       custom_language_formatting = {
@@ -73,7 +71,6 @@ return {
   -- for running the code in jupyter environment
   {
     "benlubas/molten-nvim",
-    ft = { "quarto" },
     version = "^1.0.0",
     lazy = false,
     build = ":UpdateRemotePlugins",

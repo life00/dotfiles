@@ -66,7 +66,7 @@ return {
     lazy = true,
     event = "BufReadPost", -- later or on keypress would prevent saving folds
     opts = {
-      -- re-enables folds in windows that disable them (e.g. lazy.nvim float)
+      -- keep folds while searching (default temporarily opens them)
       pauseFoldsOnSearch = false,
     },
   },
@@ -77,9 +77,6 @@ return {
   -- its not possible to surround with multiple characters at the same time
   {
     "nvim-mini/mini.surround",
-    init = function()
-      vim.keymap.set({ "n", "v" }, "s", "<Nop>")
-    end,
     opts = {
       silent = true,
     },
@@ -94,7 +91,7 @@ return {
     },
     keys = function()
       -- Define the filetypes you want to exclude
-      local excluded_filetypes = { "neo-tree", "qf", "netrw", "TelescopePrompt" }
+      local excluded_filetypes = { "qf", "netrw", "TelescopePrompt" }
 
       return {
         {
