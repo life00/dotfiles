@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# estimates per-process battery drain from the awecron battery job samples
+# usage: battop [days] (default 7)
+
+days="${1:-7}"
+dir=/home/user/etc/data/battery
+
+if ! ls "$dir"/*.csv >/dev/null 2>&1; then
+  echo "battop: no samples yet ($dir)" >&2
+  exit 1
+fi
+
+cutoff=$(( $(date +%s) - days * 86400 ))
+
+awk -F, -v cutoff="$cutoff" -v days="$days" '
+  $1 == "P" {
+    ts = $2 + 0
+    if (ts >= cutoff) {
+      dt = ts - pts
+      # only integrate normal sample intervals; longer gaps are suspend
+      if (pts && pstatus == "Discharging" && dt <= 130) {
+        energy += pwr * dt
+        battime += dt
+      }
+      pts = ts
+      pwr = $4 < 0 ? -$4 : $4
+      pstatus = $3
+    }
+    next
+  }
+  $1 == "C" && ts >= cutoff && pstatus == "Discharging" { cpu[$3] += $4 }
+  END {
+    total = 0
+    for (c in cpu) total += cpu[c]
+    printf "battery usage, last %d days: %.2f Wh drained, %.1f h on battery\n", days, energy / 3.6e9, battime / 3600
+    if (total == 0) {
+      print "no process CPU sampled yet"
+      exit
+    }
+    printf "%-24s %8s %6s %10s\n", "COMMAND", "CPU", "SHARE", "EST.DRAIN"
+    PROCINFO["sorted_in"] = "@val_num_desc"
+    n = 0
+    for (c in cpu) {
+      if (++n > 20) break
+      share = cpu[c] / total
+      printf "%-24s %7.1fh %5.1f%% %7.0f mWh\n", c, cpu[c] / 3600, share * 100, share * energy / 3.6e6
+    }
+    print "shares are of CPU time while discharging; idle/screen drain is spread pro-rata"
+  }
+' "$dir"/*.csv

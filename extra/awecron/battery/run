@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# samples system power and per-process CPU time; report with `battop`
+# awecron runs jobs as root; re-exec as user so the samples stay user-owned
+[ "$(id -un)" = user ] || exec runuser -u user -- "$0" "$@"
+
+DIR=/home/user/etc/data/battery
+STATE=/home/user/etc/state/battery.prev
+BAT=/sys/class/power_supply/macsmc-battery
+
+mkdir -p "$DIR"
+ps -eo pid=,etimes=,comm=,times= > "$STATE.tmp"
+
+ts=$(date +%s)
+month=$(date +%Y-%m)
+printf 'P,%s,%s,%s,%s\n' "$ts" "$(<"$BAT/status")" "$(<"$BAT/power_now")" "$(<"$BAT/capacity")" >> "$DIR/$month.csv"
+
+if [ -f "$STATE" ]; then
+  # elapsed-time guard drops PID reuse; exited processes lose at most one interval
+  awk -v ts="$ts" -v OFS=, '
+    NR == FNR { et[$1] = $2; tm[$1] = $4; next }
+    ($1 in et) && $2 >= et[$1] && $4 > tm[$1] { cpu[$3] += $4 - tm[$1] }
+    END { for (c in cpu) print "C", ts, c, cpu[c] }
+  ' "$STATE" "$STATE.tmp" >> "$DIR/$month.csv"
+fi
+mv "$STATE.tmp" "$STATE"
