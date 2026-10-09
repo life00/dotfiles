@@ -81,6 +81,7 @@ return {
           end
         end,
         desc = "Quarto preview (auto-clean artifacts)",
+        ft = { "quarto" },
       },
     },
     opts = {
