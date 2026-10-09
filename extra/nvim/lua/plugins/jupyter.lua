@@ -1,3 +1,53 @@
+-- Schedule multi-cell molten runs with a small stagger
+local dispatch = { gen = 0, next_delay = 0 }
+
+local function cancel_dispatch()
+  dispatch.gen = dispatch.gen + 1
+end
+
+local function setup_paced_runner()
+  local runner = require("quarto.runner")
+  local molten = require("quarto.runner.molten")
+  if molten.paced then
+    return
+  end
+  molten.paced = true
+
+  local stagger_ms = 100
+  local send = molten.run
+  molten.run = function(cell, ignore_cols)
+    local gen, delay = dispatch.gen, dispatch.next_delay
+    local buf = vim.api.nvim_get_current_buf()
+    dispatch.next_delay = dispatch.next_delay + stagger_ms
+    vim.defer_fn(function()
+      if gen ~= dispatch.gen or vim.api.nvim_get_current_buf() ~= buf then
+        return
+      end
+      if not vim.api.nvim_buf_is_loaded(buf) then
+        return
+      end
+      local ok, err = pcall(send, cell, ignore_cols)
+      if not ok then
+        vim.notify("[quarto] " .. tostring(err), vim.log.levels.ERROR)
+      end
+    end, delay)
+  end
+
+  vim.api.nvim_create_autocmd("VimLeavePre", {
+    group = vim.api.nvim_create_augroup("MoltenPacedDispatch", { clear = true }),
+    callback = cancel_dispatch,
+  })
+
+  for _, name in ipairs({ "run_cell", "run_above", "run_below", "run_all", "run_range" }) do
+    local run = runner[name]
+    runner[name] = function(...)
+      dispatch.gen = dispatch.gen + 1
+      dispatch.next_delay = 0
+      return run(...)
+    end
+  end
+end
+
 return {
   -- quarto-nvim
   -- for preview, LSP & suggestions integration, and code running
@@ -43,6 +93,7 @@ return {
     config = function(_, opts)
       local quarto = require("quarto")
       quarto.setup(opts)
+      setup_paced_runner()
     end,
   },
   -- jupytext
@@ -122,7 +173,14 @@ return {
       },
       { "<leader>cjc", ":MoltenDelete<CR>", desc = "Clear active cell" },
       { "<leader>cjr", ":MoltenRestart<CR>", desc = "Restart Molten" },
-      { "<leader>cjC", ":MoltenInterrupt<CR>", desc = "Cancel execution" },
+      {
+        "<leader>cjC",
+        function()
+          cancel_dispatch()
+          vim.cmd("MoltenInterrupt")
+        end,
+        desc = "Cancel execution",
+      },
       { "<leader>cjj", ":MoltenNext<CR>", desc = "Go to next cell" },
       { "<leader>cjk", ":MoltenPrev<CR>", desc = "Go to prev cell" },
       { "<leader>cjo", ":noautocmd MoltenEnterOutput<CR>", desc = "Enter output" },
