@@ -61,6 +61,7 @@ let
     moments
     sandwich
     MCS
+    fastDummies
   ];
   rEnv = pkgs.rWrapper.override { packages = rPkgs; };
 
