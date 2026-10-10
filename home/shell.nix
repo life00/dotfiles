@@ -310,6 +310,10 @@
     JUPYTER_CONFIG_DIR = "${config.home.homeDirectory}/.cfg/jupyter";
     IPYTHONDIR = "${config.xdg.dataHome}/ipython";
 
+    # omp
+    PI_CONFIG_DIR = ".cfg/omp";
+    PI_CONFIG_FILES = "${config.home.homeDirectory}/.cfg/omp/nix.yml";
+
     # texlive
     TEXMFVAR = "/tmp/texlive/texmf-var";
 

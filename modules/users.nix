@@ -48,6 +48,7 @@ in
         ".cfg/claude"
         ".cfg/chromium"
         ".cfg/nvim"
+        ".cfg/omp"
         ".icons"
         ".ssh"
       ];
@@ -132,6 +133,10 @@ in
           "d ${home}/etc/data/npm 0755 user user -"
           "d ${home}/etc/data/jupyter 0755 user user -"
           "d ${home}/.cfg/ssh 0755 user user -"
+          "d ${home}/.cfg/omp 0700 user user -"
+          "d ${home}/etc/data/omp 0700 user user -"
+          "d ${home}/etc/state/omp 0700 user user -"
+          "d ${home}/etc/cache/omp 0700 user user -"
         ]
         (lib.mapAttrsToList (l: t: "L+ ${home}/${l} - - - - ${home}/${t}") compatLinks)
         (lib.mkIf config.homePermissions.enable (

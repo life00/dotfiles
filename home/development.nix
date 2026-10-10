@@ -187,6 +187,35 @@
     ];
   };
 
+  # FIXME: switch to a home-manager omp module once one exists
+  home.packages = [ pkgs.omp ];
+  xdg.configFile."omp/nix.yml".source = (pkgs.formats.yaml { }).generate "omp-config.yml" {
+    symbolPreset = "nerd";
+    composer.shape = "pi";
+    tui.vimMode = true;
+    theme = {
+      dark = "dark-catppuccin";
+      light = "light-catppuccin";
+    };
+    tools.approvalMode = "yolo";
+    dev.autoqaConsent = "denied";
+    modelPresets = {
+      anthropic.modelRoles = {
+        default = "anthropic/claude-opus-5-5";
+        smol = "anthropic/claude-sonnet-5-5";
+        slow = "anthropic/claude-opus-5-5:max";
+        web = "web/exa";
+      };
+      opencode-go.modelRoles = {
+        default = "opencode-go/deepseek-v4-flash:max";
+        smol = "opencode-go/deepseek-v4-flash";
+        slow = "opencode-go/deepseek-v4-pro:max";
+        vision = "opencode-go/deepseek-v4.1-flash";
+        web = "web/exa";
+      };
+    };
+  };
+
   programs.claude-code = {
     enable = true;
     configDir = "${config.home.homeDirectory}/.cfg/claude";
