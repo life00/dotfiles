@@ -313,6 +313,7 @@
     # omp
     PI_CONFIG_DIR = ".cfg/omp";
     PI_CONFIG_FILES = "${config.home.homeDirectory}/.cfg/omp/nix.yml";
+    PONYTAIL_HIDE_STATUS = "1";
 
     # texlive
     TEXMFVAR = "/tmp/texlive/texmf-var";

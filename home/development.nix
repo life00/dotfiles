@@ -190,6 +190,14 @@
   # FIXME: switch to a home-manager omp module once one exists
   home.packages = [ pkgs.omp ];
   xdg.configFile."omp/nix.yml".source = (pkgs.formats.yaml { }).generate "omp-config.yml" {
+    extensions = [
+      (pkgs.fetchFromGitHub {
+        owner = "DietrichGebert";
+        repo = "ponytail";
+        rev = "v5.1.0";
+        hash = "sha256-diYM3gqcEboVi7OQff/SvlE0TKAIPTJDIggX7rZWslY=";
+      })
+    ];
     symbolPreset = "nerd";
     composer.shape = "pi";
     tui.vimMode = true;
