@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   # doas instead of sudo
   security.doas = {
@@ -55,4 +55,7 @@
 
   # kernel hardening
   security.protectKernelImage = true;
+
+  # stock-OpenSSL default CA file; non-nixpkgs builds (uv/pyenv/standalone pythons) expect it
+  environment.etc."ssl/cert.pem".source = config.security.pki.caBundle;
 }
