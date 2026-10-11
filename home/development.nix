@@ -208,6 +208,12 @@
     tools.approvalMode = "yolo";
     dev.autoqaConsent = "denied";
     secrets.enabled = true;
+    retry.fallbackChains.web = [
+      "web/hosted"
+      "web/parallel"
+      "web/duckduckgo"
+      "web/public"
+    ];
     modelPresets = {
       anthropic.modelRoles = {
         default = "anthropic/claude-opus-5-5";
