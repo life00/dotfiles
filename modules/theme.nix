@@ -16,6 +16,8 @@
     catppuccin-cursors.macchiatoDark
   ];
 
+  fonts.fontDir.enable = true;
+
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {

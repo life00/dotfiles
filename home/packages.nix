@@ -4,6 +4,7 @@
 }:
 let
   usbguard-gui = pkgs.callPackage ../pkgs/usbguard-gui { };
+  artcraft = pkgs.callPackage ../pkgs/artcraft { };
 in
 {
   # all user packages
@@ -118,6 +119,13 @@ in
     thunar
     imv
     wlvncc
+
+    # artcraft
+    artcraft.photocraft
+    artcraft.pdfcraft
+    artcraft.wordcraft
+    artcraft.deckcraft
+    artcraft.gridcraft
 
     # ai
     aichat
