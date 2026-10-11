@@ -16,11 +16,6 @@ let
     ".jupyter" = "etc/data/jupyter";
     ".ssh" = ".cfg/ssh";
   };
-  # artcraft apps default to a light UI. "C" copies the seed only while the app
-  # has not written its settings yet, so a theme picked in the app sticks.
-  artcraftSeed =
-    name: relPath: settings:
-    "C ${home}/${relPath} 0644 user user - ${pkgs.writeText "artcraft-${name}" (builtins.toJSON settings)}";
   hmDirs =
     let
       targets = map (f: f.target) (
@@ -137,28 +132,6 @@ in
           "d ${home}/etc/data/icons 0755 user user -"
           "d ${home}/etc/data/npm 0755 user user -"
           "d ${home}/etc/data/jupyter 0755 user user -"
-          # fonts for the artcraft apps (they scan $XDG_DATA_HOME/fonts, not fontconfig)
-          "d ${home}/etc/data/fonts 0755 user user -"
-          "L+ ${home}/etc/data/fonts/system - - - - /run/current-system/sw/share/X11/fonts"
-          # artcraft apps write preferences into ~/.cfg (root-owned)
-          "d ${home}/.cfg/photocraft 0755 user user -"
-          "d ${home}/.cfg/pdfcraft 0755 user user -"
-          "d ${home}/.cfg/wordcraft 0755 user user -"
-          "d ${home}/.cfg/deckcraft 0755 user user -"
-          "d ${home}/.cfg/gridcraft 0755 user user -"
-          "d ${home}/etc/data/pdfcraft 0755 user user -"
-          (artcraftSeed "wordcraft-ui.json" ".cfg/wordcraft/ui.json" {
-            theme = "dark";
-          })
-          (artcraftSeed "deckcraft-ui.json" ".cfg/deckcraft/ui.json" {
-            brightness = "dark";
-          })
-          (artcraftSeed "gridcraft-ui.json" ".cfg/gridcraft/ui.json" {
-            dark = true;
-          })
-          (artcraftSeed "pdfcraft-app.ron" "etc/data/pdfcraft/app.ron" {
-            pdfcraft = builtins.toJSON { theme = "Dark"; };
-          })
           "d ${home}/.cfg/ssh 0755 user user -"
           "d ${home}/.cfg/omp 0700 user user -"
           "d ${home}/etc/data/omp 0700 user user -"
