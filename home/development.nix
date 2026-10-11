@@ -207,6 +207,7 @@
     };
     tools.approvalMode = "yolo";
     dev.autoqaConsent = "denied";
+    secrets.enabled = true;
     modelPresets = {
       anthropic.modelRoles = {
         default = "anthropic/claude-opus-5-5";
