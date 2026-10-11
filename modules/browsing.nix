@@ -18,7 +18,6 @@
       "BlockThirdPartyCookies" = true;
       "DownloadRestrictions" = 1; # block automatic downloads
       "MetricsReportingEnabled" = false;
-      "ozone-platform-hint" = "auto";
     };
 
     # locked settings
@@ -31,6 +30,8 @@
         "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
         "cmpdlhmnmjhihmcfnigoememnffkimlk" # Catppuccin Macchiato theme
       ];
+      "HighEfficiencyModeEnabled" = true;
+      "MemorySaverModeSavings" = 2;
     };
   };
 }

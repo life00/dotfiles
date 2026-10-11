@@ -42,6 +42,12 @@ in
     done
   '';
 
+  # chromium reads battery presence/level from upower over dbus
+  services.upower = {
+    enable = true;
+    criticalPowerAction = "PowerOff";
+  };
+
   services.pipewire = {
     enable = true;
   };
