@@ -231,6 +231,16 @@
     };
   };
 
+  xdg.configFile."omp/agent/mcp.json".source = (pkgs.formats.json { }).generate "omp-mcp.json" {
+    "$schema" =
+      "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json";
+    mcpServers.consensus = {
+      enabled = false;
+      type = "http";
+      url = "https://mcp.consensus.app/mcp";
+    };
+  };
+
   programs.claude-code = {
     enable = true;
     configDir = "${config.home.homeDirectory}/.cfg/claude";
