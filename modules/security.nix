@@ -33,6 +33,14 @@
     openFirewall = false;
   };
 
+  # passphrase prompt for non-tty callers
+  programs.ssh = {
+    enableAskPassword = true;
+    askPassword = "${pkgs.writeShellScript "ssh-askpass" ''
+      exec ${pkgs.rofi}/bin/rofi -dmenu -password -p "$1" </dev/null
+    ''}";
+  };
+
   # USB device authorization
   services.usbguard = {
     enable = true;

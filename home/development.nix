@@ -9,7 +9,7 @@
   programs.git = {
     enable = true;
     signing = {
-      key = "${config.home.homeDirectory}/etc/sec/ssh/key-r0.sec";
+      key = "${config.home.homeDirectory}/etc/sec/ssh/key-r0.pub";
       format = "ssh";
     };
     settings = {
@@ -53,6 +53,7 @@
     };
   };
   services.ssh-agent.enable = true;
+  systemd.user.services.ssh-agent.Unit.X-SwitchMethod = "keep-old";
 
   programs.neovim = {
     enable = true;
