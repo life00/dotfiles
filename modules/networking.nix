@@ -5,8 +5,8 @@
     enable = true;
     wifi.backend = "wpa_supplicant";
     wifi.powersave = false;
-    # mac randomization for wifi
-    wifi.macAddress = "stable-ssid";
+    # new random mac on every wifi activation
+    wifi.macAddress = "random";
   };
 
   networking.firewall = {
