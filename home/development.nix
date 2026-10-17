@@ -154,8 +154,8 @@
         web = "web/exa";
       };
       opencode-go.modelRoles = {
-        default = "opencode-go/deepseek-v4-flash:max";
-        smol = "opencode-go/deepseek-v4-flash";
+        default = "opencode-go/deepseek-v4.1-flash:max";
+        smol = "opencode-go/deepseek-v4.1-flash";
         slow = "opencode-go/deepseek-v4-pro:max";
         vision = "opencode-go/deepseek-v4.1-flash";
         web = "web/exa";
