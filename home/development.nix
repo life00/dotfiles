@@ -187,5 +187,13 @@
         hash = "sha256-8cYggVltBAlZ/Zj4pl1bOu7mQdZFXCmDGW4RSpvRA+w=";
       };
     };
+    lspServers.pyright = {
+      command = "pyright-langserver";
+      args = [ "--stdio" ];
+      extensionToLanguage = {
+        ".py" = "python";
+        ".pyi" = "python";
+      };
+    };
   };
 }
