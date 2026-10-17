@@ -247,10 +247,89 @@
       window-padding-x = 0;
       window-padding-y = 0;
       mouse-scroll-multiplier = "precision:0.3";
+      # tab bar: terminal background, flat, narrow; the CSS shrinks it to a ~20px strip
+      window-theme = "ghostty";
+      gtk-toolbar-style = "flat";
+      gtk-wide-tabs = false;
+      gtk-custom-css = "${pkgs.writeText "ghostty-tabs.css" ''
+        tabbar .box {
+          padding: 0;
+          box-shadow: none;
+        }
+        tabbar tabbox {
+          min-height: 0;
+          padding: 0;
+        }
+        tabbar tabbox > separator {
+          margin: 4px 0;
+        }
+        tabbar tab {
+          min-height: 0;
+          padding: 2px 8px;
+          border-radius: 0;
+          font-family: "JetBrainsMono NFM";
+          font-size: 12px;
+          color: #8087a2;
+        }
+        tabbar tab,
+        tabbar tab:hover,
+        tabbar tab:active,
+        tabbar tab:selected,
+        tabbar tab:selected:hover,
+        tabbar tab:selected:active {
+          background: none;
+        }
+        tabbar tab:hover {
+          color: #cad3f5;
+        }
+        tabbar tab:selected {
+          color: #cad3f5;
+          box-shadow: inset 0 -2px #7dc4e4;
+        }
+        tabbar tab button.image-button {
+          min-width: 16px;
+          min-height: 16px;
+          -gtk-icon-size: 12px;
+        }
+      ''}";
       keybind = [
         "shift+enter=csi:13;2u"
         "ctrl+enter=csi:13;5u"
-      ];
+        # ctrl+space prefix: unbound or no-op second keys are typed as usual, closes need d d / x x
+        "ctrl+space>t=new_tab"
+        "performable:ctrl+space>]=next_tab"
+        "performable:ctrl+space>[=previous_tab"
+        "performable:ctrl+space>9=last_tab"
+        "performable:ctrl+space>shift+h=move_tab:-1"
+        "performable:ctrl+space>shift+l=move_tab:1"
+        "ctrl+space>d>d=close_tab:this"
+        "ctrl+space>,=prompt_tab_title"
+        "ctrl+space>f=toggle_tab_overview"
+        "ctrl+space>-=new_split:down"
+        "ctrl+space>shift+\\=new_split:right"
+        "performable:ctrl+space>h=goto_split:left"
+        "performable:ctrl+space>j=goto_split:down"
+        "performable:ctrl+space>k=goto_split:up"
+        "performable:ctrl+space>l=goto_split:right"
+        "performable:ctrl+space>m=toggle_split_zoom"
+        "ctrl+space>x>x=close_surface"
+        "ctrl+space>r=activate_key_table:resize"
+        "resize/h=resize_split:left,20"
+        "resize/j=resize_split:down,20"
+        "resize/k=resize_split:up,20"
+        "resize/l=resize_split:right,20"
+        "resize/==equalize_splits"
+        "resize/escape=deactivate_key_table"
+        "resize/enter=deactivate_key_table"
+        "resize/unconsumed:catch_all=deactivate_key_table"
+      ]
+      ++ map (n: "performable:ctrl+space>${toString n}=goto_tab:${toString n}") (lib.range 1 8)
+      # alt+1..9 stay with nvim bufferline (<A-1..5>)
+      ++ [ "alt+9=unbind" ]
+      ++ lib.concatMap (n: [
+        "alt+${toString n}=unbind"
+        "alt+digit_${toString n}=unbind"
+      ]) (lib.range 1 8);
     };
   };
 
