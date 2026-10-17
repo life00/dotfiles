@@ -81,6 +81,7 @@
       texlab
       vscode-json-languageserver
       yaml-language-server
+      jdt-language-server
 
       # formatters
       bibtex-tidy
