@@ -15,6 +15,7 @@ let
     ".npm" = "etc/data/npm";
     ".jupyter" = "etc/data/jupyter";
     ".ssh" = ".cfg/ssh";
+    ".omp" = ".cfg/omp";
   };
   hmDirs =
     let

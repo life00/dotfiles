@@ -101,9 +101,6 @@
       delve
       python3Packages.debugpy
 
-      # acp adapters
-      claude-agent-acp
-
       # treesitter parser builds
       tree-sitter
     ];
