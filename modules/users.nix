@@ -16,6 +16,7 @@ let
     ".jupyter" = "etc/data/jupyter";
     ".ssh" = ".cfg/ssh";
     ".omp" = ".cfg/omp";
+    ".ollama" = "etc/data/ollama";
   };
   hmDirs =
     let
@@ -134,6 +135,7 @@ in
           "d ${home}/etc/data/icons 0755 user user -"
           "d ${home}/etc/data/npm 0755 user user -"
           "d ${home}/etc/data/jupyter 0755 user user -"
+          "d ${home}/etc/data/ollama 0700 user user -"
           "d ${home}/.cfg/ssh 0755 user user -"
           "d ${home}/.cfg/omp 0700 user user -"
           "d ${home}/etc/data/omp 0700 user user -"

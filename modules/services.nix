@@ -89,13 +89,30 @@ in
     guiAddress = "127.0.0.1:8384";
   };
 
-  # disabled by default
   services.ollama = {
-    enable = lib.mkForce false;
+    enable = true;
+    package = pkgs.ollama-vulkan;
     modelsDir = "/opt/user/ollama";
     user = "user";
     group = "user";
+    # duplicated in modules/users.nix; the module sets users.users.user.home from this
+    home = "/home/user";
+    environmentVariables = {
+      OLLAMA_IGPU_ENABLE = "1";
+      GGML_VK_VISIBLE_DEVICES = "0";
+    };
+    loadModels = [
+      "smollm2:135m"
+      "qwen3.5:4b"
+      "granite4:micro-h"
+      "qwen3.5:0.8b"
+      "granite4:350m"
+    ];
   };
+
+  users.users.user.isSystemUser = lib.mkForce false;
+  # module's ProtectHome=yes hides $HOME; read-only nests ReadWritePaths=/home/user
+  systemd.services.ollama.serviceConfig.ProtectHome = lib.mkForce "read-only";
 
   # virtualization
   virtualisation.docker = {
@@ -117,6 +134,7 @@ in
   # fix qemu hypervisor issue
   systemd.tmpfiles.rules = [
     "L+ /usr/bin/qemu-system-x86_64 - - - - ${pkgs.qemu_kvm}/bin/qemu-system-x86_64"
+    "d /opt/user/ollama 0700 user user -"
   ];
 
   # login manager

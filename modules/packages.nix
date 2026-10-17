@@ -55,7 +55,6 @@
     networkmanager
     opensnitch
     usbguard
-    ollama
     firewalld
 
     # admin utils
