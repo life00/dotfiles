@@ -144,6 +144,9 @@
       sonic = "@task";
       "security-reviewer" = "@task";
     };
+    worktree = {
+      onExit = "ask";
+    };
     modelPresets = {
       anthropic.modelRoles = {
         default = "anthropic/claude-opus-5-5:max";
