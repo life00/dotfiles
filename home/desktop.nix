@@ -12,21 +12,21 @@
   };
   programs.rofi = {
     enable = true;
-    terminal = "ghostty";
-    location = "center";
     plugins = [
       pkgs.rofi-calc
       pkgs.rofi-emoji
     ];
-    font = "JetBrainsMono Nerd Font 12";
-    modes = [
-      "run"
-      "drun"
-      "window"
-      "calc"
-      "emoji"
-    ];
-    extraConfig = {
+    settings = {
+      terminal = "ghostty";
+      location = 0; # center
+      font = "JetBrainsMono Nerd Font 12";
+      modes = [
+        "run"
+        "drun"
+        "window"
+        "calc"
+        "emoji"
+      ];
       icon-theme = "ePapirus-Dark";
       show-icons = true;
       drun-display-format = "{icon} {name}";

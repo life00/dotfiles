@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 let
@@ -47,7 +48,7 @@ in
     docker-compose
     cargo
     clang
-    (hiPrio gcc)
+    (lib.hiPrio gcc)
     go
     gnumake
     rustc
