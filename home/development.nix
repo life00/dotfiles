@@ -224,7 +224,7 @@
     };
     modelPresets = {
       anthropic.modelRoles = {
-        default = "anthropic/claude-fable-5-1";
+        default = "anthropic/claude-opus-5-5:max";
         task = "anthropic/claude-opus-5-5";
         smol = "anthropic/claude-sonnet-5-5";
         slow = "anthropic/claude-opus-5-5:max";
