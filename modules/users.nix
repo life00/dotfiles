@@ -47,6 +47,7 @@ in
         ".cfg/ssh"
         ".cfg/claude"
         ".cfg/chromium"
+        ".cfg/gh"
         ".cfg/nvim"
         ".cfg/omp"
         ".icons"
