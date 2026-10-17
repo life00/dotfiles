@@ -19,8 +19,7 @@ NixOS flake for two macbooks: `mb2020` and `mb2017`. System config is NixOS modu
 │   ├── nvim/        # LazyVim
 │   ├── lf/
 │   ├── bin/         # scripts symlinked to ~/.bin
-│   ├── awecron/     # croon jobs
-│   └── opencode/    # agent skills
+│   └── awecron/     # croon jobs
 └── wallpapers/
 ```
 
