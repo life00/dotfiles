@@ -85,8 +85,10 @@ in
         chngcntr
         csvsimple
         cyrillic
+        enumitem
         fbox
         floatrow
+        fontawesome5
         forest
         glossaries
         gobble
@@ -104,6 +106,7 @@ in
         tabularray
         tex-gyre
         texcount
+        titlesec
         todonotes
         xindy
       ]
