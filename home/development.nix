@@ -148,17 +148,10 @@
     };
     modelPresets = {
       anthropic.modelRoles = {
-        default = "anthropic/claude-opus-5-5:max";
+        default = "anthropic/claude-opus-5-5:high";
         task = "anthropic/claude-opus-5-5";
         smol = "anthropic/claude-sonnet-5-5";
         slow = "anthropic/claude-opus-5-5:max";
-        web = "web/exa";
-      };
-      opencode-go.modelRoles = {
-        default = "opencode-go/deepseek-v4.1-flash:max";
-        smol = "opencode-go/deepseek-v4.1-flash";
-        slow = "opencode-go/deepseek-v4-pro:max";
-        vision = "opencode-go/deepseek-v4.1-flash";
         web = "web/exa";
       };
     };
