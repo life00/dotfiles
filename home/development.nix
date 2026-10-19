@@ -126,7 +126,7 @@
     composer.shape = "pi";
     tui.vimMode = true;
     theme = {
-      dark = "dark-catppuccin";
+      dark = "dark-catppuccin-tuned";
       light = "light-catppuccin";
     };
     tools.approvalMode = "yolo";
