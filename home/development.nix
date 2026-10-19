@@ -138,11 +138,7 @@
       "web/duckduckgo"
       "web/public"
     ];
-    task.agentModelOverrides = {
-      scout = "@task";
-      sonic = "@task";
-      "security-reviewer" = "@task";
-    };
+    task.agentModelOverrides."security-reviewer" = "@task";
     worktree = {
       onExit = "ask";
     };
