@@ -44,6 +44,23 @@
           ../extra/imv/scale-race.patch
         ];
       });
+      # FIXME: remove once nixos-unstable has omp > 18.11.0
+      # upstream re-pushed tag v18.11.0 after nixpkgs hashed it; versions/hashes from nixpkgs master 7d60faee6ce4
+      omp = prev.omp.overrideAttrs (
+        f: _: {
+          version = "18.12.2";
+          src = final.fetchFromGitHub {
+            owner = "can1357";
+            repo = "oh-my-pi";
+            tag = "v${f.version}";
+            hash = "sha256-N0Tlzzlw4stc6s0ggFZKMHFhKKP8TQgOM51M3ATj3kc=";
+          };
+          cargoDeps = final.rustPlatform.fetchCargoVendor {
+            inherit (f) src;
+            hash = "sha256-b/SEsUm/8hiG2PEGJMgx3Q5XLlWGWQCuHg2y/MCzRvg=";
+          };
+        }
+      );
     })
   ];
 
