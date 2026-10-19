@@ -133,7 +133,6 @@
     dev.autoqaConsent = "denied";
     secrets.enabled = true;
     retry.fallbackChains.web = [
-      "web/hosted"
       "web/parallel"
       "web/duckduckgo"
       "web/public"
@@ -148,7 +147,7 @@
         task = "anthropic/claude-opus-5-5";
         smol = "anthropic/claude-sonnet-5-5";
         slow = "anthropic/claude-opus-5-5:max";
-        web = "web/exa";
+        web = "web/hosted";
       };
     };
   };
