@@ -109,6 +109,10 @@
 
   programs.bat = {
     enable = true;
+    config = {
+      paging = "never";
+      style = "plain";
+    };
   };
 
   # FIXME: switch to a home-manager omp module once one exists

@@ -39,6 +39,7 @@
       "...." = "cd ../../..";
       ai = "aichat";
       tree = "eza -T";
+      cat = "bat";
       delta = "delta --pager less";
       diff = "delta";
       lf = "zlf";
