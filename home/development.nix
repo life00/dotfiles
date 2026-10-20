@@ -136,6 +136,7 @@
     tools.approvalMode = "yolo";
     dev.autoqaConsent = "denied";
     secrets.enabled = true;
+    browser.relay = true;
     retry.fallbackChains.web = [
       "web/parallel"
       "web/duckduckgo"
