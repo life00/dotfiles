@@ -5,11 +5,7 @@
   ...
 }:
 {
-  programs.chromium = {
-    enable = true;
-    # localhost CDP port for chrome-devtools-mcp
-    commandLineArgs = [ "--remote-debugging-port=9222" ];
-  };
+  programs.chromium.enable = true;
   programs.rofi = {
     enable = true;
     plugins = [
