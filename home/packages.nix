@@ -27,6 +27,7 @@ in
     ufetch
     opus-tools
     pandoc
+    mermaid-cli
     plantuml
     ripgrep
     signify
