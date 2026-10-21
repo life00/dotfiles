@@ -125,6 +125,7 @@
         rev = "v5.1.0";
         hash = "sha256-diYM3gqcEboVi7OQff/SvlE0TKAIPTJDIggX7rZWslY=";
       })
+      ../extra/omp/leader-key.ts
     ];
     symbolPreset = "nerd";
     composer.shape = "pi";
