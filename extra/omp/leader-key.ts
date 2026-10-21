@@ -1,23 +1,21 @@
 import type { ExtensionAPI, ExtensionContext } from "@oh-my-pi/pi-coding-agent";
-import { extractPrintableText } from "@oh-my-pi/pi-tui";
+import { extractPrintableText, type ThemeColor } from "@oh-my-pi/pi-tui";
 import { CustomEditor } from "@oh-my-pi/pi-tui/prompt/custom-editor";
 
 // Vim Normal mode: <Space> then a key. Strings are slash commands, functions are editor hooks.
-const bindings: Record<string, { label: string; run: string | ((e: CustomEditor) => void) }> = {
-	n: { label: "new", run: "/new" },
-	r: { label: "resume", run: "/resume" },
-	t: { label: "tree", run: "/tree" },
-	f: { label: "fork", run: "/fork" },
-	c: { label: "compact", run: "/compact" },
-	p: { label: "plan", run: "/plan" },
-	s: { label: "settings", run: "/settings" },
-	m: { label: "model", run: e => e.onSelectModel?.() },
-	M: { label: "model (temp)", run: e => e.onSelectModelTemporary?.() },
-	e: { label: "effort", run: e => e.onCycleThinkingLevel?.() },
+// `color` is a theme color, so the hint follows the active theme; one color per group.
+const bindings: Record<string, { label: string; color: ThemeColor; run: string | ((e: CustomEditor) => void) }> = {
+	n: { label: "new", color: "syntaxFunction", run: "/new" },
+	r: { label: "resume", color: "syntaxFunction", run: "/resume" },
+	t: { label: "tree", color: "syntaxFunction", run: "/tree" },
+	f: { label: "fork", color: "syntaxFunction", run: "/fork" },
+	c: { label: "compact", color: "syntaxType", run: "/compact" },
+	p: { label: "plan", color: "syntaxKeyword", run: "/plan" },
+	s: { label: "settings", color: "syntaxKeyword", run: "/settings" },
+	m: { label: "model", color: "syntaxString", run: e => e.onSelectModel?.() },
+	M: { label: "model (temp)", color: "syntaxString", run: e => e.onSelectModelTemporary?.() },
+	e: { label: "effort", color: "syntaxString", run: e => e.onCycleThinkingLevel?.() },
 };
-const hint = `␣ ${Object.entries(bindings)
-	.map(([k, b]) => `${k} ${b.label}`)
-	.join(" · ")}`;
 
 let ctx: ExtensionContext | undefined;
 
@@ -39,7 +37,14 @@ class LeaderEditor extends CustomEditor {
 		}
 		if (this.vimMode === "normal" && this.vimPending === "" && extractPrintableText(data) === " ") {
 			this.#armed = true;
-			ctx?.ui.setStatus("leader", hint);
+			// Built per press, not cached: the theme can switch (dark/light) mid-session.
+			const t = ctx?.ui.theme;
+			if (t) {
+				const items = Object.entries(bindings).map(
+					([k, b]) => `${t.bold(t.fg(b.color, k))} ${t.fg("muted", b.label)}`,
+				);
+				ctx?.ui.setStatus("leader", `${t.bold(t.fg("accent", "␣ LEADER"))}  ${items.join(t.fg("dim", " · "))}`);
+			}
 			return;
 		}
 		super.handleInput(data);
