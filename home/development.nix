@@ -125,7 +125,7 @@
         rev = "v5.1.0";
         hash = "sha256-diYM3gqcEboVi7OQff/SvlE0TKAIPTJDIggX7rZWslY=";
       })
-      ../extra/omp/leader-key.ts
+      ../extra/omp
     ];
     symbolPreset = "nerd";
     composer.shape = "pi";
@@ -155,16 +155,6 @@
         slow = "anthropic/claude-opus-5-5:max";
         web = "web/hosted";
       };
-    };
-  };
-
-  xdg.configFile."omp/agent/mcp.json".source = (pkgs.formats.json { }).generate "omp-mcp.json" {
-    "$schema" =
-      "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json";
-    mcpServers.consensus = {
-      enabled = false;
-      type = "http";
-      url = "https://mcp.consensus.app/mcp";
     };
   };
 

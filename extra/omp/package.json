@@ -1,0 +1,7 @@
+{
+  "name": "omp-local",
+  "private": true,
+  "pi": {
+    "extensions": ["./leader-key.ts"]
+  }
+}
