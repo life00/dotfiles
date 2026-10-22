@@ -62,6 +62,18 @@ let
     sandwich
     MCS
     fastDummies
+    glmnet
+    rpart_plot
+    ranger
+    gbm
+    foreach
+    doParallel
+    grpreg
+    xgboost
+    igraph
+    margins
+    neuralnet
+    NeuralNetTools
   ];
   rEnv = pkgs.rWrapper.override { packages = rPkgs; };
 
