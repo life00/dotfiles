@@ -61,6 +61,7 @@ let
     moments
     sandwich
     MCS
+    corrplot
     fastDummies
     glmnet
     rpart_plot
