@@ -147,12 +147,14 @@
     worktree = {
       onExit = "ask";
     };
+    advisor.enabled = true;
     modelPresets = {
       anthropic.modelRoles = {
         default = "anthropic/claude-opus-5-5:high";
         task = "anthropic/claude-opus-5-5";
         smol = "anthropic/claude-sonnet-5-5";
         slow = "anthropic/claude-opus-5-5:max";
+        advisor = "anthropic/claude-sonnet-5-5:medium";
         web = "web/hosted";
       };
     };
