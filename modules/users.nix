@@ -138,6 +138,8 @@ in
           "d ${home}/etc/data/ollama 0700 user user -"
           "d ${home}/.cfg/ssh 0755 user user -"
           "d ${home}/.cfg/omp 0700 user user -"
+          "d ${home}/.cfg/rstudio 0700 user user -"
+          "d ${home}/.cfg/RStudio 0700 user user -"
           "d ${home}/etc/data/omp 0700 user user -"
           "d ${home}/etc/state/omp 0700 user user -"
           "d ${home}/etc/cache/omp 0700 user user -"

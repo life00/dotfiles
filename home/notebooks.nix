@@ -78,12 +78,23 @@ let
   rEnv = pkgs.rWrapper.override { packages = rPkgs; };
 
   quartoEnv = pkgs.callPackage ../pkgs/quarto { extraRPackages = rPkgs; };
+
+  # rstudio's bundled quarto pairs with nixpkgs pandoc (see pkgs/quarto); its wrapper only --set-default's QUARTO_PANDOC
+  rstudioEnv = pkgs.symlinkJoin {
+    name = "rstudio";
+    paths = [ (pkgs.rstudioWrapper.override { packages = rPkgs; }) ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/rstudio --set QUARTO_PANDOC ${quartoEnv}/bin/tools/pandoc
+    '';
+  };
 in
 {
   home.packages = [
     pythonEnv
     quartoEnv
     rEnv
+    rstudioEnv
   ];
 
   # kernels for every jupyter client
