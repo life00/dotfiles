@@ -80,13 +80,29 @@ let
 
   quartoEnv = pkgs.callPackage ../pkgs/quarto { extraRPackages = rPkgs; };
 
+  # system config layer (user prefs still override): catppuccin theme as default editor_theme
+  rstudioConfig = pkgs.linkFarm "rstudio-config" {
+    "themes/catppuccin-macchiato.rstheme" = "${
+      pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "rstudio";
+        rev = "10aa3a6cd2119b4509a79bf87596d3c0ff67d9e8";
+        hash = "sha256-BC37y6HEXEMyLFQzStq/jBVDWj6M2xScaAeKitz9BUk=";
+      }
+    }/catppuccin-macchiato.rstheme";
+    "rstudio-prefs.json" = pkgs.writeText "rstudio-prefs.json" (
+      builtins.toJSON { editor_theme = "catppuccin-macchiato"; }
+    );
+  };
+
   # rstudio's bundled quarto pairs with nixpkgs pandoc (see pkgs/quarto); its wrapper only --set-default's QUARTO_PANDOC
   rstudioEnv = pkgs.symlinkJoin {
     name = "rstudio";
     paths = [ (pkgs.rstudioWrapper.override { packages = rPkgs; }) ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/rstudio --set QUARTO_PANDOC ${quartoEnv}/bin/tools/pandoc
+      wrapProgram $out/bin/rstudio --set QUARTO_PANDOC ${quartoEnv}/bin/tools/pandoc \
+        --set RSTUDIO_CONFIG_DIR ${rstudioConfig}
     '';
   };
 in
