@@ -61,6 +61,9 @@
           };
         }
       );
+      # FIXME: remove once nixos-unstable has https://github.com/NixOS/nixpkgs/pull/576662 (same fix)
+      # sphinxBuilders under __structuredAttrs only builds the first item, so the man output is missing
+      khal = prev.khal.overrideAttrs { sphinxBuilders = [ "html man" ]; };
     })
   ];
 
