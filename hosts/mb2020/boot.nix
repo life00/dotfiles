@@ -136,7 +136,7 @@ in
     # hardening parameters
     kernelParams = [
       "init_on_free=1"
-      "panic_on_oops=1"
+      "oops=panic"
       "randomize_kstack_offset=1"
     ];
     kernel.sysctl."kernel.yama.ptrace_scope" = 1;
