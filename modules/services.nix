@@ -156,6 +156,14 @@ in
         clock = "%a %d %b  %H:%M";
         hide_version_string = true;
         session_log = "etc/state/ly-session.log";
+        # xsession-wrapper pipes stdout/stderr into the journal
+        # ly's shell session needs them on the tty
+        setup_cmd = toString (
+          pkgs.writeShellScript "ly-setup" ''
+            [ "$XDG_SESSION_TYPE" = tty ] && export _DID_SYSTEMD_CAT=1
+            exec ${config.services.displayManager.sessionData.wrapper} "$@"
+          ''
+        );
       };
     };
   };
