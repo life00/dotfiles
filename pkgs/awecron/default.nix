@@ -6,7 +6,7 @@ buildGoModule {
 
   src = /home/user/dev/sysadmin/awecron;
 
-  vendorHash = "sha256-/EGXT9nQjvVi9/8OIKb+GZszRQx8qANznTWlqK9RX2w=";
+  vendorHash = null;
   subPackages = [ "." ];
 
   meta = with lib; {
