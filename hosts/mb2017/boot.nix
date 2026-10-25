@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   boot.loader = {
     efi = {
@@ -25,6 +25,11 @@
   };
 
   boot.supportedFilesystems = [ "btrfs" ];
+
+  # in-tree cs8409 only knows Dell boards; speakers/headphones need the Apple fork
+  boot.extraModulePackages = [
+    (config.boot.kernelPackages.callPackage ../../pkgs/snd-hda-macbookpro { })
+  ];
 
   # hardening parameters
   boot.kernelParams = [
