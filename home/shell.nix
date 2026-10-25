@@ -41,6 +41,7 @@
       tree = "eza -T";
       cat = "bat";
       delta = "delta --pager less";
+      neofetch = "fastfetch -c neofetch";
       diff = "delta";
       lf = "zlf";
       R = "R --quiet --no-save";
