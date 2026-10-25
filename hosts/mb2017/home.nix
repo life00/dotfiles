@@ -146,5 +146,6 @@ in
     slurp
     wl-clipboard
     wtype
+    wooz
   ];
 }

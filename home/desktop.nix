@@ -304,6 +304,9 @@
           "exec swaymsg input \"*\" xkb_switch_layout next && notify-send -i preferences-desktop-keyboard \"keyboard layout changed\"";
         "f10" = "exec /home/user/.bin/powermenu";
         "f11" = "exec /home/user/.bin/tools";
+        # magnifier; scroll bindings fire per axis event, flock keeps it to one instance
+        "--whole-window Mod4+button4" =
+          "exec flock -n $XDG_RUNTIME_DIR/wooz.lock wooz --mouse-track --invert-scroll";
       };
 
       startup = [

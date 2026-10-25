@@ -147,6 +147,7 @@ in
     slurp
     wl-clipboard
     wtype
+    wooz
 
     # comment out due to conflicts with program.{delta,neovim}
     # delta
