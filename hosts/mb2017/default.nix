@@ -18,6 +18,8 @@
   networking.hostName = "mb2017";
 
   services.ollama.enable = lib.mkForce false;
+  # omp is referenced only by home/development.nix; mkAfter beats the modules/packages.nix override
+  nixpkgs.overlays = lib.mkAfter [ (final: _: { omp = final.emptyDirectory; }) ];
   # theme.txt forces Unifont 16, which would override boot.nix's large font
   catppuccin.grub.enable = false;
 

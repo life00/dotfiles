@@ -20,6 +20,51 @@ in
   ];
 
   programs.claude-code.enable = lib.mkForce false;
+  # omp itself is stubbed by an overlay in default.nix
+  xdg.configFile."omp/nix.yml".enable = lib.mkForce false;
+
+  # opencode config
+  programs.opencode = {
+    enable = true;
+    settings = {
+      formatter = true;
+      plugins = [
+        "ponytail@git+https://github.com/DietrichGebert/ponytail.git#v4.13.0"
+      ];
+    };
+    cli = {
+      theme = {
+        name = "catppuccin-macchiato";
+        mode = "dark";
+      };
+      keybinds = {
+        leader = "space";
+        "agent.cycle" = "tab";
+        "session.tab.next" = "ctrl+tab,alt+down,shift+l";
+        "session.tab.previous" = "ctrl+shift+tab,alt+up,shift+h";
+        "session.child.first" = "ctrl+shift+down";
+        "session.child.next" = "ctrl+shift+right";
+        "session.child.previous" = "ctrl+shift+left";
+        "session.parent" = "ctrl+shift+up";
+      };
+      leader.timeout = 5000;
+      tabs = {
+        mode = "on";
+        indicators = "status";
+      };
+      plugins = [
+        {
+          package = "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.19.2";
+          options.experimentalV2Leader = "space";
+        }
+      ];
+    };
+  };
+  # opencode rewrites cli.json from the TUI, which replaces the HM symlink
+  xdg.configFile."opencode/cli.json".force = true;
+  # its port writes the v1 tui.json theme; the theme is set in cli above
+  catppuccin.opencode.enable = false;
+  programs.zsh.shellAliases.oc = "opencode";
 
   # treesitter parser builds (cc, node for grammar.js) and markdown-preview's `yarn install`;
   # on mb2020 these come from home/packages.nix
