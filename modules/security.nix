@@ -4,23 +4,6 @@
   security.doas = {
     enable = true;
     wheelNeedsPassword = true;
-    # passwordless nix commands (temporary)
-    extraRules = [
-      {
-        users = [ "user" ];
-        cmd = "nix";
-        args = [
-          "store"
-          "gc"
-        ];
-        noPass = true;
-      }
-      {
-        users = [ "user" ];
-        cmd = "nixos-rebuild";
-        noPass = true;
-      }
-    ];
   };
   security.sudo.enable = false;
 
