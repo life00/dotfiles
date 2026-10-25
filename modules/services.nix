@@ -50,6 +50,8 @@ in
 
   services.pipewire = {
     enable = true;
+    # x11-bell segfaults pipewire whenever sway's lazy Xwayland exits
+    extraConfig.pipewire."10-no-x11-bell"."context.properties"."module.x11.bell" = false;
   };
 
   # wireplumber hangs at shutdown
