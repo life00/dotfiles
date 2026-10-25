@@ -6,7 +6,7 @@ NixOS flake for two laptops. `flake.nix` defines `nixosConfigurations.{mb2017,mb
 
 ## Commands
 
-- Rebuild: `doas nixos-rebuild switch --impure --flake .#mb2020`. `--impure` is mandatory: `pkgs/awecron/default.nix` has `src = /home/user/dev/sysadmin/awecron` (absolute local path). `nix flake check` fails in pure mode for the same reason.
+- Rebuild: `doas nixos-rebuild switch --impure --flake .#mb2020`. `--impure` is mandatory: nixos-apple-silicon's `peripheralFirmwareDirectory` default probes `/boot/vendorfw` (absolute path), and pure eval fails its assertion. `nix flake check` fails in pure mode for the same reason. `pkgs/awecron` is `fetchFromGitHub` (`life00/awecron`; bump `rev` + `hash` + `vendorHash` by hand).
 - General update: waybar updater click, or `nix flake update nixpkgs home-manager catppuccin disko` + rebuild. Never plain `nix flake update`: it moves the kernel inputs too.
 - Kernel update: `nix flake update apple-silicon` + rebuild. The only thing that should bump the kernel, and it always costs a full local compile.
 - Eval only: `nix eval --impure --raw .#nixosConfigurations.mb2020.config.system.build.toplevel.drvPath`.

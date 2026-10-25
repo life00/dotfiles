@@ -31,7 +31,7 @@ NixOS flake for two macbooks: `mb2020` and `mb2017`. System config is NixOS modu
 doas nixos-rebuild switch --impure --flake .#mb2020
 ```
 
-`--impure` is required: `pkgs/awecron` builds from the local path `/home/user/dev/sysadmin/awecron`, which must exist.
+`--impure` is required: nixos-apple-silicon reads the peripheral firmware from `/boot/vendorfw`.
 
 ### Update
 
