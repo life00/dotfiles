@@ -12,24 +12,25 @@ let
     overlays = [ inputs.apple-silicon.overlays.default ];
   };
 
-  # fairydust branch (asahi-7.1.13-1 + dp-altmode hacks), t8103 subset only.
+  # fairydust branch (asahi-7.2.12-2 + dp-altmode hacks), t8103 subset only.
+  # Repin on every apple-silicon kernel bump: its DTS hacks must match the new DT bindings.
   # DP out on the front-left USB-C port. Drop when dcpext lands in the asahi branch.
   fairydust = [
     {
-      sha = "296c91ac1fa51a21117524561cd77eaf0c7fe62a";
-      hash = "sha256-2kobKo0SE1BjA4gfp2hUvhjc6CD7TbehH88wsv3or4U=";
+      sha = "f9296f91367f40850027e233e2c9dd40addc6aed";
+      hash = "sha256-lXSwHE69PtHDVpbsQatUnhOc3qdnGrt4RZLwSz/ujfU=";
     }
     {
-      sha = "9c16792154f8454ccbc6a28309d57d531ced015a";
-      hash = "sha256-2kkcb6w51iCLI/eTPDL8tujp9RIYHKmjHcF2qa4/wgc=";
+      sha = "994d32fe34b8494644356c6fde51938d0419093d";
+      hash = "sha256-eSzppQSjsc+rzFUP8gzAAngXb6poRBKXvoGV1fgWCfk=";
     }
     {
-      sha = "7eb5629306578387dbee2add2ee4ec00239f723d";
-      hash = "sha256-th2tPXOe3ndboLAzQUzbuEEnVhwkMxXFYIAdMZHroko=";
+      sha = "c3f7878dbfc98e846543896acb030dba00b1e85d";
+      hash = "sha256-HmTSwPu8D4eKCCG3lh8E2OxRBSLbC52/XmIcZV+QIRY=";
     }
     {
-      sha = "7003fe04cb40b6e16ca44726857fac2cba99ec43";
-      hash = "sha256-VxjLs0rP/MccTz24l9F2qbann3wEv8H0vWNa7f7U5lw=";
+      sha = "8173cf5cbee66e37126a823e84d91ab29cab3672";
+      hash = "sha256-GhHKVmAt5OEQIe0hWIcoCa0EVRP5Pa3FKac374a9Gms=";
     }
   ];
 in
