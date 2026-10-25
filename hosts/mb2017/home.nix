@@ -76,7 +76,8 @@ in
 
   # Intel ACPI names instead of Apple Silicon's macsmc-battery / kbd_backlight
   programs.waybar.settings.mainBar.battery.bat = lib.mkForce "BAT0";
-  wayland.windowManager.sway.config.keybindings = {
+  # same priority as home/desktop.nix's mkOptionDefault, else these two replace every binding
+  wayland.windowManager.sway.config.keybindings = lib.mkOptionDefault {
     "--locked Shift+XF86MonBrightnessDown" = lib.mkForce (kbd "-");
     "--locked Shift+XF86MonBrightnessUp" = lib.mkForce (kbd "+");
   };
