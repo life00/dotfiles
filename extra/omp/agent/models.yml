@@ -1,0 +1,9 @@
+providers:
+  opencode-go:
+    modelOverrides:
+      gemini-4-argon:
+        api: google-generative-ai
+        thinking:
+          mode: google-level
+          efforts: [low, medium, high]
+          requiresEffort: true

@@ -16,6 +16,9 @@
   # custom binaries
   home.file.".cfg/bin".source = ../extra/bin;
 
+  # FIXME: remove once https://github.com/can1357/oh-my-pi/pull/17036 is merged
+  home.file.".cfg/omp/agent/models.yml".source = ../extra/omp/agent/models.yml;
+
   # ssh
   home.file."${config.xdg.configHome}/ssh/allowed_signers".text = ''
     # me

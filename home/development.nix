@@ -149,13 +149,13 @@
     };
     advisor.enabled = true;
     modelPresets = {
-      anthropic.modelRoles = {
-        default = "anthropic/claude-opus-5-5:high";
-        task = "anthropic/claude-opus-5-5";
-        smol = "anthropic/claude-sonnet-5-5";
-        slow = "anthropic/claude-opus-5-5:max";
-        advisor = "anthropic/claude-sonnet-5-5:medium";
-        web = "web/hosted";
+      opencode-go.modelRoles = {
+        default = "opencode-go/deepseek-v4.1-flash:max";
+        task = "opencode-go/deepseek-v4.1-flash:max";
+        smol = "opencode-go/deepseek-v4.1-flash:max";
+        slow = "opencode-go/gemini-4-argon:xhigh";
+        advisor = "opencode-go/deepseek-v4.1-flash:max";
+        web = "web/exa";
       };
     };
   };
