@@ -1,7 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   # theme
   catppuccin = {
+    # use nixpkgs' cached whiskers instead of catppuccin/nix's uncached rust build
+    sources = inputs.catppuccin.packages.${pkgs.stdenv.hostPlatform.system}.overrideScope (
+      _final: _prev: { whiskers = pkgs.catppuccin-whiskers; }
+    );
     enable = true;
     autoEnable = true;
     flavor = "macchiato";
