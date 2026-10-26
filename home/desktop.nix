@@ -137,6 +137,12 @@
               app_id = "brave-browser";
             };
           }
+          {
+            command = "inhibit_idle fullscreen";
+            criteria = {
+              app_id = "chromium-browser";
+            };
+          }
         ];
       };
 
