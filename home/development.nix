@@ -167,8 +167,9 @@
       editorMode = "vim";
       model = "claude-opus-5-5";
       modelSettings.claude-opus-5-5.effortLevel = "high";
-      theme = "dark-ansi";
+      theme = "custom:catppuccin-macchiato";
       autoContinueAtUsageLimit = false;
+      tui = "fullscreen";
     };
     plugins = {
       ponytail = pkgs.fetchFromGitHub {
@@ -187,4 +188,85 @@
       };
     };
   };
+
+  home.file."${config.programs.claude-code.configDir}/themes/catppuccin-macchiato.json".text =
+    builtins.toJSON
+      {
+        name = "Catppuccin Macchiato";
+        base = "dark";
+        overrides = {
+          claude = "#f5a97f";
+          claudeShimmer = "#e2bcb4";
+          claudeBlue_FOR_SYSTEM_SPINNER = "#8aadf4";
+          claudeBlueShimmer_FOR_SYSTEM_SPINNER = "#a7bef4";
+          clawd_body = "#f5a97f";
+          clawd_background = "#24273a";
+          text = "#cad3f5";
+          inverseText = "#24273a";
+          inactive = "#8087a2";
+          inactiveShimmer = "#939ab7";
+          subtle = "#5b6078";
+          suggestion = "#b7bdf8";
+          permission = "#8aadf4";
+          permissionShimmer = "#a7bef4";
+          remember = "#c6a0f6";
+          skill = "#c6a0f6";
+          background = "#8bd5ca";
+          professionalBlue = "#7dc4e4";
+          chromeYellow = "#eed49f";
+          success = "#a6da95";
+          error = "#ed8796";
+          warning = "#eed49f";
+          warningShimmer = "#ded4c6";
+          merged = "#c6a0f6";
+          promptBorder = "#5b6078";
+          promptBorderShimmer = "#8087a2";
+          planMode = "#8bd5ca";
+          autoAccept = "#c6a0f6";
+          autoAcceptShimmer = "#c8b7f6";
+          bashBorder = "#f5bde6";
+          ide = "#7dc4e4";
+          fastMode = "#ee99a0";
+          fastModeShimmer = "#deb3c6";
+          effortUltra = "#c6a0f6";
+          diffAdded = "#445451";
+          diffRemoved = "#563f51";
+          diffAddedDimmed = "#343c45";
+          diffRemovedDimmed = "#3c3345";
+          diffAddedWord = "#5e7863";
+          diffRemovedWord = "#7e5263";
+          userMessageBackground = "#363a4f";
+          userMessageBackgroundHover = "#494d64";
+          bashMessageBackgroundColor = "#4d4a61";
+          memoryBackgroundColor = "#474663";
+          selectionBg = "#5b6078";
+          composerSidebarBackground = "#1e2030";
+          rate_limit_fill = "#b7bdf8";
+          rate_limit_empty = "#494d64";
+          briefLabelYou = "#8aadf4";
+          briefLabelClaude = "#f5a97f";
+          red_FOR_SUBAGENTS_ONLY = "#ed8796";
+          blue_FOR_SUBAGENTS_ONLY = "#8aadf4";
+          green_FOR_SUBAGENTS_ONLY = "#a6da95";
+          yellow_FOR_SUBAGENTS_ONLY = "#eed49f";
+          purple_FOR_SUBAGENTS_ONLY = "#c6a0f6";
+          orange_FOR_SUBAGENTS_ONLY = "#f5a97f";
+          pink_FOR_SUBAGENTS_ONLY = "#f5bde6";
+          cyan_FOR_SUBAGENTS_ONLY = "#91d7e3";
+          rainbow_red = "#ed8796";
+          rainbow_orange = "#f5a97f";
+          rainbow_yellow = "#eed49f";
+          rainbow_green = "#a6da95";
+          rainbow_blue = "#8aadf4";
+          rainbow_indigo = "#b7bdf8";
+          rainbow_violet = "#c6a0f6";
+          rainbow_red_shimmer = "#dda9c1";
+          rainbow_orange_shimmer = "#e2bcb4";
+          rainbow_yellow_shimmer = "#ded4c6";
+          rainbow_green_shimmer = "#b6d7c0";
+          rainbow_blue_shimmer = "#a7bef4";
+          rainbow_indigo_shimmer = "#c0c7f7";
+          rainbow_violet_shimmer = "#c8b7f6";
+        };
+      };
 }
