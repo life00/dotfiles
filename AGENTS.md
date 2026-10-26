@@ -15,7 +15,7 @@ NixOS flake for two laptops: `mb2020` (aarch64 Apple Silicon, active host, `appl
 
 - `modules/`: system modules. `home/`: HM modules. `hosts/<name>/`: boot, hardware, host-only overrides.
 - `pkgs/`: `awecron`, `usbguard-gui`, `mindustry`, `quarto`, `ort-webgpu`, `snd-hda-macbookpro`.
-- `extra/`: `nvim` (LazyVim), `lf`, `bin`, `awecron` jobs, `omp` (local omp package), `swayfx`/`imv` patches used by overlays in `modules/packages.nix`.
+- `extra/`: `nvim` (LazyVim), `lf`, `bin`, `awecron` jobs, `omp` (local omp package), `claude` (Claude Code mods, linked whole into `~/.cfg/claude/skills/` via `home.file` in `home/development.nix`: `programs.claude-code.plugins` symlinks `hooks/` out of the plugin dir, so Claude Code refuses their hooks), `swayfx`/`imv` patches used by overlays in `modules/packages.nix`.
 
 ## Development Commands
 

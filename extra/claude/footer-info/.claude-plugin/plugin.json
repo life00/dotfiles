@@ -1,0 +1,6 @@
+{
+  "name": "footer-info",
+  "version": "0.1.0",
+  "description": "Shows dir, git branch, model and context usage at the right of the prompt footer",
+  "types": "./types/index.d.ts"
+}

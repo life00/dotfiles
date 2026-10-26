@@ -189,6 +189,10 @@
     };
   };
 
+  # programs.claude-code.plugins symlinks hooks/ out of the plugin dir, which Claude Code refuses
+  home.file."${config.programs.claude-code.configDir}/skills/footer-info".source =
+    ../extra/claude/footer-info;
+
   home.file."${config.programs.claude-code.configDir}/themes/catppuccin-macchiato.json".text =
     builtins.toJSON
       {
@@ -203,14 +207,14 @@
           clawd_background = "#24273a";
           text = "#cad3f5";
           inverseText = "#24273a";
-          inactive = "#8087a2";
-          inactiveShimmer = "#939ab7";
-          subtle = "#5b6078";
+          inactive = "#a5adcb";
+          inactiveShimmer = "#b8c0e0";
+          subtle = "#6e738d";
           suggestion = "#b7bdf8";
           permission = "#8aadf4";
           permissionShimmer = "#a7bef4";
           remember = "#c6a0f6";
-          skill = "#c6a0f6";
+          skill = "#91d7e3";
           background = "#8bd5ca";
           professionalBlue = "#7dc4e4";
           chromeYellow = "#eed49f";
@@ -219,8 +223,8 @@
           warning = "#eed49f";
           warningShimmer = "#ded4c6";
           merged = "#c6a0f6";
-          promptBorder = "#5b6078";
-          promptBorderShimmer = "#8087a2";
+          promptBorder = "#b7bdf8";
+          promptBorderShimmer = "#c6a0f6";
           planMode = "#8bd5ca";
           autoAccept = "#c6a0f6";
           autoAcceptShimmer = "#c8b7f6";
@@ -235,11 +239,11 @@
           diffRemovedDimmed = "#3c3345";
           diffAddedWord = "#5e7863";
           diffRemovedWord = "#7e5263";
-          userMessageBackground = "#363a4f";
-          userMessageBackgroundHover = "#494d64";
-          bashMessageBackgroundColor = "#4d4a61";
-          memoryBackgroundColor = "#474663";
-          selectionBg = "#5b6078";
+          userMessageBackground = "#333b59";
+          userMessageBackgroundHover = "#3e486e";
+          bashMessageBackgroundColor = "#433e54";
+          memoryBackgroundColor = "#3c3956";
+          selectionBg = "#505473";
           composerSidebarBackground = "#1e2030";
           rate_limit_fill = "#b7bdf8";
           rate_limit_empty = "#494d64";
