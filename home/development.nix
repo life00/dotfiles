@@ -165,8 +165,8 @@
     configDir = "${config.home.homeDirectory}/.cfg/claude";
     settings = {
       editorMode = "vim";
-      model = "opus";
-      modelSettings.claude-opus-5.effortLevel = "high";
+      model = "claude-opus-5-5";
+      modelSettings.claude-opus-5-5.effortLevel = "high";
       theme = "dark-ansi";
       autoContinueAtUsageLimit = false;
     };
