@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -180,7 +181,7 @@
       };
     };
     lspServers.pyright = {
-      command = "pyright-langserver";
+      command = lib.getExe' pkgs.pyright "pyright-langserver";
       args = [ "--stdio" ];
       extensionToLanguage = {
         ".py" = "python";
