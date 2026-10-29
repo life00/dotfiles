@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   # doas instead of sudo
   security.doas = {
@@ -44,6 +49,31 @@
       DefaultAction = "deny";
       InterceptUnknown = true;
     };
+    # store paths change on every update, so pin them here instead of in the UI
+    rules =
+      let
+        systemd = "${config.systemd.package}/lib/systemd";
+      in
+      lib.mapAttrs
+        (name: path: {
+          inherit name;
+          enabled = true;
+          action = "allow";
+          duration = "always";
+          operator = {
+            type = "simple";
+            sensitive = false;
+            operand = "process.path";
+            data = path;
+          };
+        })
+        {
+          chronyd = "${config.services.chrony.package}/bin/chronyd";
+          systemd-resolved = "${systemd}/systemd-resolved";
+          systemd-executor = "${systemd}/systemd-executor";
+          nsncd = "${pkgs.nsncd}/bin/nsncd";
+          networkmanager = "${config.networking.networkmanager.package}/bin/NetworkManager";
+        };
   };
 
   # kernel hardening
