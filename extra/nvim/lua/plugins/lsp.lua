@@ -10,7 +10,20 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        r_language_server = {},
+        -- the default root_dir is $HOME, and languageserver's workspace index
+        -- scans it synchronously on `initialized` (minutes); root at the project instead
+        r_language_server = {
+          root_dir = function(bufnr, on_dir)
+            local root = vim.fs.root(bufnr, {
+              ".git",
+              "DESCRIPTION",
+              function(name)
+                return name:match("%.Rproj$") ~= nil
+              end,
+            })
+            on_dir(root or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+          end,
+        },
         bashls = {},
         texlab = {
           keys = {
