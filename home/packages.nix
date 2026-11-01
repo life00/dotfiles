@@ -68,7 +68,6 @@ in
 
     # media
     ffmpeg
-    mpv
     ncmpcpp
     pavucontrol
     playerctl

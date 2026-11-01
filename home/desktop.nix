@@ -305,6 +305,12 @@
           "exec mpc toggle && notify-send -i media-playback-start \"toggled current audio stream\"";
         "--locked XF86AudioNext" =
           "exec mpc next && notify-send -i media-skip-forward \"playing next song in queue\"";
+        "--locked Shift+XF86AudioPrev" =
+          "exec playerctl --all-players --ignore-player=mpd previous && notify-send -i media-skip-backward \"other sources: previous track\"";
+        "--locked Shift+XF86AudioPlay" =
+          "exec playerctl --all-players --ignore-player=mpd play-pause && notify-send -i media-playback-start \"other sources: toggled playback\"";
+        "--locked Shift+XF86AudioNext" =
+          "exec playerctl --all-players --ignore-player=mpd next && notify-send -i media-skip-forward \"other sources: next track\"";
         "f4" = "exec /home/user/.bin/scsh";
         "--locked f9" =
           "exec swaymsg input \"*\" xkb_switch_layout next && notify-send -i preferences-desktop-keyboard \"keyboard layout changed\"";

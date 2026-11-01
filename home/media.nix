@@ -5,6 +5,11 @@
   ...
 }:
 {
+  services.mpdris2-rs = {
+    enable = true;
+    host = "${config.services.mpd.network.listenAddress}:${toString config.services.mpd.network.port}";
+  };
+
   services.mpd = {
     enable = true;
     musicDirectory = "${config.home.homeDirectory}/med/audio/music/";
@@ -32,6 +37,7 @@
 
   programs.mpv = {
     enable = true;
+    scripts = [ pkgs.mpvScripts.mpris ];
     config = {
       background = "#181926";
       sub-color = "#cad3f5";
