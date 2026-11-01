@@ -25,6 +25,11 @@ return {
             tags = { "c", "build", "run" },
           },
           {
+            name = "C++ compile and run",
+            cmd = "clang++ -Wall -Wextra -g ${file} -o ${file:r} && ${file:r}",
+            tags = { "c++", "cpp", "build", "run" },
+          },
+          {
             name = "Go build",
             cmd = "go build ./...",
             tags = { "go", "build" },
