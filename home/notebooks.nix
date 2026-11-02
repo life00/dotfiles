@@ -5,13 +5,16 @@
 }:
 let
   python = pkgs.python3.override {
-    packageOverrides = lib.composeExtensions (pkgs.callPackage ../pkgs/ort-webgpu { }) (
-      _: super:
-      # doclang tests need saxonche, whose GraalVM image requires 4k pages (Asahi uses 16k)
-      lib.genAttrs [ "doclang" "docling-core" "docling-slim" "docling" ] (
-        n: super.${n}.overridePythonAttrs { doCheck = false; }
+    packageOverrides = lib.composeManyExtensions [
+      (pkgs.callPackage ../pkgs/ort-webgpu { })
+      (pkgs.callPackage ../pkgs/torchvulkan { })
+      (_: super:
+        # doclang tests need saxonche, whose GraalVM image requires 4k pages (Asahi uses 16k)
+        lib.genAttrs [ "doclang" "docling-core" "docling-slim" "docling" ] (
+          n: super.${n}.overridePythonAttrs { doCheck = false; }
+        )
       )
-    );
+    ];
   };
 
   # python packages
@@ -37,6 +40,8 @@ let
       pyyaml
       scikit-learn
       yfinance
+      torch
+      torchvulkan
     ];
   };
 
