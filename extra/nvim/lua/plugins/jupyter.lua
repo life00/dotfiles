@@ -57,7 +57,8 @@ return {
       "jmbuhr/otter.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    lazy = false,
+    lazy = true,
+    ft = { "quarto", "rmd" },
     keys = {
       {
         -- preview with automatic cleanup of artifacts

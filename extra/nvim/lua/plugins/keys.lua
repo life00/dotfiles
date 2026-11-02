@@ -77,6 +77,7 @@ return {
   -- its not possible to surround with multiple characters at the same time
   {
     "nvim-mini/mini.surround",
+    event = "VeryLazy",
     opts = {
       silent = true,
     },
