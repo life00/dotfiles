@@ -5,7 +5,10 @@
   ...
 }:
 {
-  programs.chromium.enable = true;
+  programs.chromium = {
+    enable = true;
+    commandLineArgs = [ "--remote-debugging-port=9222" ];
+  };
   programs.rofi = {
     enable = true;
     plugins = [
