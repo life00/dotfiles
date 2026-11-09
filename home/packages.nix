@@ -83,6 +83,7 @@ in
         biblatex-iso690
         blindtext
         chngcntr
+        csquotes
         csvsimple
         cyrillic
         enumitem
@@ -97,12 +98,15 @@ in
         latexmk
         lh
         makecell
+        mathpazo
         ninecolors
+        palatino
         paratype
         pgf-pie
         pgfplots
         preprint
         standalone
+        tabu
         tabularray
         tex-gyre
         texcount
