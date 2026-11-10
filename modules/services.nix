@@ -42,6 +42,12 @@ in
     done
   '';
 
+  # fix issues with OOM freezing my system
+  services.earlyoom = {
+    enable = true;
+    freeSwapThreshold = 20;
+  };
+
   # chromium reads battery presence/level from upower over dbus
   services.upower = {
     enable = true;
