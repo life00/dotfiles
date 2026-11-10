@@ -44,9 +44,15 @@
           ../extra/imv/scale-race.patch
         ];
       });
-      # FIXME: remove once nixos-unstable has https://github.com/NixOS/nixpkgs/pull/576662 (same fix)
-      # sphinxBuilders under __structuredAttrs only builds the first item, so the man output is missing
-      khal = prev.khal.overrideAttrs { sphinxBuilders = [ "html man" ]; };
+      # FIXME: remove once nixpkgs aichat adds oniguruma (cargo hook now forces the system lib)
+      aichat = prev.aichat.overrideAttrs { buildInputs = [ prev.oniguruma ]; };
+      # FIXME: remove once nixpkgs omp adds zstd/oniguruma (cargo hook now forces the system libs)
+      omp = prev.omp.overrideAttrs (old: {
+        buildInputs = (old.buildInputs or [ ]) ++ [
+          prev.oniguruma
+          prev.zstd
+        ];
+      });
     })
   ];
 
@@ -85,10 +91,14 @@
   ];
 
   # nix settings
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    max-jobs = 2;
+    cores = 4;
+  };
 
   nix.gc = {
     automatic = true;

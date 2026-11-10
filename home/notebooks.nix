@@ -15,6 +15,23 @@ let
           n: super.${n}.overridePythonAttrs { doCheck = false; }
         )
       )
+      (
+        _: super:
+        # 4.8.0 caps hatchling<1.32 only to keep PyPI metadata <2.5; 1.32 builds it fine
+        {
+          mail-parser = super.mail-parser.overridePythonAttrs {
+            pypaBuildFlags = [ "--skip-dependency-check" ];
+          };
+          # FIXME: remove once nixpkgs streamlit is >=1.66.1 (first release allowing pillow 13)
+          streamlit = super.streamlit.overridePythonAttrs {
+            version = "1.66.1";
+            src = pkgs.fetchPypi {
+              pname = "streamlit";
+              version = "1.66.1";
+              hash = "sha256-dxCotnRp2nr3vzUDybaK/KVnb4MvYvm9oSIeDOEZQdE=";
+            };
+          };
+        })
     ];
   };
 
