@@ -84,18 +84,15 @@ in
     };
   };
 
-  # disabled by default
+  # started on demand; devices/folders added via UI, state in etc/state
   services.syncthing = {
-    enable = false;
+    enable = true;
     user = "user";
-    dataDir = "/home/user";
-    configDir = "${config.xdg.configHome}/syncthing";
-    # devices/folders added via UI
-    overrideDevices = false;
-    overrideFolders = false;
-    openDefaultPorts = true;
+    configDir = "/home/user/etc/state/syncthing";
+    openDefaultPorts = false;
     guiAddress = "127.0.0.1:8384";
   };
+  systemd.services.syncthing.wantedBy = lib.mkForce [ ];
 
   services.ollama = {
     enable = true;

@@ -14,6 +14,11 @@
     allowPing = false;
     allowedTCPPorts = [ ];
     allowedUDPPorts = [ ];
+    # syncthing, LAN sources only; service runs on demand
+    extraInputRules = ''
+      ip saddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } tcp dport 22000 accept
+      ip saddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } udp dport { 22000, 21027 } accept
+    '';
     # libvirtd virbr0 NAT needs traffic permitted or guest networking breaks
     trustedInterfaces = [ "virbr0" ];
   };

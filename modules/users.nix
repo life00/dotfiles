@@ -140,6 +140,7 @@ in
           "d ${home}/.cfg/omp 0700 user user -"
           "d ${home}/etc/data/omp 0700 user user -"
           "d ${home}/etc/state/omp 0700 user user -"
+          "d ${home}/etc/state/syncthing 0700 user user -"
           "d ${home}/etc/cache/omp 0700 user user -"
         ]
         (lib.mapAttrsToList (l: t: "L+ ${home}/${l} - - - - ${home}/${t}") compatLinks)
@@ -149,7 +150,7 @@ in
             "d ${home} 0755 root root -"
             "d ${home}/.bin 0755 root root -"
             "d ${home}/dev 0755 root root -"
-            "d ${home}/doc 0755 root root -"
+            "d ${home}/doc 0755 user user -"
             "d ${home}/med 0755 root root -"
             "d ${home}/tmp 0755 user user -"
           ]
