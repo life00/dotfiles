@@ -15,15 +15,29 @@
   # https://github.com/wlrfx/swayfx/issues/565
   nixpkgs.overlays = [
     (final: prev: {
-      swayfx-unwrapped = prev.swayfx-unwrapped.overrideAttrs (old: {
-        src = final.fetchFromGitHub {
-          owner = "wlrfx";
-          repo = "swayfx";
-          rev = "663cf66f92c2d4c99b9c2c4c79ce3538d37470ac";
-          hash = "sha256-BYeQAEh47T02mBAModeIL4XNQKftfphN3I9segEb4CM=";
-        };
-        patches = old.patches ++ [ ../extra/swayfx/565-move-workspace-invisible.patch ];
-      });
+      # FIXME: remove json_c override once json-c > 0.19
+      # 0.19 leaks every freed object/array tree under NDEBUG, sway leaks each IPC tree (OOM)
+      # https://github.com/json-c/json-c/pull/936
+      swayfx-unwrapped =
+        (prev.swayfx-unwrapped.override {
+          json_c = prev.json_c.overrideAttrs (old: {
+            patches = (old.patches or [ ]) ++ [
+              (final.fetchpatch {
+                url = "https://github.com/json-c/json-c/commit/f291fa81c6f21d925ea771a8cca597f5886309cc.patch";
+                hash = "sha256-ZffSw1pfEfOH2ylRpJShdx7sTQR2nmPM/JIj/26UrDM=";
+              })
+            ];
+          });
+        }).overrideAttrs
+          (old: {
+            src = final.fetchFromGitHub {
+              owner = "wlrfx";
+              repo = "swayfx";
+              rev = "663cf66f92c2d4c99b9c2c4c79ce3538d37470ac";
+              hash = "sha256-BYeQAEh47T02mBAModeIL4XNQKftfphN3I9segEb4CM=";
+            };
+            patches = old.patches ++ [ ../extra/swayfx/565-move-workspace-invisible.patch ];
+          });
       # FIXME: remove once opensnitch-ui > 1.8.0
       # prompt crashes when the cursor is outside every screen (wayland), daemon then denies all
       # fixed upstream in ui/opensnitch/dialogs/prompt/dialog.py move_popup()
