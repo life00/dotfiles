@@ -180,6 +180,10 @@
         hash = "sha256-8cYggVltBAlZ/Zj4pl1bOu7mQdZFXCmDGW4RSpvRA+w=";
       };
     };
+    mcpServers.consensus = {
+      type = "http";
+      url = "https://mcp.consensus.app/mcp";
+    };
     lspServers.pyright = {
       command = lib.getExe' pkgs.pyright "pyright-langserver";
       args = [ "--stdio" ];
