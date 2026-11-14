@@ -44,12 +44,18 @@ in
     libqalculate
     poppler-utils
 
+    # c++ development
+    clang
+    (lib.hiPrio gcc)
+    mesa
+    libglvnd
+    freeglut
+    libGLU
+
     # development
     docker
     docker-compose
     cargo
-    clang
-    (lib.hiPrio gcc)
     go
     gnumake
     rustc
