@@ -46,6 +46,7 @@ in
 
     # c++ development
     clang
+    cmake
     (lib.hiPrio gcc)
 
     # development
