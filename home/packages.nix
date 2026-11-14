@@ -47,10 +47,6 @@ in
     # c++ development
     clang
     (lib.hiPrio gcc)
-    mesa
-    libglvnd
-    freeglut
-    libGLU
 
     # development
     docker
