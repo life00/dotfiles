@@ -58,6 +58,7 @@ let
       pyyaml
       scikit-learn
       yfinance
+      gymnasium
       torch
       torchvulkan
     ];
