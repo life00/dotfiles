@@ -47,6 +47,7 @@ in
     # c++ development
     clang
     cmake
+    swig
     (lib.hiPrio gcc)
 
     # development
