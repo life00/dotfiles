@@ -92,6 +92,7 @@
     curl
     git
     zip
+    nix-output-monitor
 
     # shells
     zsh
