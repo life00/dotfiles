@@ -60,7 +60,7 @@
       mpi = "mpv --pause";
       calc = "qalc";
       ef = "exiftool";
-      rebuild = "doas sh -c 'nixos-rebuild switch --impure --flake ${config.home.homeDirectory}/dev/sysadmin/dotfiles --log-format internal-json 2>&1 | nom --json'";
+      rebuild = "doas sh -c 'nixos-rebuild switch --impure --flake ${config.home.homeDirectory}/dev/sysadmin/dotfiles --log-format internal-json 2>&1 | LC_ALL=C.UTF-8 nom --json'";
       todo = "rg '\\- \\[ \\] ' --sortr 'modified' --glob '*.md' '/home/user/doc/'";
     };
 

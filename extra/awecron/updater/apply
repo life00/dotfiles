@@ -12,7 +12,7 @@ read -r a
 
 cd "$FLAKE" || exit 1
 nix flake update $INPUTS \
-  && doas dash -c 'set -o pipefail; nixos-rebuild switch --impure --flake "$1" --log-format internal-json 2>&1 | nom --json' _ ".#$(uname -n)" \
+  && doas dash -c 'set -o pipefail; nixos-rebuild switch --impure --flake "$1" --log-format internal-json 2>&1 | LC_ALL=C.UTF-8 nom --json' _ ".#$(uname -n)" \
   && : >"$LIST" \
   && git commit -q -m "chore: flake update" flake.lock
 printf 'Press enter to close.'
