@@ -233,7 +233,16 @@ cmd zi ${{
 
 cmd on-cd &{{
     zoxide add "$PWD"
+
+    # git branch (or detached sha) leading the prompt, so file names don't move it
+    branch="$(git branch --show-current 2>/dev/null || true)"
+    [ -n "$branch" ] || branch="$(git rev-parse --short HEAD 2>/dev/null || true)"
+    git=""
+    [ -z "$branch" ] || git="\033[35m $(printf '%s' "$branch" | sed 's/\\/\\\\/g;s/"/\\"/g')\033[0m "
+    fmt="$git\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m\033[1m%f\033[0m"
+    lf -remote "send $id set promptfmt \"$fmt\""
 }}
+on-cd
 
 # fzf
 
@@ -298,28 +307,60 @@ cmd fzf_todo ${{
 # git
 set info custom
 
+set watch true
+
+# one git status per directory; dirs aggregate their contents
+# starship symbols: = conflict, 󰆳 deleted, » renamed, ! modified, + staged, ? untracked
+# ignored only marks entries that are ignored as a whole
 cmd on-load &{{
-    cd "$(dirname "$1")" || exit 1
-    [ "$(git rev-parse --is-inside-git-dir 2>/dev/null)" = false ] || exit 0
-
-    cmds=""
-
-    for file in "$@"; do
-        case "$file" in
-            */.git|*/.git/*) continue;;
-        esac
-
-        status=$(git status --porcelain --ignored -- "$file" | cut -c1-2 | head -n1)
-
-        if [ -n "$status" ]; then
-            cmds="${cmds}addcustominfo ${file} \"$status\"; "
-        else
-            cmds="${cmds}addcustominfo ${file} ''; "
-        fi
-    done
-
+    [ $# -gt 0 ] || exit 0
+    cd "$(dirname "$1")" || exit 0
+    [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = true ] || exit 0
+    export prefix="$(git rev-parse --show-prefix)" files="$(printf '%s\n' "$@")"
+    cmds="$(git status -z --porcelain --ignored -- . | awk -v RS='\0' '
+        function paint(rgb, s) { return "\\033[38;2;" rgb "m" s }
+        skip { skip = 0; next }
+        {
+            x = substr($0, 1, 1); y = substr($0, 2, 1)
+            if (x ~ /[RC]/) skip = 1
+            path = substr($0, length(ENVIRON["prefix"]) + 4)
+            name = path; sub(/\/.*/, "", name)
+            if (x y == "!!") { if (path == name || path == name "/") ign[name] = 1 }
+            else if (x y == "??") f[name] = f[name] "u"
+            else if (x y ~ /U|AA|DD/) f[name] = f[name] "c"
+            else {
+                if (x != " ") f[name] = f[name] "s"
+                if (x == "R") f[name] = f[name] "r"
+                if (x == "D" || y == "D") f[name] = f[name] "d"
+                if (y ~ /[MT]/) f[name] = f[name] "m"
+            }
+        }
+        END {
+            n = split(ENVIRON["files"], paths, "\n")
+            for (i = 1; i <= n; i++) {
+                p = paths[i]
+                name = gensub(/.*\//, "", 1, p)
+                s = f[name]; g = ""
+                if (s ~ /c/) g = g paint("237;135;150", "=")
+                if (s ~ /d/) g = g paint("237;135;150", "󰆳")
+                if (s ~ /r/) g = g paint("198;160;246", "»")
+                if (s ~ /m/) g = g paint("238;212;159", "!")
+                if (s ~ /s/) g = g paint("166;218;149", "+")
+                if (s ~ /u/) g = g paint("138;173;244", "?")
+                if (g == "" && (ign[name] || "" in ign)) g = paint("110;115;141", "")
+                if (g != "") g = g "\\033[0m"
+                gsub(/[\\"]/, "\\\\&", p)
+                printf "addcustominfo \"%s\" \"%s\"; ", p, g
+            }
+        }')"
     lf -remote "send $id :$cmds"
 }}
+
+cmd neogit ${{
+    nvim -c 'Neogit kind=replace' -c 'lua vim.api.nvim_create_autocmd("BufEnter", { callback = function() vim.defer_fn(function() if vim.fn.bufname() == "" and vim.bo.buftype == "" and not vim.bo.modified then vim.cmd.qa() end end, 50) end })'
+    lf -remote "send $id :reload; on-cd"
+}}
+map gG neogit
 
 # fzf marks
 cmd fzf_marks ${{
