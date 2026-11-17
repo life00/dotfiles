@@ -307,8 +307,6 @@ cmd fzf_todo ${{
 # git
 set info custom
 
-set watch true
-
 # one git status per directory; dirs aggregate their contents
 # starship symbols: = conflict, 󰆳 deleted, » renamed, ! modified, + staged, ? untracked
 # ignored only marks entries that are ignored as a whole
@@ -316,7 +314,7 @@ cmd on-load &{{
     [ $# -gt 0 ] || exit 0
     cd "$(dirname "$1")" || exit 0
     [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = true ] || exit 0
-    export prefix="$(git rev-parse --show-prefix)" files="$(printf '%s\n' "$@")"
+    export GIT_OPTIONAL_LOCKS=0 prefix="$(git rev-parse --show-prefix)" files="$(printf '%s\n' "$@")"
     cmds="$(git status -z --porcelain --ignored -- . | awk -v RS='\0' '
         function paint(rgb, s) { return "\\033[38;2;" rgb "m" s }
         skip { skip = 0; next }
