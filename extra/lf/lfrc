@@ -247,7 +247,7 @@ on-cd
 # fzf
 
 cmd fzf_jump ${{
-    res="$(fd --max-depth 1 --hidden| fzf --reverse --header="Jump to location")"
+    res="$(fd --max-depth 1 --hidden --no-ignore | fzf --reverse --header="Jump to location")"
     if [ -n "$res" ]; then
         if [ -d "$res" ]; then
             cmd="cd"
@@ -260,7 +260,7 @@ cmd fzf_jump ${{
 }}
 
 cmd fzf_jump_deep ${{
-    res="$(fd --hidden | fzf --reverse --header="Jump to location")"
+    res="$(fd --hidden --no-ignore | fzf --reverse --header="Jump to location")"
     if [ -n "$res" ]; then
         if [ -d "$res" ]; then
             cmd="cd"
